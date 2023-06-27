@@ -1,38 +1,30 @@
-.App {
-  text-align: center;
+body{
+  font-family: cursive;
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Fakultet_organizacionih_nauka%2C_Beograd_11.jpg/1200px-Fakultet_organizacionih_nauka%2C_Beograd_11.jpg');
+  background-size:cover;
+  background-repeat: no-repeat;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.navBar{
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: end;
+  padding: 10px 10px 10px 10px;
+  height: 100px;
+}
+
+.auth{
+  margin-left: 10px;
+}
+
+.mainPage{
+  height: 900px;
+  padding-left: 20px;
+}
+
+.footer{
+  background-color: black;
+  height: 120px;
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  padding: 5px 5px 5px 5px;
+  text-align: center;
 }
