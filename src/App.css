@@ -5,18 +5,7 @@ body{
   background-repeat: no-repeat;
 }
 
-.navBar{
-  display: flex;
-  justify-content: end;
-  padding: 10px 10px 10px 10px;
-  height: 100px;
-}
-
-.auth{
-  margin-left: 10px;
-}
-
-.mainPage{
+.mainPage,.login,.register{
   height: 900px;
   padding-left: 20px;
 }
@@ -27,4 +16,169 @@ body{
   color: white;
   padding: 5px 5px 5px 5px;
   text-align: center;
+}
+
+#btn-login,
+#btn-register{
+  width: 20%;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+#btn-login:hover,
+#btn-register:hover{
+  background-color: grey;
+  color:white;
+  transition: background-color 0.5s linear 0.1s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+}
+
+.btn-login,
+.btn-register,
+.homePage,
+.btn-logout{
+
+    margin-top:20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: none;
+    background: none;
+    color: wheat;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.homePage{
+  padding-left: 10px;
+}
+
+.link{
+  text-align: center;
+  margin-top: 15px;
+}
+
+.registerLink{
+  color:wheat;
+}
+
+.registerLink:hover{
+  color:blue;
+}
+
+.btn-login:hover,
+.btn-register:hover,
+.homePage:hover,
+.btn-logout:hover{
+  color:white;
+}
+
+.login-form,
+.register-form{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.login-div,
+.register-div{
+  border: 2px solid white;
+  border-radius: 20px;
+  width: 20%;
+  padding: 10px 10px 10px 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  color:white;
+}
+
+input{
+  margin-top: 10px;
+  border-radius: 15px;
+}
+
+#passwordErr,#emailErr,#firstnameErr,#lastnameErr,#indexErr,#birthErr{
+  background: none;
+  border: none;
+  color:red;
+  visibility: hidden;
+}
+
+label{
+  margin-top: 10px;
+  color:wheat;
+}
+
+.button{
+  text-align: center;
+}
+
+.navigationBar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.homePage{
+  padding-left: 10px;
+}
+
+.credentials{
+  text-align: center;
+  color:white;
+}
+
+#alert{
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+}
+
+#box{
+  border-radius: 5px; 
+  height: auto;
+  width: auto;
+  float:left;
+  text-align: center;
+  box-shadow: 2px 2px 8px black;
+  background-color: white;
+}
+
+.obavestenje{
+  background-color: saddlebrown;
+  color: white;
+  font-size: larger;
+  padding:5px;
+}
+
+.sadrzaj{
+  margin-top: 30px;
+  font-size: larger;
+  font-weight: bolder;
+}
+
+#confirm{
+  height: 25px;
+  width: 80px;
+  border-radius: 8px;
+  background-color: aliceblue;
+  color: saddlebrown;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-left: 400px;
+  box-sizing: border-box;
+  font-size: medium;
+  font-weight: bold;
+}
+
+#confirm:hover{
+  background-color: #FF8000;
+  color: aliceblue;
+  transition: background-color 0.5s linear 0.1s;
 }
