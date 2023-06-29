@@ -11,6 +11,8 @@ import Layout from "./components/Layout";
 import Unauthorized from './components.auth/Unauthorized';
 import GetTests from './components.test/GetTests';
 import SaveTest from './components.test/SaveTest';
+import GetStudents from './components.students/GetStudents';
+import Logout from './components.auth/Logout';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -18,11 +20,6 @@ const ROLES={
 }
 
 function App() {
-
-  window.addEventListener("beforeunload", function(e) {
-    window.location.href = "http://localhost:3000/";
-    sessionStorage.clear();
-  });
 
   const[member,setMember] = useState({
     'username':'',
@@ -45,12 +42,14 @@ function App() {
           {/* PUBLIC ROUTES */}
           <Route path={"login"} element={<Login addMember={addMember} />} />
           <Route path={"register"} element={<Register />} />
+          <Route path={"logout"} element={<Logout />}/>
           <Route path={"unauthorized"} element={<Unauthorized />}/>
 
           {/* PROTECTED ROUTES */}
           <Route element={<RequireAuth allowedRoles={[ROLES.User,ROLES.Admin]}/>}>
             <Route path={"/"} element={<MainPage />} />
             <Route path="/getTests" element={<GetTests />} />
+            <Route path="/getStudents" element={<GetStudents />} />
           </Route>
 
           <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>

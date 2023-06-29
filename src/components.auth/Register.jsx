@@ -1,6 +1,8 @@
-import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+
+import axios from '../api/axios';
+const REGISTER_URL = "/auth/register"
 
 const Register = () => {
     const[registerMember, setRegisterMember] = useState({
@@ -14,24 +16,23 @@ const Register = () => {
 
     let navigate = useNavigate();
 
-    function register(e){
+    const register = async(e)=>{
         e.preventDefault();
-        axios.post("http://127.0.0.1:8080/auth/register",registerMember)
-        .then((res)=>{
-            if(res.data.message==null){
-                console.log(res.data.message);
+        try{
+            const response = await axios.post(REGISTER_URL,registerMember);
+            if(response.data.message==null){
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 navigate("/login");
             }
             else{
-                console.log(res.data.message);
+                console.log(response.data.message);
                 document.getElementById('emailErr').style.visibility = 'visible';
-                document.getElementById('emailErr').value = res.data.message.body;
+                document.getElementById('emailErr').value = response.data.message.body;
             }
-        }).catch((e)=>{
+        }catch(e){
             document.getElementById("alert").style.visibility = 'visible';
             validation(e);
-        });
+        }
     }
 
     function validation(e){

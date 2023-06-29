@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate,useLocation } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 function MainPage() {
   return (
@@ -7,6 +7,7 @@ function MainPage() {
       <h1>Baza testova i polaganja za studente</h1>
       <Link to="/getTests">Pogledaj testove</Link>
       <Link to="/saveTest">Sacuvaj testove</Link>
+      <Link to="/getStudents">Pregledaj studente</Link>
     </div>
   )
 }

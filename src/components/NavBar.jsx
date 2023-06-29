@@ -16,9 +16,15 @@ function NavBar({member}) {
       <div className='home-page'>
       </div>
       <div className='credentials'>
-        <h3>{member.firstname!=='' && member.lastname!=='' ? "Member: " + member.firstname + " " + member.lastname : <></>}</h3>
-        <h3>{member.username!=='' ? "Email: " + member.username : <></>}</h3>
-        <h3>{member.index!=='' && member.index!==null ? "Index: " + member.index : <></>}</h3>
+        {pathname==="/login" || pathname==="/register" ? (
+          <></>
+        ):(
+          <>
+          <h3>{member.firstname!=='' && member.lastname!=='' ? "Member: " + member.firstname + " " + member.lastname : <></>}</h3>
+          <h3>{member.username!=='' ? "Email: " + member.username : <></>}</h3>
+          <h3>{member.index!=='' && member.index!==null ? "Index: " + member.index : <></>}</h3>
+          </>
+        )}
       </div>
       <div className='loginRegister'>
         {pathname === "/login" || pathname ===  "/register" ? (
@@ -32,7 +38,7 @@ function NavBar({member}) {
           </> 
           ):(
             <>
-            <Link to="" className='btn-logout' onClick={(e)=>logOut(e)}>LogOut</Link>
+            <Link to="/logout" className='btn-logout' onClick={(e)=>logOut(e)}>LogOut</Link>
             </>
           )}
           </>

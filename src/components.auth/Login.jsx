@@ -19,7 +19,6 @@ const Login = ({addMember}) => {
         'lastname':'',
         'index':'',
         'role':'',
-        'token':''
     });
 
 
@@ -44,7 +43,7 @@ const Login = ({addMember}) => {
                 setMemberData(memberData);
                 addMember(memberData);
 
-                const accessToken = response?.data?.token;
+                const accessToken = response?.data?.accessToken;
                 const roles = response?.data?.role;
                 
                 setAuth({ memberData, roles, accessToken});
