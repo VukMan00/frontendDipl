@@ -1,18 +1,27 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useNavigate,useLocation } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+
+import axios from '../api/axios';
+const LOGIN_URL = "/auth/authenticate"
 
 const Login = ({addMember}) => {
+
+    const{setAuth} = useAuth();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const[memberData,setMemberData] = useState({
         'username':'',
         'firstname':'',
         'lastname':'',
         'index':'',
-        'role':''
+        'role':'',
+        'token':''
     });
 
-    let navigate = useNavigate();
 
     function handleInput(e){
         let newMemberData = memberData;
@@ -20,32 +29,32 @@ const Login = ({addMember}) => {
         setMemberData(newMemberData);
     }
 
-    function login(e){
+    const login = async(e)=>{
         e.preventDefault();
-        axios.post("http://127.0.0.1:8080/auth/authenticate",memberData)
-        .then((res)=>{
-            if(res.data!=null){
-                console.log(res.data);
-                memberData.firstname = res.data.firstname;
-                memberData.lastname = res.data.lastname;
-                memberData.username = res.data.email;
-                memberData.role = res.data.role;
-                memberData.index = res.data.index !=null ? res.data.index : null;
-
-                window.sessionStorage.setItem('auth_token',res.data.token);
-                window.sessionStorage.setItem('firstname',res.data.firstname);
-                window.sessionStorage.setItem('lastname',res.data.lastname);
-                window.sessionStorage.setItem('index',res.data.index);
-                window.sessionStorage.setItem('email',res.data.email);
-                window.sessionStorage.setItem('role',res.data.role);
+        try{
+            const response = await axios.post(LOGIN_URL,memberData);
+            if(response.data!=null){
+                console.log(response.data);
+                memberData.firstname = response.data.firstname;
+                memberData.lastname = response.data.lastname;
+                memberData.username = response.data.email;
+                memberData.role = response.data.role;
+                memberData.index = response.data.index !=null ? response.data.index : null;
+                memberData.token = response.data.token;
                 setMemberData(memberData);
                 addMember(memberData);
-                navigate("/");
+
+                const accessToken = response?.data?.token;
+                const roles = response?.data?.role;
+                
+                setAuth({ memberData, roles, accessToken});
+                navigate(from,{replace:true});
             }
-        }).catch((e)=>{
+        }
+        catch(e){
             console.log(e);
             document.getElementById("alert").style.visibility = 'visible';
-        });
+        }
     }
 
     function potvrdi(){

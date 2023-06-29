@@ -14,7 +14,6 @@ function NavBar({member}) {
   return (
     <div className="navigationBar">
       <div className='home-page'>
-        <Link to="/" className='homePage'>Pocetna stranica</Link>
       </div>
       <div className='credentials'>
         <h3>{member.firstname!=='' && member.lastname!=='' ? "Member: " + member.firstname + " " + member.lastname : <></>}</h3>

@@ -5,7 +5,7 @@ body{
   background-repeat: no-repeat;
 }
 
-.mainPage,.login,.register{
+.mainPage,.login,.register,.unauthorized{
   height: 900px;
   padding-left: 20px;
 }
@@ -19,14 +19,16 @@ body{
 }
 
 #btn-login,
-#btn-register{
+#btn-register,
+#btn-goBack{
   width: 20%;
   cursor: pointer;
   margin-top: 15px;
 }
 
 #btn-login:hover,
-#btn-register:hover{
+#btn-register:hover,
+#btn-goBack:hover{
   background-color: grey;
   color:white;
   transition: background-color 0.5s linear 0.1s;
@@ -48,6 +50,13 @@ body{
     text-decoration: none;
 }
 
+.btn-login:hover,
+.btn-register:hover,
+.homePage:hover,
+.btn-logout:hover{
+  color:white;
+}
+
 .homePage{
   padding-left: 10px;
 }
@@ -65,13 +74,6 @@ body{
   color:blue;
 }
 
-.btn-login:hover,
-.btn-register:hover,
-.homePage:hover,
-.btn-logout:hover{
-  color:white;
-}
-
 .login-form,
 .register-form{
   display: flex;
@@ -80,7 +82,8 @@ body{
 }
 
 .login-div,
-.register-div{
+.register-div,
+.unauthorized-div{
   border: 2px solid white;
   border-radius: 20px;
   width: 20%;
@@ -181,4 +184,11 @@ label{
   background-color: #FF8000;
   color: aliceblue;
   transition: background-color 0.5s linear 0.1s;
+}
+
+.flexGrow {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
