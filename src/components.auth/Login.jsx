@@ -72,7 +72,7 @@ const Login = ({addMember}) => {
                     <input type="submit" name="login" id="btn-login" value="LogIn" />
                 </div>
                 <div className='link'>
-                    <Link to= "/register" className='registerLink'>Nemate nalog? Registrujte se!</Link>
+                    <Link to= "/preRegister" className='registerLink'>Nemate nalog? Registrujte se!</Link>
                 </div>
             </form>
         </div>

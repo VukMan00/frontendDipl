@@ -13,6 +13,7 @@ import GetTests from './components.test/GetTests';
 import SaveTest from './components.test/SaveTest';
 import GetStudents from './components.students/GetStudents';
 import Logout from './components.auth/Logout';
+import PreRegister from './components.auth/PreRegister';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -30,8 +31,19 @@ function App() {
     'role':''
   })
 
+  const[email,setEmail] = useState({
+    'recipient':'',
+    'msgBody':'',
+    'subject':'',
+    'attachment':''
+  })
+
   function addMember(loggedMember){
     setMember(loggedMember);
+  }
+
+  function addEmail(registrationEmail){
+    setEmail(registrationEmail);
   }
 
   return (
@@ -41,7 +53,8 @@ function App() {
       <Route path="/" element={<Layout />}>
           {/* PUBLIC ROUTES */}
           <Route path={"login"} element={<Login addMember={addMember} />} />
-          <Route path={"register"} element={<Register />} />
+          <Route path={"preRegister"} element={<PreRegister addEmail={addEmail}/>} />
+          <Route path={"register"} element={<Register email={email}/>} />
           <Route path={"logout"} element={<Logout />}/>
           <Route path={"unauthorized"} element={<Unauthorized />}/>
 

@@ -34,7 +34,7 @@ function NavBar({member}) {
           {member === null || member.token==='' || member.token === null ? (
           <>
           <Link to="/login" className='btn-login'>LogIn</Link>
-          <Link to="/register" className='btn-register'>Register</Link>
+          <Link to="/preRegister" className='btn-register'>Register</Link>
           </> 
           ):(
             <>

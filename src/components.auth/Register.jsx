@@ -4,14 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 const REGISTER_URL = "/auth/register"
 
-const Register = () => {
+const Register = ({email}) => {
     const[registerMember, setRegisterMember] = useState({
         "firstname":'',
         "lastname":'',
-        "email":'',
+        "email":email.recipient,
         "password":'',
         "index":'',
-        "birth":''
+        "birth":'',
+        'registrationToken':''
     });
 
     let navigate = useNavigate();
@@ -21,13 +22,12 @@ const Register = () => {
         try{
             const response = await axios.post(REGISTER_URL,registerMember);
             if(response.data.message==null){
-                document.getElementById('emailErr').style.visibility = 'hidden';
+                document.getElementById('registrationTokenErr').style.visibility = 'hidden';
                 navigate("/login");
             }
             else{
-                console.log(response.data.message);
-                document.getElementById('emailErr').style.visibility = 'visible';
-                document.getElementById('emailErr').value = response.data.message.body;
+                document.getElementById('registrationTokenErr').style.visibility = 'visible';
+                document.getElementById('registrationTokenErr').value = response.data.message;
             }
         }catch(e){
             document.getElementById("alert").style.visibility = 'visible';
@@ -50,13 +50,6 @@ const Register = () => {
         else{
             document.getElementById('lastnameErr').style.visibility = 'hidden';
         }
-        if(e.response.data.message.email !== undefined){
-            document.getElementById('emailErr').style.visibility = 'visible';
-            document.getElementById('emailErr').value = e.response.data.message.email;
-        }
-        else{
-            document.getElementById('emailErr').style.visibility = 'hidden';
-        }
         if(e.response.data.message.password !== undefined){
             document.getElementById('passwordErr').style.visibility = 'visible';
             document.getElementById('passwordErr').value = e.response.data.message.password;
@@ -78,11 +71,16 @@ const Register = () => {
         else{
             document.getElementById('birthErr').style.visibility = 'hidden';
         }
+        if(e.response.data.message.registrationToken!==undefined){
+            document.getElementById('registrationTokenErr').style.visibility = 'visible';
+            document.getElementById('registrationTokenErr').value = e.response.data.message.registrationToken;
+        }
     }
 
     function handleInput(e){
         let newRegisterMember = registerMember;
         newRegisterMember[e.target.name] = e.target.value;
+        console.log(newRegisterMember);
         setRegisterMember(newRegisterMember);
     }
 
@@ -101,8 +99,7 @@ const Register = () => {
                 <input type="text" name="lastname" placeholder='Unesite prezime' onInput={(e)=>handleInput(e)}/>
                 <input type="text" name="lastnameErr" id="lastnameErr" readOnly/>
                 <label htmlFor="email">Email</label>
-                <input type="text" name="email" placeholder='Unesite email' onInput={(e)=>handleInput(e)}/>
-                <input type="text" name="emailErr" id="emailErr" readOnly/>
+                <input type="text" name="email" placeholder='Unesite email' value={email.recipient} readOnly/>
                 <label htmlFor='password'>Sifra</label>
                 <input type="password" name="password" placeholder='Unesite sifru' onInput={(e)=>handleInput(e)}/>
                 <input type="text" name="passwordErr" id="passwordErr" readOnly/>
@@ -112,8 +109,11 @@ const Register = () => {
                 <label htmlFor='birth'>Datum rodjenja</label>
                 <input type='date' name="birth" placeholder='Unesite datum rodjenja' onInput={(e)=>handleInput(e)} />
                 <input type="text" name="birthErr" id="birthErr" readOnly/>
+                <label htmlFor='registrationToken'>Token za registraciju</label>
+                <input type="text" name='registrationToken' placeholder='Unesite registracioni token' onInput={(e)=>handleInput(e)} />
+                <input type="text" name="registrationTokenErr" id="registrationTokenErr" readOnly/>
                 <div className='button'>
-                    <input type="submit" name="register" id="btn-register" value="Register" onInput={(e)=>handleInput(e)}/>
+                    <input type="submit" name="register" id="btn-register" value="Register"/>
                 </div>
             </form>
         </div>

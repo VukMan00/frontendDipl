@@ -103,7 +103,7 @@ input{
   border-radius: 15px;
 }
 
-#passwordErr,#emailErr,#firstnameErr,#lastnameErr,#indexErr,#birthErr{
+#passwordErr,#emailErr,#firstnameErr,#lastnameErr,#indexErr,#birthErr,#registrationTokenErr{
   background: none;
   border: none;
   color:red;
