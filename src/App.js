@@ -9,11 +9,8 @@ import Login from './components.auth/Login';
 import Register from './components.auth/Register';
 import Layout from "./components/Layout";
 import Unauthorized from './components.auth/Unauthorized';
-import GetTests from './components.test/GetTests';
-import SaveTest from './components.test/SaveTest';
-import GetStudents from './components.students/GetStudents';
-import Logout from './components.auth/Logout';
 import PreRegister from './components.auth/PreRegister';
+import OptionStudent from './components.options/OptionStudent';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -55,19 +52,16 @@ function App() {
           <Route path={"login"} element={<Login addMember={addMember} />} />
           <Route path={"preRegister"} element={<PreRegister addEmail={addEmail}/>} />
           <Route path={"register"} element={<Register email={email}/>} />
-          <Route path={"logout"} element={<Logout />}/>
           <Route path={"unauthorized"} element={<Unauthorized />}/>
 
           {/* PROTECTED ROUTES */}
           <Route element={<RequireAuth allowedRoles={[ROLES.User,ROLES.Admin]}/>}>
             <Route path={"/"} element={<MainPage />} />
-            <Route path="/getTests" element={<GetTests />} />
-            <Route path="/getStudents" element={<GetStudents />} />
           </Route>
 
           <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
              {/* STAVLJAS RUTE KOJIM SAMO ADMIN MOZE DA PRISTUPI */}
-             <Route path='/saveTest' element={<SaveTest />}/>
+             <Route path={"/students"} element={<OptionStudent />} />
           </Route>
 
 

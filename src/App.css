@@ -5,9 +5,9 @@ body{
   background-repeat: no-repeat;
 }
 
-.mainPage,.login,.register,.unauthorized{
+.mainPage,.login,.register,.unauthorized,.optionStudent{
   height: 900px;
-  padding-left: 20px;
+  padding:20px 20px 20px 20px;
 }
 
 .footer{
@@ -190,5 +190,65 @@ label{
   flex-grow: 1;
   display: flex;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: flex;
 }
+
+.options-entity{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+.title{
+  margin-top: 10%;
+  text-align: center;
+  color:whitesmoke;
+}
+
+.linkOption{
+  cursor: pointer;
+  width: auto;
+  height: auto;
+  padding: 10px 10px 10px 10px;
+  margin-top: 15px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.464);
+  backdrop-filter: blur(2px);
+  color: white;
+  text-decoration: none;
+}
+
+.linkOption:hover{
+  background-color: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(2px);
+}
+
+.optionStudent{
+  display: flex;
+  flex-direction: column;
+}
+
+
+.tableStudents{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.464);
+  backdrop-filter: blur(2px);
+  color: wheat;
+  text-align: center;
+  border-radius: 20px;
+}
+
+th{
+  border-bottom: 2px solid white;
+}
+
+

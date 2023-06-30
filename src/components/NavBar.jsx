@@ -1,14 +1,25 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation,useNavigate } from 'react-router-dom'
+import useAxiosPrivate from '../hooks/useAxiosPrivate'
 
 function NavBar({member}) {
 
+  const axiosPrivate = useAxiosPrivate();
   const location = useLocation();
   var pathname = location.pathname;
+  const navigate = useNavigate();
 
   console.log(member);
   
-  function logOut(e){
+  const logOut = async(e)=>{
+    e.preventDefault(e);
+    try{
+      const response = await axiosPrivate.post('/auth/logout');
+      console.log(response);
+      navigate("/login");
+    }catch(err){
+      console.error(err);
+    }
   }
 
   return (
