@@ -6,7 +6,7 @@ body{
 }
 
 .mainPage,.login,.register,.unauthorized,.option,.missing
-.create,.update,.delete{
+.create,.update,.delete,.changePassword{
   height: 900px;
   padding:20px 20px 20px 20px;
 }
@@ -24,7 +24,8 @@ body{
 #btn-goBack,
 #btn-save,
 #prepareDelete,
-#cancel{
+#cancel,
+#btn-changePassword{
   width: 20%;
   cursor: pointer;
   margin-top: 15px;
@@ -39,7 +40,8 @@ body{
 #btn-goBack:hover,
 #btn-save:hover,
 #prepareDelete:hover,
-#cancel:hover{
+#cancel:hover,
+#btn-changePassword{
   background-color: grey;
   color:white;
   transition: background-color 0.5s linear 0.1s;
@@ -89,7 +91,8 @@ body{
 .register-form,
 .create-form,
 .update-form,
-.delete-form{
+.delete-form,
+.changePassword-form{
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -101,7 +104,8 @@ body{
 .missing-div,
 .create-div,
 .update-div,
-.delete-div{
+.delete-div,
+.changePassword-div{
   border: 2px solid white;
   border-radius: 20px;
   width: 20%;
@@ -126,7 +130,7 @@ input{
 }
 
 #passwordErr,#emailErr,#firstnameErr,#lastnameErr,#indexErr,#birthErr,#registrationTokenErr,
-#contentErr{
+#contentErr,#oldPasswordErr,#newPasswordErr,#confirmNewPasswordErr{
   background: none;
   border: none;
   color:red;
@@ -157,7 +161,8 @@ label{
   color:white;
 }
 
-#alert,#alert-delete{
+#alert,#alert-delete,
+#alertPassword{
   position: fixed;
   top: 40%;
   left: 50%;

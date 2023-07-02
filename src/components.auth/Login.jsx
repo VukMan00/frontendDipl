@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate,useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
-import axios from '../api/axios';
+import axios, { axiosPrivate } from '../api/axios';
 const LOGIN_URL = "/auth/authenticate"
 
 const Login = () => {
@@ -15,12 +15,19 @@ const Login = () => {
 
     const[memberData,setMemberData] = useState({
         'username':'',
+        'password':'',
         'firstname':'',
         'lastname':'',
         'index':'',
         'role':'',
     });
 
+    const[email,setEmail] = useState({
+        'recipient':'',
+        'msgBody':'',
+        'subject':'',
+        'attachment':''
+    })
 
     function handleInput(e){
         let newMemberData = memberData;
@@ -41,6 +48,7 @@ const Login = () => {
 
                 setMemberData(memberData);
 
+                window.localStorage.setItem("id",response.data?.id);
                 window.localStorage.setItem("firstname",memberData.firstname);
                 window.localStorage.setItem("lastname",memberData.lastname);
                 window.localStorage.setItem("username",memberData.username);
@@ -51,7 +59,15 @@ const Login = () => {
                 const roles = response?.data?.role;
                 
                 setAuth({roles, accessToken});
-                navigate(from,{replace:true});
+
+                if(memberData?.password === memberData?.index){
+                    email.recipient = memberData.username;
+                    setEmail(email);
+                    sendEmailForPassword();
+                }
+                else{
+                    navigate(from,{replace:true});
+                }
             }
         }
         catch(e){
@@ -60,8 +76,25 @@ const Login = () => {
         }
     }
 
+    const sendEmailForPassword=async()=>{
+        document.getElementById("alertPassword").style.visibility = 'visible';
+        try{
+            const response = await axiosPrivate.post("/auth/emailChangePassword",email);
+            if(response.data!=null){
+                console.log(response.data);
+            }
+        }catch(e){
+            console.log(e);
+        }
+    }
+
     function potvrdi(){
         document.getElementById("alert").style.visibility = 'hidden';
+    }
+
+    function potvrdiPassword(){
+        document.getElementById('alertPassword').style.visibility = 'hidden';
+        navigate(from,{replace:true});
     }
 
   return (
@@ -88,6 +121,19 @@ const Login = () => {
                 <div className="sadrzaj">
                     <p id="textAlert">Neuspesno, pokusajte ponovo!</p>
                     <button id="confirm" onClick={()=>potvrdi()}>OK</button>
+                </div>
+            </div>
+        </div>
+        <div id="alertPassword">
+            <div id="box">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlert">Lozinka pod kojom ste se ulogovali je slaba.</p>
+                    <p id="textAlert">Radi Vaše sigurnosti molimo Vas da je promenite</p>
+                    <p id="textAlert">Proverite inbox na Vašem email-u za dalje korake!</p>
+                    <button id="confirm" onClick={()=>potvrdiPassword()}>OK</button>
                 </div>
             </div>
         </div>
