@@ -95,9 +95,9 @@ const CreateStudent = () => {
   }
 
   return (
-    <div className='createStudent'>
-      <div className="createStudent-div">
-        <form className="createStudent-form" onSubmit={saveStudent}>
+    <div className='create'>
+      <div className="create-div">
+        <form className="create-form" onSubmit={saveStudent}>
           <label htmlFor="firstname">Ime</label>
           <input type="text" name="name" placeholder='Unesite ime' onInput={(e)=>handleInput(e)}/>
           <input type="text" name="firstnameErr" id="firstnameErr" readOnly/>
@@ -114,7 +114,7 @@ const CreateStudent = () => {
           <input type='date' name="birth" placeholder='Unesite datum rodjenja' onInput={(e)=>handleInput(e)} />
           <input type="text" name="birthErr" id="birthErr" readOnly/>
           <div className='button'>
-              <input type="submit" name="saveStudent" id="btn-saveStudent" value="Sacuvaj"/>
+              <input type="submit" name="saveStudent" id="btn-save" value="Sacuvaj"/>
               <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
           </div>
         </form>

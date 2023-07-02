@@ -9,8 +9,9 @@ const OptionStudent = () => {
   function getCheckedId(checkedIds){
     setStudentId(checkedIds[0]);
   }
+
   return (
-    <div className='optionStudent'>
+    <div className='option'>
       <div className="options-entity">
         <Link className="linkOption" to="createStudent">Kreiraj studenta</Link>
         <Link className='linkOption' to={studentId!==undefined && studentId!==0 ? "updateStudent" : ""} state={{studentId:studentId}}>Azuriraj studenta</Link>

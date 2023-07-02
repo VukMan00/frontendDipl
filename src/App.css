@@ -5,8 +5,8 @@ body{
   background-repeat: no-repeat;
 }
 
-.mainPage,.login,.register,.unauthorized,.optionStudent,.missing
-.createStudent,.updateStudent,.deleteStudent{
+.mainPage,.login,.register,.unauthorized,.option,.missing
+.create,.update,.delete{
   height: 900px;
   padding:20px 20px 20px 20px;
 }
@@ -22,8 +22,7 @@ body{
 #btn-login,
 #btn-register,
 #btn-goBack,
-#btn-saveStudent,
-#btn-deleteStudent,
+#btn-save,
 #prepareDelete,
 #cancel{
   width: 20%;
@@ -38,8 +37,7 @@ body{
 #btn-login:hover,
 #btn-register:hover,
 #btn-goBack:hover,
-#btn-saveStudent:hover,
-#btn-deleteStudent:hover,
+#btn-save:hover,
 #prepareDelete:hover,
 #cancel:hover{
   background-color: grey;
@@ -89,9 +87,9 @@ body{
 
 .login-form,
 .register-form,
-.createStudent-form,
-.updateStudent-form,
-.deleteStudent-form{
+.create-form,
+.update-form,
+.delete-form{
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -101,9 +99,9 @@ body{
 .register-div,
 .unauthorized-div,
 .missing-div,
-.createStudent-div,
-.updateStudent-div,
-.deleteStudent-div{
+.create-div,
+.update-div,
+.delete-div{
   border: 2px solid white;
   border-radius: 20px;
   width: 20%;
@@ -118,7 +116,7 @@ body{
   color:white;
 }
 
-.createStudent-div,.updateStudent-div,.deleteStudent-div{
+.create-div,.update-div,.delete-div{
   backdrop-filter: blur(9px);
 }
 
@@ -127,7 +125,8 @@ input{
   border-radius: 15px;
 }
 
-#passwordErr,#emailErr,#firstnameErr,#lastnameErr,#indexErr,#birthErr,#registrationTokenErr{
+#passwordErr,#emailErr,#firstnameErr,#lastnameErr,#indexErr,#birthErr,#registrationTokenErr,
+#contentErr{
   background: none;
   border: none;
   color:red;
@@ -264,13 +263,13 @@ label{
   backdrop-filter: blur(2px);
 }
 
-.optionStudent{
+.option{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.tableStudents{
+.tableStudents,.tableTests{
   border: 2px solid black;
   position: absolute;
   top: 70%;

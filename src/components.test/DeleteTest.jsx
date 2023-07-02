@@ -1,45 +1,41 @@
-import React,{ useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const DeleteStudent = () => {
+const DeleteTest = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
   const location = useLocation();
-  const studentId = location.state?.studentId;
+  const testId = location.state?.testId;
 
-  const[deletedStudent,setDeletedStudent] = useState({
+  const[deletedTest,setDeletedTest] = useState({
     'id':0,
-    'name':'',
-    'lastname':'',
-    'email':'',
-    'index':'',
-    'birth':''
+    'content':''
   });
 
   useEffect(()=>{
-    const getStudent = async()=>{
+    const getTest = async()=>{
       try{
-        const response = await axiosPrivate.get(`/students/${studentId}`);
+        const response = await axiosPrivate.get(`/tests/${testId}`);
         console.log(response.data);
-        setDeletedStudent(response.data);
+        setDeletedTest(response.data);
       }catch(e){
         console.log(e);
       }
     }
-    getStudent();
-  },[axiosPrivate,studentId])
+    getTest();
+  },[axiosPrivate,testId])
 
-  const deleteStudent = async()=>{
+  const deleteTest = async()=>{
     try{
-      const response = await axiosPrivate.delete(`/students/${studentId}`);
+      const response = await axiosPrivate.delete(`/tests/${testId}`);
       console.log(response.data);
-      document.getElementById('textAlert').innerHTML = "Student je uspesno obrisan!";
+      document.getElementById('textAlert').innerHTML = "Test je uspesno obrisan!";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
-      document.getElementById('textAlert').innerHTML = "Studenta nije moguce obrisati!";
+      document.getElementById('textAlert').innerHTML = "Test nije moguce obrisati!";
       document.getElementById('alert').style.visibility = 'visible';
     }
   }
@@ -52,34 +48,26 @@ const DeleteStudent = () => {
   function confirmDelete(e){
     e.preventDefault();
     document.getElementById('alert-delete').style.visibility = 'hidden';
-    deleteStudent();
+    deleteTest();
   }
 
   function potvrdi(e){
     e.preventDefault();
     document.getElementById('alert').style.visibility = 'hidden';
-    navigate("/students");
+    navigate("/tests");
   }
 
   function cancel(e){
     e.preventDefault();
-    navigate("/students");
+    navigate("/tests");
   }
 
   return (
     <div className='delete'>
       <div className="delete-div" id='delete-div'>
         <form className="delete-form">
-          <label htmlFor="name">Ime</label>
-          <input type="text" name="name" placeholder='Unesite ime' defaultValue={deletedStudent.name} readOnly/>
-          <label htmlFor="lastname">Prezime</label>
-          <input type="text" name="lastname" placeholder='Unesite prezime' defaultValue={deletedStudent.lastname} readOnly/>
-          <label htmlFor="email">Email</label>
-          <input type="text" name="email" placeholder='Unesite email' defaultValue={deletedStudent.email} readOnly/>
-          <label htmlFor='index'>Indeks</label>
-          <input type="text" name="index" placeholder='Unesite indeks' defaultValue={deletedStudent.index} readOnly/>
-          <label htmlFor='birth'>Datum rodjenja</label>
-          <input type='date' name="birth" placeholder='Unesite datum rodjenja' defaultValue={deletedStudent.birth} readOnly/>
+          <label htmlFor="content">Naziv testa</label>
+          <input type="text" name="content" placeholder='Unesite naziv testa' defaultValue={deletedTest.content} readOnly/>
           <div className='button'>
               <button id='prepareDelete'onClick={(e)=>prepareDelete(e)}>Obrisi</button>
               <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
@@ -92,7 +80,7 @@ const DeleteStudent = () => {
                 Upozorenje
               </div>
               <div className="sadrzaj-delete">
-                <p id="textAlert-delete">Da li ste sigurni da zelite da obrisete studenta?</p>
+                <p id="textAlert-delete">Da li ste sigurni da zelite da obrisete test?</p>
                 <div className="button-delete">
                   <button id="delete" onClick={(e)=>confirmDelete(e)}>Da</button>
                   <button id="delete" onClick={(e)=>cancel(e)}>Ne</button>
@@ -115,4 +103,4 @@ const DeleteStudent = () => {
   )
 }
 
-export default DeleteStudent
+export default DeleteTest

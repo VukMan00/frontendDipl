@@ -10,11 +10,14 @@ import Layout from "./components/Layout";
 import Unauthorized from './components.auth/Unauthorized';
 import PreRegister from './components.auth/PreRegister';
 import OptionStudent from './components.options/OptionStudent';
+import OptionTest from './components.options/OptionTest';
 import CreateStudent from './components.students/CreateStudent';
 import UpdateStudent from './components.students/UpdateStudent';
 import DeleteStudent from './components.students/DeleteStudent';
+import CreateTest from './components.test/CreateTest';
+import UpdateTest from './components.test/UpdateTest';
+import DeleteTest from './components.test/DeleteTest';
 import Missing from './components.auth/Missing';
-import { useState } from 'react';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -22,44 +25,28 @@ const ROLES={
 }
 
 function App() {
-  const[member,setMember] = useState({
-    'username':'',
-    'firstname':'',
-    'lastname':'',
-    'index':'',
-    'token':'',
-    'role':''
-  })
-
-  const[email,setEmail] = useState({
-    'recipient':'',
-    'msgBody':'',
-    'subject':'',
-    'attachment':''
-  })
-
-  function addMember(loggedMember){
-    setMember(loggedMember);
-  }
-
-  function addEmail(registrationEmail){
-    setEmail(registrationEmail);
-  }
 
   return (
     <>
-    <NavBar member={member} />
+    <NavBar />
     <Routes>
       <Route path="/" element={<Layout />}>
           {/* PUBLIC ROUTES */}
-          <Route path={"login"} element={<Login addMember={addMember} />} />
-          <Route path={"preRegister"} element={<PreRegister addEmail={addEmail}/>} />
-          <Route path={"register"} element={<Register email={email}/>} />
+          <Route path={"login"} element={<Login />} />
+          <Route path={"preRegister"} element={<PreRegister />} />
+          <Route path={"register"} element={<Register />} />
           <Route path={"unauthorized"} element={<Unauthorized />}/>
 
           {/* PROTECTED ROUTES */}
           <Route element={<RequireAuth allowedRoles={[ROLES.User,ROLES.Admin]}/>}>
             <Route path={"/"} element={<MainPage />} />
+            <Route path={"tests"} element={<OptionTest />}>
+              <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
+                <Route path={"createTest"} element={<CreateTest />}/>
+                <Route path={"updateTest"} element={<UpdateTest />}/>
+                <Route path={"deleteTest"} element={<DeleteTest />} />
+              </Route>
+            </Route>
           </Route>
 
           <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>

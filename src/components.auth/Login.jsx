@@ -5,7 +5,7 @@ import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
 const LOGIN_URL = "/auth/authenticate"
 
-const Login = ({addMember}) => {
+const Login = () => {
 
     const{setAuth} = useAuth();
 
@@ -33,20 +33,24 @@ const Login = ({addMember}) => {
         try{
             const response = await axios.post(LOGIN_URL,memberData);
             if(response.data!=null){
-                console.log(response.data);
                 memberData.firstname = response.data.firstname;
                 memberData.lastname = response.data.lastname;
                 memberData.username = response.data.email;
                 memberData.role = response.data.role;
                 memberData.index = response.data.index !=null ? response.data.index : null;
-                memberData.token = response.data.token;
-                setMemberData(memberData);
-                addMember(memberData);
 
+                setMemberData(memberData);
+
+                window.localStorage.setItem("firstname",memberData.firstname);
+                window.localStorage.setItem("lastname",memberData.lastname);
+                window.localStorage.setItem("username",memberData.username);
+                window.localStorage.setItem("role",memberData.role);
+                window.localStorage.setItem("index",memberData.index!=null ? memberData.index : null);
+                window.localStorage.setItem('accessToken',response?.data?.accessToken);
                 const accessToken = response?.data?.accessToken;
                 const roles = response?.data?.role;
                 
-                setAuth({ memberData, roles, accessToken});
+                setAuth({roles, accessToken});
                 navigate(from,{replace:true});
             }
         }

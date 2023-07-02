@@ -43,7 +43,7 @@ const GetStudents = ({getCheckedId}) => {
     }
     setChecked(updatedList);
     getCheckedId(updatedList);
-    console.log(updatedList);
+    setChecked([]);
   }
 
   return (

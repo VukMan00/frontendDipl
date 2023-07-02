@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 
 import axios from '../api/axios';
-import { useNavigate } from 'react-router-dom';
 const PREREGISTER_URL = "/auth/preRegister";
 
-const PreRegister = ({addEmail}) => {
+const PreRegister = () => {
 
     const[email,setEmail] = useState({
         'recipient':'',
@@ -12,8 +11,6 @@ const PreRegister = ({addEmail}) => {
         'subject':'',
         'attachment':''
     });
-
-    const navigate = useNavigate();
 
     function handleInput(e){
         let newEmail = email;
@@ -26,10 +23,11 @@ const PreRegister = ({addEmail}) => {
         e.preventDefault();
         try{
             const response = await axios.post(PREREGISTER_URL,email);
+            console.log(response.data);
             if(response.data!=null){
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 document.getElementById("alert").style.visibility = 'visible';
-                addEmail(response.data);
+                window.localStorage.setItem("emailRegister",email.recipient);
             }
         }catch(e){
             document.getElementById('emailErr').style.visibility = 'visible';
@@ -39,7 +37,6 @@ const PreRegister = ({addEmail}) => {
 
     function potvrdi(){
         document.getElementById("alert").style.visibility = 'hidden';
-        navigate("/register");
     }
 
   return (

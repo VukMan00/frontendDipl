@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 const REGISTER_URL = "/auth/register"
 
-const Register = ({email}) => {
+const Register = () => {
     const[registerMember, setRegisterMember] = useState({
         "firstname":'',
         "lastname":'',
-        "email":email.recipient,
+        "email":window.localStorage?.getItem("emailRegister"),
         "password":'',
         "index":'',
         "birth":'',
@@ -23,6 +23,7 @@ const Register = ({email}) => {
             const response = await axios.post(REGISTER_URL,registerMember);
             if(response.data.message==null){
                 document.getElementById('registrationTokenErr').style.visibility = 'hidden';
+                localStorage.clear();
                 navigate("/login");
             }
             else{
@@ -76,7 +77,7 @@ const Register = ({email}) => {
             document.getElementById('registrationTokenErr').value = e.response.data.message.registrationToken;
         }
         else{
-            document.getElementById('registrationTokenErr').value = e.response.data.message.registrationToken;
+            document.getElementById('registrationTokenErr').style.visibility = 'hidden';
         }
     }
 
@@ -101,7 +102,7 @@ const Register = ({email}) => {
                 <input type="text" name="lastname" placeholder='Unesite prezime' onInput={(e)=>handleInput(e)}/>
                 <input type="text" name="lastnameErr" id="lastnameErr" readOnly/>
                 <label htmlFor="email">Email</label>
-                <input type="text" name="email" placeholder='Unesite email' value={email.recipient} readOnly/>
+                <input type="text" name="email" placeholder='Unesite email' value={window.localStorage?.getItem("emailRegister")} readOnly/>
                 <label htmlFor='password'>Sifra</label>
                 <input type="password" name="password" placeholder='Unesite sifru' onInput={(e)=>handleInput(e)}/>
                 <input type="text" name="passwordErr" id="passwordErr" readOnly/>
