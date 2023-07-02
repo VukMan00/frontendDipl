@@ -29,7 +29,7 @@ const PreRegister = ({addEmail}) => {
             if(response.data!=null){
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 document.getElementById("alert").style.visibility = 'visible';
-                addEmail(email);
+                addEmail(response.data);
             }
         }catch(e){
             document.getElementById('emailErr').style.visibility = 'visible';

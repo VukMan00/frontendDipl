@@ -5,7 +5,8 @@ body{
   background-repeat: no-repeat;
 }
 
-.mainPage,.login,.register,.unauthorized,.optionStudent{
+.mainPage,.login,.register,.unauthorized,.optionStudent,.missing
+.createStudent,.updateStudent,.deleteStudent{
   height: 900px;
   padding:20px 20px 20px 20px;
 }
@@ -20,15 +21,27 @@ body{
 
 #btn-login,
 #btn-register,
-#btn-goBack{
+#btn-goBack,
+#btn-saveStudent,
+#btn-deleteStudent,
+#prepareDelete,
+#cancel{
   width: 20%;
   cursor: pointer;
   margin-top: 15px;
 }
 
+#cancel,#prepareDelete{
+  border-radius: 20px;
+}
+
 #btn-login:hover,
 #btn-register:hover,
-#btn-goBack:hover{
+#btn-goBack:hover,
+#btn-saveStudent:hover,
+#btn-deleteStudent:hover,
+#prepareDelete:hover,
+#cancel:hover{
   background-color: grey;
   color:white;
   transition: background-color 0.5s linear 0.1s;
@@ -39,7 +52,6 @@ body{
 .btn-register,
 .homePage,
 .btn-logout{
-
     margin-top:20px;
     margin-left: 5px;
     margin-right: 5px;
@@ -66,16 +78,20 @@ body{
   margin-top: 15px;
 }
 
-.registerLink{
+.registerLink,.missingLink{
   color:wheat;
 }
 
-.registerLink:hover{
+.registerLink:hover,
+.missingLink:hover{
   color:blue;
 }
 
 .login-form,
-.register-form{
+.register-form,
+.createStudent-form,
+.updateStudent-form,
+.deleteStudent-form{
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -83,7 +99,11 @@ body{
 
 .login-div,
 .register-div,
-.unauthorized-div{
+.unauthorized-div,
+.missing-div,
+.createStudent-div,
+.updateStudent-div,
+.deleteStudent-div{
   border: 2px solid white;
   border-radius: 20px;
   width: 20%;
@@ -96,6 +116,10 @@ body{
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(4px);
   color:white;
+}
+
+.createStudent-div,.updateStudent-div,.deleteStudent-div{
+  backdrop-filter: blur(9px);
 }
 
 input{
@@ -134,7 +158,7 @@ label{
   color:white;
 }
 
-#alert{
+#alert,#alert-delete{
   position: fixed;
   top: 40%;
   left: 50%;
@@ -143,7 +167,7 @@ label{
   visibility: hidden;
 }
 
-#box{
+#box,#box-delete{
   border-radius: 5px; 
   height: auto;
   width: auto;
@@ -153,20 +177,20 @@ label{
   background-color: white;
 }
 
-.obavestenje{
+.obavestenje,.obavestenje-delete{
   background-color: saddlebrown;
   color: white;
   font-size: larger;
   padding:5px;
 }
 
-.sadrzaj{
+.sadrzaj,.sadrzaj-delete{
   margin-top: 30px;
   font-size: larger;
   font-weight: bolder;
 }
 
-#confirm{
+#confirm,#delete{
   height: 25px;
   width: 80px;
   border-radius: 8px;
@@ -180,10 +204,22 @@ label{
   font-weight: bold;
 }
 
-#confirm:hover{
+#delete{
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+#confirm:hover,
+#delete:hover{
   background-color: #FF8000;
   color: aliceblue;
   transition: background-color 0.5s linear 0.1s;
+}
+
+.button-delete{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .flexGrow {
@@ -231,12 +267,13 @@ label{
 .optionStudent{
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
-
 .tableStudents{
+  border: 2px solid black;
   position: absolute;
-  top: 50%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 10px;
@@ -245,6 +282,7 @@ label{
   color: wheat;
   text-align: center;
   border-radius: 20px;
+  margin-top: 5%;
 }
 
 th{

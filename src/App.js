@@ -4,13 +4,17 @@ import MainPage from './components/MainPage';
 import NavBar from "./components/NavBar";
 import RequireAuth from './components.auth/RequireAuth';
 import {Routes,Route} from "react-router-dom";
-import { useState } from 'react';
 import Login from './components.auth/Login';
 import Register from './components.auth/Register';
 import Layout from "./components/Layout";
 import Unauthorized from './components.auth/Unauthorized';
 import PreRegister from './components.auth/PreRegister';
 import OptionStudent from './components.options/OptionStudent';
+import CreateStudent from './components.students/CreateStudent';
+import UpdateStudent from './components.students/UpdateStudent';
+import DeleteStudent from './components.students/DeleteStudent';
+import Missing from './components.auth/Missing';
+import { useState } from 'react';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -18,7 +22,6 @@ const ROLES={
 }
 
 function App() {
-
   const[member,setMember] = useState({
     'username':'',
     'firstname':'',
@@ -61,12 +64,14 @@ function App() {
 
           <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
              {/* STAVLJAS RUTE KOJIM SAMO ADMIN MOZE DA PRISTUPI */}
-             <Route path={"/students"} element={<OptionStudent />} />
+             <Route path={"students"} element={<OptionStudent />}>
+                <Route path={"createStudent"} element={<CreateStudent />}/>
+                <Route path={"updateStudent"} element={<UpdateStudent />}/>
+                <Route path={"deleteStudent"} element={<DeleteStudent />} />
+             </Route>
           </Route>
-
-
           {/* CATH ALL, WHEN REQUEST ROUTE DOESN'T EXIST */}
-
+          <Route path="*" element={<Missing />} />
       </Route>
     </Routes>
     <Footer />

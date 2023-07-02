@@ -1,19 +1,26 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import Students from '../components.students/GetStudents'
+import React, { useState } from 'react'
+import { Link, Outlet } from 'react-router-dom'
 import GetStudents from '../components.students/GetStudents'
 
 const OptionStudent = () => {
+
+  const[studentId,setStudentId] = useState(0);
+
+  function getCheckedId(checkedIds){
+    setStudentId(checkedIds[0]);
+  }
   return (
     <div className='optionStudent'>
       <div className="options-entity">
-        <Link className="linkOption" to="/createStudent">Kreiraj studenta</Link>
-        <Link className='linkOption' to="/updateStudent">Azuriraj studenta</Link>
-        <Link className='linkOption' to="/deleteStudent">Obrisi studenta</Link>
+        <Link className="linkOption" to="createStudent">Kreiraj studenta</Link>
+        <Link className='linkOption' to={studentId!==undefined && studentId!==0 ? "updateStudent" : ""} state={{studentId:studentId}}>Azuriraj studenta</Link>
+        <Link className='linkOption' to={studentId!==undefined && studentId!==0 ? "deleteStudent" : ""} state={{studentId:studentId}}>Obrisi studenta</Link>
       </div>
       <div className="tableStudents">
-        <GetStudents />
+        <GetStudents getCheckedId={getCheckedId}/>
       </div>
+
+      <Outlet />
     </div>
   )
 }

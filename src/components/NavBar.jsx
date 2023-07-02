@@ -1,21 +1,26 @@
 import React from 'react'
 import { Link, useLocation,useNavigate } from 'react-router-dom'
 import useAxiosPrivate from '../hooks/useAxiosPrivate'
+import useAuth from '../hooks/useAuth';
 
 function NavBar({member}) {
 
   const axiosPrivate = useAxiosPrivate();
+  const{setAuth} = useAuth();
   const location = useLocation();
   var pathname = location.pathname;
   const navigate = useNavigate();
-
-  console.log(member);
   
   const logOut = async(e)=>{
     e.preventDefault(e);
     try{
       const response = await axiosPrivate.post('/auth/logout');
-      console.log(response);
+
+      const memberData = null;
+      const accessToken = null;
+      const roles = null;
+      setAuth({memberData,roles,accessToken});
+      member = null;
       navigate("/login");
     }catch(err){
       console.error(err);
@@ -25,6 +30,7 @@ function NavBar({member}) {
   return (
     <div className="navigationBar">
       <div className='home-page'>
+        <Link to="/" className='homePage'>Pocetna stranica</Link>
       </div>
       <div className='credentials'>
         {pathname==="/login" || pathname==="/register" ? (

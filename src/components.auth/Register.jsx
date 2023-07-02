@@ -75,12 +75,14 @@ const Register = ({email}) => {
             document.getElementById('registrationTokenErr').style.visibility = 'visible';
             document.getElementById('registrationTokenErr').value = e.response.data.message.registrationToken;
         }
+        else{
+            document.getElementById('registrationTokenErr').value = e.response.data.message.registrationToken;
+        }
     }
 
     function handleInput(e){
         let newRegisterMember = registerMember;
         newRegisterMember[e.target.name] = e.target.value;
-        console.log(newRegisterMember);
         setRegisterMember(newRegisterMember);
     }
 
