@@ -105,6 +105,7 @@ const Login = () => {
                 <input type="text" name="username" id="username" placeholder='Unesite korisnicko ime' onInput={(e)=>handleInput(e)} />
                 <label htmlFor='password'>Password</label>
                 <input type="password" name="password" id="password" placeholder='Unesite sifru' onInput={(e)=>handleInput(e)}/>
+                <Link to="/preforgotPassword" className='forgotPasswordLink'>Zaboravili ste lozinku?</Link>
                 <div className='button'>
                     <input type="submit" name="login" id="btn-login" value="LogIn" />
                 </div>

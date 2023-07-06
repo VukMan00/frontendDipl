@@ -78,12 +78,13 @@ body{
   margin-top: 15px;
 }
 
-.registerLink,.missingLink{
+.registerLink,.missingLink,.forgotPasswordLink{
   color:wheat;
 }
 
 .registerLink:hover,
-.missingLink:hover{
+.missingLink:hover,
+.forgotPasswordLink:hover{
   color:blue;
 }
 
@@ -162,9 +163,10 @@ label{
 }
 
 #alert,#alert-delete,
-#alertPassword{
+#alertPassword,#alertGet,
+#alertPoints{
   position: fixed;
-  top: 40%;
+  top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -206,6 +208,10 @@ label{
   box-sizing: border-box;
   font-size: medium;
   font-weight: bold;
+}
+
+#textAlertGet{
+  color: black;
 }
 
 #delete{
@@ -291,6 +297,24 @@ label{
 
 th{
   border-bottom: 2px solid white;
+}
+
+.searchCriteria{
+  margin-bottom: 20px;
+}
+
+.criteria{
+  margin-left: 10px;
+}
+
+#selectionOption{
+  margin-top: 10px;
+}
+
+.setPoints{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 

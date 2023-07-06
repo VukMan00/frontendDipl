@@ -19,6 +19,7 @@ import UpdateTest from './components.test/UpdateTest';
 import DeleteTest from './components.test/DeleteTest';
 import Missing from './components.auth/Missing';
 import ChangePassword from './components.auth/ChangePassword';
+import PreForgotPassword from './components.auth/PreForgotPassword';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -38,6 +39,7 @@ function App() {
           <Route path={"register"} element={<Register />} />
           <Route path={"unauthorized"} element={<Unauthorized />}/>
           <Route path={"changePassword"} element={<ChangePassword />}/>
+          <Route path={"preforgotPassword"} element={<PreForgotPassword />}/>
 
           {/* PROTECTED ROUTES */}
           <Route element={<RequireAuth allowedRoles={[ROLES.User,ROLES.Admin]}/>}>

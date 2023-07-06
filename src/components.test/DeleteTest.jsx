@@ -31,11 +31,11 @@ const DeleteTest = () => {
     try{
       const response = await axiosPrivate.delete(`/tests/${testId}`);
       console.log(response.data);
-      document.getElementById('textAlert').innerHTML = "Test je uspesno obrisan!";
+      document.getElementById('textAlert').innerHTML = "Sistem je izbrisao test";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
-      document.getElementById('textAlert').innerHTML = "Test nije moguce obrisati!";
+      document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise test";
       document.getElementById('alert').style.visibility = 'visible';
     }
   }
@@ -94,7 +94,7 @@ const DeleteTest = () => {
                     Obaveštenje!
                 </div>
                 <div className="sadrzaj">
-                  <p id="textAlert">Student je uspesno obrisan!</p>
+                  <p id="textAlert">Sistem je izbrisao test</p>
                   <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
                 </div>
             </div>

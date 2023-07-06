@@ -37,7 +37,7 @@ const UpdateStudent = () => {
     try{
       const response = await axiosPrivate.put('/students',updatedStudent);
       console.log(response.data);
-      document.getElementById('textAlert').innerHTML = "Student je uspesno sacuvan!";
+      document.getElementById('textAlert').innerHTML = "Sistem je zapamtio studenta";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
@@ -54,7 +54,7 @@ const UpdateStudent = () => {
   function potvrdi(e){
     e.preventDefault();
     document.getElementById('alert').style.visibility = 'hidden';
-    if(document.getElementById('textAlert').innerHTML === "Student je uspesno sacuvan!"){
+    if(document.getElementById('textAlert').innerHTML === "Sistem je zapamtio studenta"){
       navigate("/students");
     }
   }
@@ -65,6 +65,9 @@ const UpdateStudent = () => {
   }
 
   function validation(e){
+    document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti studenta";
+    document.getElementById('alert').style.visibility = 'visible';
+
     if(e.response.data.message.name !== undefined){
         document.getElementById('firstnameErr').style.visibility = 'visible';
         document.getElementById('firstnameErr').value = e.response.data.message.name;
@@ -99,14 +102,6 @@ const UpdateStudent = () => {
     }
     else{
         document.getElementById('birthErr').style.visibility = 'hidden';
-    }
-    if(e.response.data.message.error!==undefined){
-      document.getElementById('alert').style.visibility = 'visible';
-      document.getElementById('textAlert').innerHTML = e.response.data.message.error;
-    }
-    else{
-      document.getElementById('textAlert').innerHTML = "Student je uspesno sacuvan!";
-      document.getElementById('alert').style.visibility = 'hidden';
     }
   }
 
