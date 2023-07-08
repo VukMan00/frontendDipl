@@ -14,8 +14,8 @@ const OptionStudent = () => {
     <div className='option'>
       <div className="options-entity">
         <Link className="linkOption" to="createStudent">Kreiraj studenta</Link>
-        <Link className='linkOption' to={studentId!==undefined && studentId!==0 ? "updateStudent" : ""} state={{studentId:studentId}}>Azuriraj studenta</Link>
-        <Link className='linkOption' to={studentId!==undefined && studentId!==0 ? "deleteStudent" : ""} state={{studentId:studentId}}>Obrisi studenta</Link>
+        <Link className='linkOption' to={"updateStudent"} state={{studentId:studentId}}>Azuriraj studenta</Link>
+        <Link className='linkOption' to={"deleteStudent"} state={{studentId:studentId}}>Obrisi studenta</Link>
       </div>
       <div className="tableStudents">
         <GetStudents getCheckedId={getCheckedId}/>

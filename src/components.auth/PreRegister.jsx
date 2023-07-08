@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-
-import axios from '../api/axios';
-const PREREGISTER_URL = "/auth/preRegister";
+import { emailPreRegister } from '../services/AuthService';
 
 const PreRegister = () => {
 
@@ -22,8 +20,7 @@ const PreRegister = () => {
     const preRegister = async(e)=>{
         e.preventDefault();
         try{
-            const response = await axios.post(PREREGISTER_URL,email);
-            console.log(response.data);
+            const response = await emailPreRegister(email);
             if(response.data!=null){
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 document.getElementById("alert").style.visibility = 'visible';

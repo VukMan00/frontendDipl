@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { axiosPrivate } from '../api/axios';
 import { useNavigate } from 'react-router-dom';
+import { changePassword } from '../services/AuthService';
+import { validationChangingPassword } from '../validation/ValidationHandler';
 
 const ChangePassword = () => {
     const[reqPassword,setReqPassword]=useState({
@@ -29,27 +30,28 @@ const ChangePassword = () => {
         }
     }
 
-    const changePassword = async(e)=>{
+    const savePassword = async(e)=>{
         e.preventDefault();
         if(document.getElementById('confirmNewPasswordErr').value === 'Nova lozinka se poklapa sa potvrdjenom!'){
             try{
-                const response = await axiosPrivate.post("/auth/changePassword",reqPassword);
+                const response = await changePassword(reqPassword);
                 console.log(response);
-                document.getElementById('textAlert').innerHTML = 'Uspesno ste promenili lozinku!';
+                document.getElementById('textAlert').innerHTML = 'Sistem je promenio lozinku';
                 document.getElementById('alert').style.visibility = 'visible';
             }catch(e){
-                console.log(e);
-                validation(e);
+                document.getElementById("textAlert").innerHTML = "Sistem ne moze da promeni lozinku";
+                document.getElementById("alert").style.visibility = 'visible';
+                validationChangingPassword(e,document.getElementById("oldPasswordErr"),document.getElementById("newPasswordErr"));
             }
         }
         else{
-            document.getElementById('textAlert').innerHTML = 'Niste ispravno potvrdili novu lozinku';
+            document.getElementById('textAlert').innerHTML = 'Sistem ne moze da promeni lozinku"';
             document.getElementById('alert').style.visibility = 'visible';
         }
     }
 
     function potvrdi(){
-        if(document.getElementById('textAlert').innerHTML === 'Uspesno ste promenili lozinku!'){
+        if(document.getElementById('textAlert').innerHTML === 'Sistem je promenio lozinku'){
             localStorage.clear();
             document.getElementById("alert").style.visibility = 'hidden';
             navigate("/login");
@@ -59,34 +61,10 @@ const ChangePassword = () => {
         }
     }
 
-    function validation(e){
-        if(e.response.data.message.oldPassword!==undefined){
-            document.getElementById('oldPasswordErr').value = e.response.data.message.oldPassword;
-            document.getElementById('oldPasswordErr').style.visibility = 'visible';
-        }
-        else{
-            document.getElementById('oldPasswordErr').style.visibility = 'hidden';
-        }
-        if(e.response.data.message.newPassword!==undefined){
-            document.getElementById('newPasswordErr').value = e.response.data.message.newPassword;
-            document.getElementById('newPasswordErr').style.visibility = 'visible';
-        }
-        else{
-            document.getElementById('newPasswordErr').style.visibility = 'hidden';
-        }
-        if(e.response.data.message.error!==undefined){
-            document.getElementById('oldPasswordErr').value = "Pogresna stara lozinka"
-            document.getElementById('oldPasswordErr').style.visibility = 'visible';
-        }
-        else{
-            document.getElementById('oldPasswordErr').style.visibility = 'hidden';
-        }
-    }
-
   return (
     <div className='changePassword'>
         <div className="changePassword-div">
-            <form className="changePassword-form" onSubmit={changePassword}>
+            <form className="changePassword-form" onSubmit={savePassword}>
                 <label htmlFor="email">Email korisnika</label>
                 <input type='text' name="email" id="email" defaultValue={window.localStorage.getItem('username')} readOnly/>
                 <label htmlFor="oldPassword">Stara lozinka</label>
@@ -109,7 +87,7 @@ const ChangePassword = () => {
                     Obaveštenje!
                 </div>
                 <div className="sadrzaj">
-                    <p id="textAlert">Uspesno ste promenili lozinku!</p>
+                    <p id="textAlert">Sistem je promenio lozinku</p>
                     <button id="confirm" onClick={()=>potvrdi()}>OK</button>
                 </div>
             </div>

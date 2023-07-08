@@ -1,21 +1,19 @@
 import React from 'react'
 import { Link, useLocation,useNavigate } from 'react-router-dom'
-import useAxiosPrivate from '../hooks/useAxiosPrivate'
 import useAuth from '../hooks/useAuth';
+import { logOut } from '../services/AuthService';
 
 function NavBar() {
 
-  const axiosPrivate = useAxiosPrivate();
   const{setAuth} = useAuth();
   const location = useLocation();
   var pathname = location.pathname;
   const navigate = useNavigate();
   
-  const logOut = async(e)=>{
+  const logOutMember = async(e)=>{
     e.preventDefault(e);
     try{
-
-      const response = await axiosPrivate.post('/auth/logout');
+      const response = await logOut();
       console.log(response);
       const memberData = null;
       const accessToken = null;
@@ -23,7 +21,6 @@ function NavBar() {
       localStorage.clear();
       setAuth({memberData,roles,accessToken});
       navigate("/login");
-
     }catch(err){
       console.error(err);
     }
@@ -57,7 +54,7 @@ function NavBar() {
           </> 
           ):(
             <>
-            <Link to="/logout" className='btn-logout' onClick={(e)=>logOut(e)}>LogOut</Link>
+            <Link to="/logout" className='btn-logout' onClick={(e)=>logOutMember(e)}>LogOut</Link>
             </>
           )}
           </>

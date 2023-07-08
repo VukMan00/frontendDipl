@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-import axios from '../api/axios';
-const REGISTER_URL = "/auth/register"
+import { register } from '../services/AuthService';
+import { validationRegistration } from '../validation/ValidationHandler';
 
 const Register = () => {
     const[registerMember, setRegisterMember] = useState({
@@ -17,67 +17,29 @@ const Register = () => {
 
     let navigate = useNavigate();
 
-    const register = async(e)=>{
+    const registration = async(e)=>{
         e.preventDefault();
         try{
-            const response = await axios.post(REGISTER_URL,registerMember);
+            const response = await register(registerMember);
             if(response.data.message==null){
                 document.getElementById('registrationTokenErr').style.visibility = 'hidden';
                 localStorage.clear();
-                navigate("/login");
+                document.getElementById("textAlert").innerHTML = "Sistem je registrovao korisnika";
+                document.getElementById("alert").style.visibility = 'visible';
             }
             else{
+                document.getElementById("textAlert").innerHTML = "Sistem ne moze da registruje korisnika";
+                document.getElementById("alert").style.visibility = 'visible';
                 document.getElementById('registrationTokenErr').style.visibility = 'visible';
                 document.getElementById('registrationTokenErr').value = response.data.message;
             }
         }catch(e){
+            document.getElementById('textAlert').innerHTML = "Sistem ne moze da registruje korisnika";
             document.getElementById("alert").style.visibility = 'visible';
-            validation(e);
-        }
-    }
-
-    function validation(e){
-        if(e.response.data.message.firstname !== undefined){
-            document.getElementById('firstnameErr').style.visibility = 'visible';
-            document.getElementById('firstnameErr').value = e.response.data.message.firstname;
-        }
-        else{
-            document.getElementById('firstnameErr').style.visibility = 'hidden';
-        }
-        if(e.response.data.message.lastname !== undefined){
-            document.getElementById('lastnameErr').style.visibility = 'visible';
-            document.getElementById('lastnameErr').value = e.response.data.message.lastname;
-        }
-        else{
-            document.getElementById('lastnameErr').style.visibility = 'hidden';
-        }
-        if(e.response.data.message.password !== undefined){
-            document.getElementById('passwordErr').style.visibility = 'visible';
-            document.getElementById('passwordErr').value = e.response.data.message.password;
-        }
-        else{
-            document.getElementById('passwordErr').style.visibility = 'hidden';
-        }
-        if(e.response.data.message.index !== undefined){
-            document.getElementById('indexErr').style.visibility = 'visible';
-            document.getElementById('indexErr').value = e.response.data.message.index;
-        }
-        else{
-            document.getElementById('indexErr').style.visibility = 'hidden';
-        }
-        if(e.response.data.message.birth!==undefined){
-            document.getElementById('birthErr').style.visibility = 'visible';
-            document.getElementById('birthErr').value = e.response.data.message.birth;
-        }
-        else{
-            document.getElementById('birthErr').style.visibility = 'hidden';
-        }
-        if(e.response.data.message.registrationToken!==undefined){
-            document.getElementById('registrationTokenErr').style.visibility = 'visible';
-            document.getElementById('registrationTokenErr').value = e.response.data.message.registrationToken;
-        }
-        else{
-            document.getElementById('registrationTokenErr').style.visibility = 'hidden';
+            validationRegistration(e,document.getElementById('firstnameErr'),
+                                    document.getElementById("lastnameErr"),document.getElementById("passwordErr"),
+                                    document.getElementById("indexErr"),document.getElementById("birthErr"),
+                                    document.getElementById("registrationTokenErr"));
         }
     }
 
@@ -88,13 +50,17 @@ const Register = () => {
     }
 
     function potvrdi(){
+        if(document.getElementById("textAlert").innerHTML === "Sistem je registrovao korisnika"){
+            document.getElementById("alert").style.visibility = 'hidden';
+            navigate("/login");
+        }
         document.getElementById("alert").style.visibility = 'hidden';
     }
 
   return (
     <div className='register'>
         <div className="register-div">
-            <form className='register-form' onSubmit={register}>
+            <form className='register-form' onSubmit={registration}>
                 <label htmlFor="firstname">Ime</label>
                 <input type="text" name="firstname" placeholder='Unesite ime' onInput={(e)=>handleInput(e)}/>
                 <input type="text" name="firstnameErr" id="firstnameErr" readOnly/>
@@ -126,7 +92,7 @@ const Register = () => {
                     Obaveštenje!
                 </div>
                 <div className="sadrzaj">
-                    <p id="textAlert">Neuspesno, pokusajte ponovo!</p>
+                    <p id="textAlert">Sistem je registrovao korisnika</p>
                     <button id="confirm" onClick={()=>potvrdi()}>OK</button>
                 </div>
             </div>

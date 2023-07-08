@@ -173,6 +173,14 @@ label{
   visibility: hidden;
 }
 
+#alertWrong{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 #box,#box-delete{
   border-radius: 5px; 
   height: auto;
@@ -280,7 +288,7 @@ label{
   justify-content: space-between;
 }
 
-.tableStudents,.tableTests{
+.tableStudents,.tableTests,.tableExams{
   border: 2px solid black;
   position: absolute;
   top: 70%;

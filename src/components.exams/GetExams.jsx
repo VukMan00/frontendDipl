@@ -1,13 +1,10 @@
-import React from 'react'
-import {useState,useEffect} from "react";
+import React, { useEffect, useState } from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { getStudents } from '../services/StudentService';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+const GetExams = (getCheckedId) => {
 
-const GetStudents = ({getCheckedId}) => {
-
-  const[students,setStudents] = useState();
+  const[exams,setExams] = useState();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,16 +14,19 @@ const GetStudents = ({getCheckedId}) => {
   useEffect(()=>{
     let isMounted = true;
     const controller = new AbortController();
-    const getAllStudents = async()=>{
+    const getAllExams = async()=>{
       try{
-        const studentsData = await getStudents(controller);
-        isMounted && setStudents(studentsData);
+        const response = await axiosPrivate.get('/exams',{
+          signal : controller.signal
+        });
+        isMounted && setExams(response.data);
+
       }catch(err){
         console.error(err);
         navigate('/login',{state:{from:location},replace:true});
       }
     }
-    getAllStudents();
+    getAllExams();
 
     return ()=>{
       isMounted = false;
@@ -44,22 +44,22 @@ const GetStudents = ({getCheckedId}) => {
     setChecked([]);
   }
 
-  function filterStudents(e){
+  function filterExams(e){
     if(e.key === "Enter"){
       e.preventDefault();
-      const filteredStudents = students.filter(student => student.index.includes(e.target.value));
-      if(filteredStudents.length === 0){
-        document.getElementById('textAlertGet').innerHTML = 'Sistem ne moze da pronadje studente po zadatoj vrednosti';
+      const filteredExams = exams.filter(exam => exam.amphitheater.toLowerCase().includes(e.target.value.toLowerCase()));
+      if(filteredExams.length === 0){
+        document.getElementById('textAlertGet').innerHTML = 'Sistem ne moze da pronadje polaganja po zadatoj vrednosti';
         document.getElementById("alertGet").style.visibility = 'visible';
       }
       else{
-        document.getElementById('textAlertGet').innerHTML = 'Sistem je nasao studente po zadatoj vrednosti';
+        document.getElementById('textAlertGet').innerHTML = 'Sistem je nasao polaganja po zadatoj vrednosti';
         document.getElementById("alertGet").style.visibility = 'visible';
-        setStudents(filteredStudents);
+        setExams(filteredExams);
       }
     }
     else{
-      navigate("/students");
+      navigate("/exams");
     }
   }
 
@@ -69,34 +69,30 @@ const GetStudents = ({getCheckedId}) => {
   }
 
   return (
-      <div className='students'>
+    <div className='exams'>
         <form action="" className="searchCriteria">
-          <label htmlFor="criteria">Unesite broj indeksa:</label>
-          <input type="text" name="criteria" className='criteria' placeholder='Unesite kriterijum pretrage' onKeyDown={(e)=>filterStudents(e)}/>
+          <label htmlFor="criteria">Unesite naziv sale:</label>
+          <input type="text" name="criteria" className='criteria' placeholder='Unesite kriterijum pretrage' onKeyDown={(e)=>filterExams(e)}/>
         </form>
         <table>
           <thead>
             <tr>
               <th></th>
-              <th>Ime</th>
-              <th>Prezime</th>
-              <th>Broj indeksa</th>
-              <th>Email</th>
-              <th>Datum rodjenja</th>
+              <th>Naziv</th>
+              <th>Datum polaganja</th>
+              <th>Amfiteatar</th>
             </tr>
           </thead>
           <tbody>
-        {students?.length
+        {exams?.length
           ? (
             <>
-              {students.map((student,i)=>
+              {exams.map((exam,i)=>
               <tr key={i}>
-                <td><input type='checkbox' className="studentId" value={student?.id} onChange={handleCheck}/></td>
-                <td>{student?.name}</td>
-                <td>{student?.lastname}</td>
-                <td>{student?.index}</td>
-                <td>{student?.email}</td>
-                <td>{student?.birth}</td>
+                <td><input type='checkbox' className="examId" value={exam?.id} onChange={handleCheck}/></td>
+                <td>{exam?.name}</td>
+                <td>{exam?.date}</td>
+                <td>{exam?.amphitheater}</td>
               </tr>
               )}
             </>
@@ -112,7 +108,7 @@ const GetStudents = ({getCheckedId}) => {
                     Obaveštenje!
                 </div>
                 <div className="sadrzaj">
-                    <p id="textAlertGet">Sistem je nasao studente po zadatoj vrednosti</p>
+                    <p id="textAlertGet">Sistem je nasao polaganja po zadatoj vrednosti</p>
                     <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
                 </div>
             </div>
@@ -121,4 +117,4 @@ const GetStudents = ({getCheckedId}) => {
   )
 }
 
-export default GetStudents
+export default GetExams

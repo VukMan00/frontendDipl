@@ -1,9 +1,8 @@
 import React,{ useEffect, useState } from 'react'
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { deleteStudent, getStudent } from '../services/StudentService';
 
 const DeleteStudent = () => {
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -19,22 +18,22 @@ const DeleteStudent = () => {
   });
 
   useEffect(()=>{
-    const getStudent = async()=>{
+    const retrieveStudent = async()=>{
       try{
-        const response = await axiosPrivate.get(`/students/${studentId}`);
-        console.log(response.data);
+        const response = await getStudent(studentId);
         setDeletedStudent(response.data);
       }catch(e){
         console.log(e);
       }
     }
-    getStudent();
-  },[axiosPrivate,studentId])
+    retrieveStudent();
+  },[studentId])
 
-  const deleteStudent = async()=>{
+  const removeStudent = async()=>{
     try{
-      const response = await axiosPrivate.delete(`/students/${studentId}`);
+      const response = await deleteStudent(studentId);
       console.log(response.data);
+
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao studenta";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
@@ -52,7 +51,7 @@ const DeleteStudent = () => {
   function confirmDelete(e){
     e.preventDefault();
     document.getElementById('alert-delete').style.visibility = 'hidden';
-    deleteStudent();
+    removeStudent();
   }
 
   function potvrdi(e){
@@ -61,11 +60,18 @@ const DeleteStudent = () => {
     navigate("/students");
   }
 
+  function potvrdiNotFound(e){
+    e.preventDefault();
+    document.getElementById('alertWrong').style.visibility = 'hidden';
+    navigate('/students');
+  }
+
   function cancel(e){
     e.preventDefault();
     navigate("/students");
   }
 
+  if(studentId!==undefined && studentId!==0){
   return (
     <div className='delete'>
       <div className="delete-div" id='delete-div'>
@@ -113,6 +119,22 @@ const DeleteStudent = () => {
       </div>
     </div>
   )
+  }
+  else{
+    return(
+    <div id="alertWrong">
+      <div id="box">
+          <div className="obavestenje">
+              Obaveštenje!
+          </div>
+          <div className="sadrzaj">
+            <p id="textAlert">Sistem ne moze da ucita studenta</p>
+            <button id="confirm" onClick={(e)=>potvrdiNotFound(e)}>OK</button>
+          </div>
+      </div>
+    </div>
+    )
+  }
 }
 
 export default DeleteStudent

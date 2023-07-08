@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import {useState} from "react";
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useLocation, useNavigate} from 'react-router-dom';
+import { getExams } from '../services/ExamService';
+import { createStudent, saveResultExam } from '../services/StudentService';
+import { validationStudent } from '../validation/ValidationHandler';
 
 const CreateStudent = () => {
 
@@ -17,7 +19,6 @@ const CreateStudent = () => {
 
   const[selectedExams, setSelectedExams] = useState([]);
 
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,9 +27,7 @@ const CreateStudent = () => {
     const controller = new AbortController();
     const getAllExams = async()=>{
       try{
-        const response = await axiosPrivate.get('/exams',{
-          signal : controller.signal
-        });
+        const response = await getExams(controller);
         isMounted && setExams(response.data);
 
       }catch(err){
@@ -42,13 +41,13 @@ const CreateStudent = () => {
       isMounted = false;
       isMounted && controller.abort();
     }
-  },[axiosPrivate,location,navigate])
+  },[location,navigate])
 
   const saveStudent = async(e)=>{
     e.preventDefault();
     try{
-      const response = await axiosPrivate.post('/students',student);
-      saveResultExam(response.data.id);
+      const response = await createStudent(student);
+      insertStudentToExam(response.data.id);
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio studenta";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
@@ -57,7 +56,7 @@ const CreateStudent = () => {
     }
   }
 
-  const saveResultExam = async(studentId) =>{
+  const insertStudentToExam= async(studentId) =>{
       for(let i=0;i<selectedExams.length;i++){
         const resultExam = {
           "resultExamPK":{
@@ -68,7 +67,7 @@ const CreateStudent = () => {
           "grade":5
         }
         try{
-          const response = await axiosPrivate.post("/students/results",resultExam);
+          const response = await saveResultExam(resultExam);
           console.log(response.data);
         }catch(e){
           console.log(e);
@@ -100,45 +99,13 @@ const CreateStudent = () => {
     navigate("/students");
   }
 
-  function validation(e){
+  function validation(error){
     document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti studenta";
     document.getElementById('alert').style.visibility = 'visible';
 
-    if(e.response.data.message.name !== undefined){
-        document.getElementById('firstnameErr').style.visibility = 'visible';
-        document.getElementById('firstnameErr').value = e.response.data.message.name;
-    }
-    else{
-        document.getElementById('firstnameErr').style.visibility = 'hidden';
-    }
-    if(e.response.data.message.lastname !== undefined){
-        document.getElementById('lastnameErr').style.visibility = 'visible';
-        document.getElementById('lastnameErr').value = e.response.data.message.lastname;
-    }
-    else{
-        document.getElementById('lastnameErr').style.visibility = 'hidden';
-    }
-    if(e.response.data.message.index !== undefined){
-        document.getElementById('indexErr').style.visibility = 'visible';
-        document.getElementById('indexErr').value = e.response.data.message.index;
-    }
-    else{
-        document.getElementById('indexErr').style.visibility = 'hidden';
-    }
-    if(e.response.data.message.email!==undefined){
-        document.getElementById("emailErr").style.visibility = 'visible';
-        document.getElementById('emailErr').value = e.response.data.message.email;
-    }
-    else{
-        document.getElementById("emailErr").style.visibility='hidden';
-    }
-    if(e.response.data.message.birth!==undefined){
-        document.getElementById('birthErr').style.visibility = 'visible';
-        document.getElementById('birthErr').value = e.response.data.message.birth;
-    }
-    else{
-        document.getElementById('birthErr').style.visibility = 'hidden';
-    }
+    validationStudent(error,document.getElementById("firstnameErr"),
+                      document.getElementById("lastnameErr"),document.getElementById("indexErr"),
+                      document.getElementById("emailErr"),document.getElementById("birthErr"));
   }
 
   return (
@@ -160,13 +127,13 @@ const CreateStudent = () => {
           <label htmlFor='birth'>Datum rodjenja</label>
           <input type='date' name="birth" placeholder='Unesite datum rodjenja' onInput={(e)=>handleInput(e)} />
           <input type="text" name="birthErr" id="birthErr" readOnly/>
-          <label htmlFor="exams">Ubacite studenta u polaganja:</label>
+          <label htmlFor="exams">Ubacite studenta u dostupna polaganja:</label>
           <select name="exams" id="selectionOption" multiple value={selectedExams} onChange={(e)=>handleSelectExams(e)}>
           {exams?.length
           ? (
             <>
               {exams.map((exam,i)=>
-              <option key={i} value={exam.id}>{exam.name}</option>
+              <option key={i} value={exam.id} style={{fontFamily:'cursive'}}>{exam.name}</option>
               )}
             </>
           )

@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate,useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-
-import axios, { axiosPrivate } from '../api/axios';
-const LOGIN_URL = "/auth/authenticate"
+import { authenticate, emailForPassowrd } from '../services/AuthService';
 
 const Login = () => {
 
@@ -38,37 +36,21 @@ const Login = () => {
     const login = async(e)=>{
         e.preventDefault();
         try{
-            const response = await axios.post(LOGIN_URL,memberData);
-            if(response.data!=null){
-                memberData.firstname = response.data.firstname;
-                memberData.lastname = response.data.lastname;
-                memberData.username = response.data.email;
-                memberData.role = response.data.role;
-                memberData.index = response.data.index !=null ? response.data.index : null;
+            const memberResponse = await authenticate(memberData);
+            setMemberData(memberResponse);
 
-                setMemberData(memberData);
+            const roles = memberResponse?.roles;
+            const accessToken = memberResponse?.accessToken;
+            setAuth({roles, accessToken});
 
-                window.localStorage.setItem("id",response.data?.id);
-                window.localStorage.setItem("firstname",memberData.firstname);
-                window.localStorage.setItem("lastname",memberData.lastname);
-                window.localStorage.setItem("username",memberData.username);
-                window.localStorage.setItem("role",memberData.role);
-                window.localStorage.setItem("index",memberData.index!=null ? memberData.index : null);
-                window.localStorage.setItem('accessToken',response?.data?.accessToken);
-                const accessToken = response?.data?.accessToken;
-                const roles = response?.data?.role;
-                
-                setAuth({roles, accessToken});
-
-                if(memberData?.password === memberData?.index){
-                    email.recipient = memberData.username;
-                    setEmail(email);
-                    sendEmailForPassword();
-                }
-                else{
-                    navigate(from,{replace:true});
-                }
+            if(memberData?.password === memberData?.index){
+                email.recipient = memberData.username;
+                setEmail(email);
+                sendEmailForPassword(email);
             }
+            else{
+                navigate(from,{replace:true});
+            }     
         }
         catch(e){
             console.log(e);
@@ -76,10 +58,10 @@ const Login = () => {
         }
     }
 
-    const sendEmailForPassword=async()=>{
+    const sendEmailForPassword=async(email)=>{
         document.getElementById("alertPassword").style.visibility = 'visible';
         try{
-            const response = await axiosPrivate.post("/auth/emailChangePassword",email);
+            const response = await emailForPassowrd(email);
             if(response.data!=null){
                 console.log(response.data);
             }
@@ -101,11 +83,10 @@ const Login = () => {
     <div className='login'>
         <div className='login-div'>
             <form className='login-form' onSubmit={login}>
-                <label htmlFor='username'>Username</label>
+                <label htmlFor='username'>Korisnicko ime</label>
                 <input type="text" name="username" id="username" placeholder='Unesite korisnicko ime' onInput={(e)=>handleInput(e)} />
-                <label htmlFor='password'>Password</label>
+                <label htmlFor='password'>Lozinka</label>
                 <input type="password" name="password" id="password" placeholder='Unesite sifru' onInput={(e)=>handleInput(e)}/>
-                <Link to="/preforgotPassword" className='forgotPasswordLink'>Zaboravili ste lozinku?</Link>
                 <div className='button'>
                     <input type="submit" name="login" id="btn-login" value="LogIn" />
                 </div>
