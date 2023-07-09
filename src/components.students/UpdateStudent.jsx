@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getStudent, updateStudent } from '../services/StudentService';
+import { deleteStudentFromExams, getExamsOfStudent, getStudent, updateStudent } from '../services/StudentService';
 import { validationStudent } from '../validation/ValidationHandler';
 
 const UpdateStudent = () => {
@@ -18,11 +18,14 @@ const UpdateStudent = () => {
     'birth':''
   })
 
+  const[examsOfStudent,setExamsOfStudent] = useState([]);
+  const[selectedExams, setSelectedExams] = useState([]);
+
   useEffect(()=>{
     const retrieveStudent = async()=>{
       try{
         const response = await getStudent(studentId);
-        setUpdatedStudent(response.data);
+        setUpdatedStudent(response);
       }catch(e){
         console.log(e);
       }
@@ -30,12 +33,24 @@ const UpdateStudent = () => {
     retrieveStudent();
   },[studentId])
   
+  useEffect(()=>{
+    const retrieveExamsOfStudent = async()=>{
+      try{
+        const response = await getExamsOfStudent(studentId);
+        setExamsOfStudent(response);
+      }catch(e){
+        console.log(e);
+      }
+    }
+    retrieveExamsOfStudent();
+  },[studentId])
 
   const saveUpdatedStudent = async(e)=>{
     e.preventDefault();
     try{
+      await deleteStudentFromExams(selectedExams,studentId);
       const response = await updateStudent(updatedStudent);
-      console.log(response.data);
+      console.log(response);
 
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio studenta";
       document.getElementById('alert').style.visibility = 'visible';
@@ -44,6 +59,17 @@ const UpdateStudent = () => {
       validation(e);
     }
   }
+
+  const removeExams = async(e)=>{
+    e.preventDefault();
+    const filteredExamsOfStudent = examsOfStudent.filter(examOfStudent=>!selectedExams.includes(examOfStudent.exam.id.toString()));
+    setExamsOfStudent(filteredExamsOfStudent);
+  }
+
+  const handleSelectExams = (event) => {
+    const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
+    setSelectedExams(selectedOptions);
+  };
 
   function handleInput(e){
     let newStudent = updatedStudent;
@@ -56,6 +82,10 @@ const UpdateStudent = () => {
     document.getElementById('alert').style.visibility = 'hidden';
     if(document.getElementById('textAlert').innerHTML === "Sistem je zapamtio studenta"){
       navigate("/students");
+    }
+    else if(document.getElementById('textAlert').innerHTML === "Sistem je izbacio studenta iz polaganja"){
+      const filteredExamsOfStudent = examsOfStudent.filter(examOfStudent=>selectedExams.includes(examOfStudent.exam.id));
+      setExamsOfStudent(filteredExamsOfStudent);
     }
   }
 
@@ -99,6 +129,24 @@ const UpdateStudent = () => {
             <label htmlFor='birth'>Datum rodjenja</label>
             <input type='date' name="birth" placeholder='Unesite datum rodjenja' defaultValue={updatedStudent.birth} onInput={(e)=>handleInput(e)} />
             <input type="text" name="birthErr" id="birthErr" readOnly/>
+            <label htmlFor="exams">Polaganja studenta: </label>
+            <select name="exams" id="selectionOption" multiple value={selectedExams} onChange={(e)=>handleSelectExams(e)}>
+            {examsOfStudent?.length
+            ? (
+              <>
+                {examsOfStudent.map((examOfStudent,i)=>
+                <option key={i} value={examOfStudent.exam.id} style={{fontFamily:'cursive'}}>{examOfStudent.exam.name}</option>
+                )}
+              </>
+            )
+            :
+            <option>Sistem ne moze da ucita polaganja</option>
+            }
+            </select>
+            <div className='buttonExamsOfStudent'>
+              <button className='btn-student-exam'>Ubaci studenta u novo polaganje</button>
+              <button className='btn-student-exam'onClick={(e)=>removeExams(e)}>Izbaci studenta iz polaganja</button>
+            </div>
             <div className='button'>
                 <input type="submit" name="saveStudent" id="btn-save" value="Sacuvaj"/>
                 <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>

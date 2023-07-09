@@ -28,7 +28,7 @@ const CreateStudent = () => {
     const getAllExams = async()=>{
       try{
         const response = await getExams(controller);
-        isMounted && setExams(response.data);
+        isMounted && setExams(response);
 
       }catch(err){
         console.error(err);
@@ -68,7 +68,7 @@ const CreateStudent = () => {
         }
         try{
           const response = await saveResultExam(resultExam);
-          console.log(response.data);
+          console.log(response);
         }catch(e){
           console.log(e);
         }

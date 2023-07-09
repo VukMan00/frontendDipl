@@ -325,4 +325,23 @@ th{
   width: 100%;
 }
 
+.buttonExamsOfStudent{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.btn-student-exam{
+  margin-top: 3px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.btn-student-exam:hover{
+  background-color: grey;
+  color:white;
+  transition: background-color 0.5s linear 0.1s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+}
 

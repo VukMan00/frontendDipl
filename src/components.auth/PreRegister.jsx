@@ -21,10 +21,15 @@ const PreRegister = () => {
         e.preventDefault();
         try{
             const response = await emailPreRegister(email);
-            if(response.data!=null){
+            console.log(response.data);
+            if(response.data!=="Email already exist"){
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 document.getElementById("alert").style.visibility = 'visible';
                 window.localStorage.setItem("emailRegister",email.recipient);
+            }
+            else{
+                document.getElementById('emailErr').style.visibility = 'visible';
+                document.getElementById('emailErr').value = response.data;
             }
         }catch(e){
             document.getElementById('emailErr').style.visibility = 'visible';

@@ -21,7 +21,7 @@ const DeleteStudent = () => {
     const retrieveStudent = async()=>{
       try{
         const response = await getStudent(studentId);
-        setDeletedStudent(response.data);
+        setDeletedStudent(response);
       }catch(e){
         console.log(e);
       }
@@ -71,6 +71,7 @@ const DeleteStudent = () => {
     navigate("/students");
   }
 
+  console.log(studentId);
   if(studentId!==undefined && studentId!==0){
   return (
     <div className='delete'>
