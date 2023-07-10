@@ -57,21 +57,11 @@ const CreateStudent = () => {
   }
 
   const insertStudentToExam= async(studentId) =>{
-      for(let i=0;i<selectedExams.length;i++){
-        const resultExam = {
-          "resultExamPK":{
-            "studentId":studentId,
-            "examId":selectedExams[i]
-          },
-          "points":0,
-          "grade":5
-        }
-        try{
-          const response = await saveResultExam(resultExam);
-          console.log(response);
-        }catch(e){
-          console.log(e);
-        }
+      try{
+        const response = await saveResultExam(selectedExams,studentId);
+        console.log(response);
+      }catch(e){
+        console.log(e);
       }
   }
 

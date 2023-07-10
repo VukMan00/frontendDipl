@@ -23,6 +23,7 @@ const GetStudents = ({getCheckedId}) => {
         isMounted && setStudents(studentsData);
       }catch(err){
         console.error(err);
+        localStorage.clear();
         navigate('/login',{state:{from:location},replace:true});
       }
     }

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { deleteStudentFromExams, getExamsOfStudent, getStudent, updateStudent } from '../services/StudentService';
+import {deleteStudentFromExams, getExamsOfStudent, getStudent, updateStudent } from '../services/StudentService';
 import { validationStudent } from '../validation/ValidationHandler';
+import { getExams } from '../services/ExamService';
+import {BsArrowLeft,BsArrowRight} from 'react-icons/bs';
 
 const UpdateStudent = () => {
   const navigate = useNavigate();
@@ -15,11 +17,40 @@ const UpdateStudent = () => {
     'lastname':'',
     'email':'',
     'index':'',
-    'birth':''
+    'birth':'',
+    'results':''
   })
 
+  const[results,setResults]=useState([]);
+  
+  const[dbExamsOfStudent,setDbExamsOfStudent]=useState([]);
   const[examsOfStudent,setExamsOfStudent] = useState([]);
-  const[selectedExams, setSelectedExams] = useState([]);
+  const[exams,setExams]=useState([]);
+  
+  const[selectedExamsForRemove, setSelectedExamsForRemove] = useState([]);
+  const[selectedExamsForAdd,setSelectedExamsForAdd] = useState([]);
+
+  useEffect(()=>{
+    let isMounted = true;
+    const controller = new AbortController();
+    const getAllExams = async()=>{
+      try{
+        const response = await getExams(controller);
+        isMounted && setExams(response);
+
+      }catch(err){
+        console.error(err);
+        localStorage.clear();
+        navigate('/login',{state:{from:location},replace:true});
+      }
+    }
+    getAllExams();
+
+    return ()=>{
+      isMounted = false;
+      isMounted && controller.abort();
+    }
+  },[location,navigate])
 
   useEffect(()=>{
     const retrieveStudent = async()=>{
@@ -38,6 +69,7 @@ const UpdateStudent = () => {
       try{
         const response = await getExamsOfStudent(studentId);
         setExamsOfStudent(response);
+        setDbExamsOfStudent(response);
       }catch(e){
         console.log(e);
       }
@@ -48,7 +80,12 @@ const UpdateStudent = () => {
   const saveUpdatedStudent = async(e)=>{
     e.preventDefault();
     try{
-      await deleteStudentFromExams(selectedExams,studentId);
+      const filteredRemoveExams = dbExamsOfStudent.filter(dbExam=>!examsOfStudent.includes(dbExam));
+      if(filteredRemoveExams.length!==0){
+        await deleteStudentFromExams(filteredRemoveExams,studentId);
+      }
+      updatedStudent.results = setResultsOfStudent();
+      console.log(updatedStudent);
       const response = await updateStudent(updatedStudent);
       console.log(response);
 
@@ -60,15 +97,47 @@ const UpdateStudent = () => {
     }
   }
 
+  function setResultsOfStudent(){
+    const results = [];
+    for(let i=0;i<examsOfStudent.length;i++){
+      const resultExam = {
+        "resultExamPK":{
+          "studentId":studentId,
+          "examId":examsOfStudent[i].id
+        },
+        "points":0,
+        "grade":5
+      }
+      results.push(resultExam);
+    }
+    return results;
+  }
+
   const removeExams = async(e)=>{
     e.preventDefault();
-    const filteredExamsOfStudent = examsOfStudent.filter(examOfStudent=>!selectedExams.includes(examOfStudent.exam.id.toString()));
+    const filteredExamsOfStudent = examsOfStudent.filter(examOfStudent=>!selectedExamsForRemove.includes(examOfStudent.id.toString()));
     setExamsOfStudent(filteredExamsOfStudent);
   }
 
-  const handleSelectExams = (event) => {
+  const addExams = async(e)=>{
+    e.preventDefault();
+    const filteredExams = exams.filter(exam=>selectedExamsForAdd.includes(exam.id.toString()));
+    const mergedExams = examsOfStudent.concat(filteredExams);
+    const uniqueExams = Array.from(
+      new Map(mergedExams.map(obj => [obj.id, obj])).values()
+    );
+    setExamsOfStudent(uniqueExams);
+  }
+
+  const handleSelectExamsForRemove = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedExams(selectedOptions);
+    setSelectedExamsForRemove(selectedOptions);
+  };
+
+  const handleSelectExamsForAdd = (event) => {
+    const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
+    console.log(selectedOptions);
+    setSelectedExamsForAdd(selectedOptions);
   };
 
   function handleInput(e){
@@ -82,10 +151,6 @@ const UpdateStudent = () => {
     document.getElementById('alert').style.visibility = 'hidden';
     if(document.getElementById('textAlert').innerHTML === "Sistem je zapamtio studenta"){
       navigate("/students");
-    }
-    else if(document.getElementById('textAlert').innerHTML === "Sistem je izbacio studenta iz polaganja"){
-      const filteredExamsOfStudent = examsOfStudent.filter(examOfStudent=>selectedExams.includes(examOfStudent.exam.id));
-      setExamsOfStudent(filteredExamsOfStudent);
     }
   }
 
@@ -129,23 +194,43 @@ const UpdateStudent = () => {
             <label htmlFor='birth'>Datum rodjenja</label>
             <input type='date' name="birth" placeholder='Unesite datum rodjenja' defaultValue={updatedStudent.birth} onInput={(e)=>handleInput(e)} />
             <input type="text" name="birthErr" id="birthErr" readOnly/>
-            <label htmlFor="exams">Polaganja studenta: </label>
-            <select name="exams" id="selectionOption" multiple value={selectedExams} onChange={(e)=>handleSelectExams(e)}>
-            {examsOfStudent?.length
-            ? (
-              <>
-                {examsOfStudent.map((examOfStudent,i)=>
-                <option key={i} value={examOfStudent.exam.id} style={{fontFamily:'cursive'}}>{examOfStudent.exam.name}</option>
-                )}
-              </>
-            )
-            :
-            <option>Sistem ne moze da ucita polaganja</option>
-            }
-            </select>
-            <div className='buttonExamsOfStudent'>
-              <button className='btn-student-exam'>Ubaci studenta u novo polaganje</button>
-              <button className='btn-student-exam'onClick={(e)=>removeExams(e)}>Izbaci studenta iz polaganja</button>
+            <div className='listOfExams'>
+              <div className='div-list-exams'>
+                <label htmlFor="studentExams">Polaganja studenta: </label>
+                <select name="studentExams" id="selectionOption" multiple value={selectedExamsForRemove} onChange={(e)=>handleSelectExamsForRemove(e)}>
+                  {examsOfStudent?.length
+                  ? (
+                    <>
+                      {examsOfStudent.map((examOfStudent,i)=>
+                      <option key={i} value={examOfStudent?.id} style={{fontFamily:'cursive'}}>{examOfStudent?.name}</option>
+                      )}
+                    </>
+                  )
+                  :
+                  <option style={{color:'red'}}>Sistem ne moze da ucita polaganja</option>
+                  }
+                </select>
+              </div>
+              <div className='div-list-exams'>
+                <button className='addStudentToExams' onClick={(e)=>addExams(e)}><BsArrowLeft /></button>
+                <button className='btn-remove-student-exam'onClick={(e)=>removeExams(e)}><BsArrowRight /></button>
+              </div>
+              <div className='div-list-exams'>
+                <label htmlFor='exams'>Dostupna polaganja: </label>
+                <select name="exams" id="selectionOption" multiple value={selectedExamsForAdd} onChange={(e)=>handleSelectExamsForAdd(e)}>
+                  {exams?.length
+                  ? (
+                    <>
+                      {exams.map((exam,i)=>
+                      <option key={i} value={exam?.id} style={{fontFamily:'cursive'}}>{exam?.name}</option>
+                      )}
+                    </>
+                  )
+                  :
+                  <option style={{color:'red'}}>Sistem ne moze da ucita polaganja</option>
+                  }
+                </select>
+              </div> 
             </div>
             <div className='button'>
                 <input type="submit" name="saveStudent" id="btn-save" value="Sacuvaj"/>
@@ -154,16 +239,16 @@ const UpdateStudent = () => {
           </form>
         </div>
         <div id="alert">
-              <div id="box">
-                  <div className="obavestenje">
-                      Obaveštenje!
-                  </div>
-                  <div className="sadrzaj">
-                      <p id="textAlert">Student je uspesno sacuvan!</p>
-                      <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
-                  </div>
+            <div id="box">
+              <div className="obavestenje">
+                Obaveštenje!
               </div>
-          </div>
+              <div className="sadrzaj">
+                <p id="textAlert">Student je uspesno sacuvan!</p>
+                <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
+              </div>
+            </div>
+        </div>
       </div>
     )
   }

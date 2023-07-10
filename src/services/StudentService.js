@@ -52,14 +52,23 @@ export const deleteStudent = async(studentId)=>{
         return response.data;
       }catch(err){
         console.error("Error deleting student: " + err);
-        throw err;
       }
 }
 
-export const saveResultExam = async(resultExam)=>{
+export const saveResultExam = async(selectedExams,studentId)=>{
     try{
-        const response = await axiosPrivate.post("/students/results",resultExam);
-        return response.data;
+        for(let i=0;i<selectedExams.length;i++){
+          const resultExam = {
+            "resultExamPK":{
+              "studentId":studentId,
+              "examId":selectedExams[i]
+            },
+            "points":0,
+            "grade":5
+          }
+          const response = await axiosPrivate.post("/students/results",resultExam);
+          console.log(response);
+        }
       }catch(err){
         console.error("Error saving result exam: " + err);
         throw err;
@@ -69,7 +78,6 @@ export const saveResultExam = async(resultExam)=>{
 export const getExamsOfStudent = async(studentId)=>{
     try{
         const response = await axiosPrivate.get(`/students/${studentId}/exams`);
-        console.log(response.data);
         return response.data;
     }catch(err){
       console.error("Error with retrieveng exams of student: " + err);
@@ -77,12 +85,13 @@ export const getExamsOfStudent = async(studentId)=>{
     }
 }
 
-export const deleteStudentFromExams = async(examIds,studentId)=>{
+export const deleteStudentFromExams = async(removeExams,studentId)=>{
     try{
-        for(let i=0;i<examIds.length;i++){
-          const response = await axiosPrivate.delete(`/students/${studentId}/exams/${examIds[i]}`);
-          console.log(response.data);
-        }
+      console.log(removeExams);
+      for(let i=0;i<removeExams.length;i++){
+        const response = await axiosPrivate.delete(`/students/${studentId}/exams/${removeExams[i].id}`);
+        console.log(response.data);
+      }
     }catch(err){
       console.log("Error with deleting student from exams: " + err);
       throw err;

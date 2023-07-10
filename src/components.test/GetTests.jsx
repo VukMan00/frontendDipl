@@ -22,6 +22,7 @@ const GetTests = ({getCheckedId}) => {
         isMounted && setTests(response.data);
       }catch(err){
         console.error(err);
+        localStorage.clear();
         navigate('/login',{state:{from:location},replace:true});
       }
     }

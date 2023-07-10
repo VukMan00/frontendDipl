@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getExams } from '../services/ExamService';
 
 const GetExams = (getCheckedId) => {
 
   const[exams,setExams] = useState();
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -16,13 +15,12 @@ const GetExams = (getCheckedId) => {
     const controller = new AbortController();
     const getAllExams = async()=>{
       try{
-        const response = await axiosPrivate.get('/exams',{
-          signal : controller.signal
-        });
+        const response = await getExams(controller);
         isMounted && setExams(response.data);
 
       }catch(err){
         console.error(err);
+        localStorage.clear();
         navigate('/login',{state:{from:location},replace:true});
       }
     }
@@ -32,7 +30,7 @@ const GetExams = (getCheckedId) => {
       isMounted = false;
       isMounted && controller.abort();
     }
-  },[axiosPrivate,location,navigate])
+  },[location,navigate])
 
   const handleCheck = (event)=>{
     var updatedList = [...checked];
