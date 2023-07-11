@@ -13,7 +13,7 @@ const OptionStudent = () => {
   return (
     <div className='option'>
       <div className="options-entity">
-        <Link className="linkOption" to="createStudent">Kreiraj studenta</Link>
+        <Link className="linkOption" to={"createStudent"}>Kreiraj studenta</Link>
         <Link className='linkOption' to={"updateStudent"} state={{studentId:studentId}}>Azuriraj studenta</Link>
         <Link className='linkOption' to={"deleteStudent"} state={{studentId:studentId}}>Obrisi studenta</Link>
       </div>

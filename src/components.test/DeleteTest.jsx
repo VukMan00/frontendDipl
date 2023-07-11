@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { deleteTest, getTest } from '../services/TestService';
 
 const DeleteTest = () => {
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-
   const location = useLocation();
   const testId = location.state?.testId;
 
@@ -15,22 +13,21 @@ const DeleteTest = () => {
   });
 
   useEffect(()=>{
-    const getTest = async()=>{
+    const retrieveTest = async()=>{
       try{
-        const response = await axiosPrivate.get(`/tests/${testId}`);
-        console.log(response.data);
-        setDeletedTest(response.data);
+        const response = await getTest(testId);
+        setDeletedTest(response);
       }catch(e){
         console.log(e);
       }
     }
-    getTest();
-  },[axiosPrivate,testId])
+    retrieveTest();
+  },[testId])
 
-  const deleteTest = async()=>{
+  const removeTest = async()=>{
     try{
-      const response = await axiosPrivate.delete(`/tests/${testId}`);
-      console.log(response.data);
+      const response = await deleteTest(testId);
+      console.log(response);
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao test";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
@@ -48,7 +45,7 @@ const DeleteTest = () => {
   function confirmDelete(e){
     e.preventDefault();
     document.getElementById('alert-delete').style.visibility = 'hidden';
-    deleteTest();
+    removeTest();
   }
 
   function potvrdi(e){
@@ -67,7 +64,7 @@ const DeleteTest = () => {
       <div className="delete-div" id='delete-div'>
         <form className="delete-form">
           <label htmlFor="content">Naziv testa</label>
-          <input type="text" name="content" placeholder='Unesite naziv testa' defaultValue={deletedTest.content} readOnly/>
+          <input type="text" name="content" placeholder='Unesite naziv testa' defaultValue={deletedTest?.content} readOnly/>
           <div className='button'>
               <button id='prepareDelete'onClick={(e)=>prepareDelete(e)}>Obrisi</button>
               <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>

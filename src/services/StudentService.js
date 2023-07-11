@@ -52,6 +52,7 @@ export const deleteStudent = async(studentId)=>{
         return response.data;
       }catch(err){
         console.error("Error deleting student: " + err);
+        throw err
       }
 }
 

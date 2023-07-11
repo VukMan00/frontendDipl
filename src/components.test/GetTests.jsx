@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getTests } from '../services/TestService';
 
 const GetTests = ({getCheckedId}) => {
 
@@ -16,10 +17,8 @@ const GetTests = ({getCheckedId}) => {
     const controller = new AbortController();
     const getAllTests = async()=>{
       try{
-        const response = await axiosPrivate.get('/tests',{
-          signal : controller.signal
-        });
-        isMounted && setTests(response.data);
+        const response = await getTests(controller);
+        isMounted && setTests(response);
       }catch(err){
         console.error(err);
         localStorage.clear();

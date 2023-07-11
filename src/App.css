@@ -41,7 +41,8 @@ body{
 #btn-save:hover,
 #prepareDelete:hover,
 #cancel:hover,
-#btn-changePassword{
+#btn-changePassword,
+.btn-add-question-test:hover{
   background-color: grey;
   color:white;
   transition: background-color 0.5s linear 0.1s;
@@ -365,3 +366,15 @@ th{
   border-radius: 20px;
   cursor: pointer;
 }
+
+.btn-add-question-test{
+  border-radius: 20px;
+  border: 2px solid black;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 5px;
+  color:black;
+  background-color: white;
+}
+

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { createTest, saveQuestionTest} from '../services/TestService';
+import { getQuestions } from '../services/QuestionService';
+import { validationTest } from '../validation/ValidationHandler';
 
-const CreateTest = () => {
+const CreateTest = ({questionsTest}) => {
 
   const[professor] = useState({
     "id":window.localStorage.getItem("id"),
@@ -16,12 +18,10 @@ const CreateTest = () => {
     'author':professor
   })
 
-  const[questions,setQuestions] = useState();
-  const[selectedQuestions, setSelectedQuestions] = useState([]);
-  const[arrayQuestionTest, setArrayQuestionTest] = useState([]);
-  const[testId,setTestId]=useState(0);
+  const[questions,setQuestions] = useState([]);
+  const[questionsForPoints,setQuestionsForPoints] = useState([]);
+  const[selectedQuestions,setSelectedQuestions]=useState([]);
 
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -30,11 +30,8 @@ const CreateTest = () => {
     const controller = new AbortController();
     const getAllQuestions = async()=>{
       try{
-        const response = await axiosPrivate.get('/questions',{
-          signal : controller.signal
-        });
-        isMounted && setQuestions(response.data);
-
+        const response = await getQuestions(controller);
+        isMounted && setQuestions(response);
       }catch(err){
         console.error(err);
         navigate('/login',{state:{from:location},replace:true});
@@ -46,43 +43,30 @@ const CreateTest = () => {
       isMounted = false;
       isMounted && controller.abort();
     }
-  },[axiosPrivate,location,navigate])
+  },[location,navigate])
 
   const saveTest = async(e)=>{
     e.preventDefault();
     try{
-      const response = await axiosPrivate.post('/tests',test);
-      if(selectedQuestions.length!==0){
-        setTestId(response.data.id);
-        document.getElementById('alertPoints').style.visibility = 'visible';
-      }
-      else{
-        document.getElementById('alert').style.visibility = 'visible';
-        document.getElementById('textAlert').innerHTML = "Sistem je zapamtio test";
-      }
-    }catch(e){
-      console.log(e);
-      validation(e);
+      const response = await createTest(test);
+      addQuestionsTest(response.id);  
+    }catch(error){
+      console.log(error);
+      validation(error);
     }
   }
 
-  const saveQuestionsTest = async(e)=>{
-    e.preventDefault();
-    for(let i=0;i<arrayQuestionTest.length;i++){
-      const questionTest = {
-        "questionTestPK":{
-          "questionId":arrayQuestionTest[i].questionId,
-          "testId":testId
-        },
-        "points":arrayQuestionTest[i].points
+  const addQuestionsTest = async(id)=>{
+    try{
+      if(questionsTest.length!==0){
+        await saveQuestionTest(questionsTest,id);
       }
-      try{
-        await axiosPrivate.post("/tests/questions",questionTest);
-        document.getElementById('alert').style.visibility = 'visible';
-        document.getElementById('textAlert').innerHTML = "Sistem je zapamtio test";
-      }catch(e){
-        console.log(e);
-      }
+      document.getElementById('textAlert').innerHTML = 'Sistem je zapamtio test';
+      document.getElementById("alert").style.visibility = 'visible';
+    }catch(error){
+      console.log(error);
+      document.getElementById('textAlert').innerHTML = 'Sistem ne moze da zapamti pitanja u test';
+      document.getElementById("alert").style.visibility = 'visible';
     }
   }
 
@@ -92,30 +76,17 @@ const CreateTest = () => {
     setTest(newTest);
   }
 
-  function handlePoints(e,idSelectedQuestion){
-    const questionTest = {
-      "questionId":idSelectedQuestion,
-      "points" : e.target.value
-    }
-    document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti test";
-    setArrayQuestionTest([...arrayQuestionTest,questionTest]);
-  }
-
-  function confirmPoints(e){
-    e.preventDefault();
-    document.getElementById('alertPoints').style.visibility = 'hidden';
-    saveQuestionsTest(e);
-  }
-
   const handleSelectQuestions = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
     setSelectedQuestions(selectedOptions);
+    const filteredQuestionForPoints = questions.filter(question=>selectedOptions.includes(question.id.toString()));
+    setQuestionsForPoints(filteredQuestionForPoints);
   };
 
   function potvrdi(e){
     e.preventDefault();
     document.getElementById('alert').style.visibility = 'hidden';
-    if(document.getElementById('textAlert').innerHTML === "Sistem je zapamtio test"){
+    if(document.getElementById('textAlert').innerHTML === "Sistem je zapamtio test" || document.getElementById('textAlert').innerHTML === "Sistem ne moze da zapamti pitanja u test"){
       navigate("/tests");
     }
   }
@@ -125,17 +96,10 @@ const CreateTest = () => {
     navigate("/tests");
   }
 
-  function validation(e){
+  function validation(error){
     document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti test";
     document.getElementById('alert').style.visibility = 'visible';
-
-    if(e.response.data.message.content!==undefined){
-      document.getElementById('contentErr').style.visibility = 'visible';
-      document.getElementById('contentErr').value = e.response.data.message.content;
-    }
-    else{
-      document.getElementById("contentErr").style.visibility='hidden';
-    }
+    validationTest(error,document.getElementById('contentErr'));
   }
 
   return (
@@ -159,10 +123,11 @@ const CreateTest = () => {
           <option>Sistem ne moze da ucita pitanja</option>
         }
         </select>
-          <div className='button'>
-              <input type="submit" name="saveTest" id="btn-save" value="Sacuvaj"/>
-              <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
-          </div>
+        <Link to={"addQuestionTest"} className='btn-add-question-test' state={{questionsForPoints:questionsForPoints}}>Unesi broj poena pitanjima</Link>
+        <div className='button'>
+            <input type="submit" name="saveTest" id="btn-save" value="Sacuvaj"/>
+            <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
+        </div>
         </form>
       </div>
       <div id="alert">
@@ -176,30 +141,7 @@ const CreateTest = () => {
                 </div>
             </div>
       </div>
-      <div id="alertPoints">
-            <div id="box">
-                <div className="obavestenje">
-                    Unesite poene pitanjima!
-                </div>
-                <div className="sadrzaj">
-                  {selectedQuestions?.length
-                  ? (
-                    <>
-                      {selectedQuestions.map((selectedQuestion,i)=>
-                      <div className='setPoints'>
-                        <label htmlFor="points" style={{color:'black'}}>Pitanje sa id-em: {selectedQuestion}</label>
-                        <input name="points" key={selectedQuestion} type="text" placeholder='Unesite poene' onInput={(e)=>handlePoints(e,selectedQuestion)}/>
-                      </div>
-                      )}
-                    </>
-                    )
-                    :
-                    <option>Sistem ne moze da ucita pitanja</option>
-                  }
-                  <button id="confirm" onClick={(e)=>confirmPoints(e)}>OK</button>
-                </div>
-            </div>
-      </div>
+      <Outlet />
     </div>
   )
 }

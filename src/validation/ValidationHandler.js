@@ -104,3 +104,13 @@ export const validationRegistration = async(e,firstnameErr,lastnameErr,passwordE
         registrationTokenErr.style.visibility = 'hidden';
     }
 }
+
+export const validationTest = async(e,contentErr)=>{
+    if(e.response.data.message.content!==undefined){
+        contentErr.style.visibility = 'visible';
+        contentErr.value = e.response.data.message.content;
+      }
+      else{
+        contentErr.style.visibility='hidden';
+      }
+}

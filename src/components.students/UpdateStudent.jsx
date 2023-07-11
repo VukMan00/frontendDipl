@@ -21,7 +21,6 @@ const UpdateStudent = () => {
     'results':''
   })
 
-  const[results,setResults]=useState([]);
   
   const[dbExamsOfStudent,setDbExamsOfStudent]=useState([]);
   const[examsOfStudent,setExamsOfStudent] = useState([]);

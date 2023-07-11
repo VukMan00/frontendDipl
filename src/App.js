@@ -20,6 +20,8 @@ import DeleteTest from './components.test/DeleteTest';
 import Missing from './components.auth/Missing';
 import ChangePassword from './components.auth/ChangePassword';
 import OptionExam from './components.options/OptionExam';
+import AddQuestionTest from './components.questiontest/AddQuestionTest';
+import { useState } from 'react';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -27,6 +29,12 @@ const ROLES={
 }
 
 function App() {
+
+  const[questionsTest,setQuestionsTest] = useState([]);
+
+  function getArrayQuestionTest(arrayQuestionTest){
+    setQuestionsTest(arrayQuestionTest);
+  }
 
   return (
     <>
@@ -45,7 +53,9 @@ function App() {
             <Route path={"/"} element={<MainPage />} />
             <Route path={"tests"} element={<OptionTest />}>
               <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
-                <Route path={"createTest"} element={<CreateTest />}/>
+                <Route path={"createTest"} element={<CreateTest questionsTest={questionsTest}/>}>
+                  <Route path={"addQuestionTest"} element={<AddQuestionTest getArrayQuestionTest={getArrayQuestionTest}/>}/>
+                </Route>
                 <Route path={"updateTest"} element={<UpdateTest />}/>
                 <Route path={"deleteTest"} element={<DeleteTest />} />
               </Route>
