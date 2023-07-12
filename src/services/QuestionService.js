@@ -1,6 +1,5 @@
 import { axiosPrivate } from '../api/axios';
 
-
 export const getQuestions = async(controller)=>{
     try{
         const response = await axiosPrivate.get('/questions',{signal : controller.signal});

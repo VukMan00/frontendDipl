@@ -65,3 +65,17 @@ export const saveQuestionTest = async(arrayQuestionTest,testId)=>{
         throw err;
       }
 }
+
+export const getQuestionsFromTest = async(testId)=>{
+    try{
+        if(testId!==undefined && testId!==0){
+            const response = await axiosPrivate.get(`/tests/${testId}/questions`);
+            return response.data;
+        }else{
+            throw new Error("Did not provide id of test");
+        }
+    }catch(err){
+        console.error("Error with retrieving student: " + err);
+        throw err;
+    }
+}

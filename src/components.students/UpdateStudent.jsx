@@ -211,7 +211,7 @@ const UpdateStudent = () => {
                 </select>
               </div>
               <div className='div-list-exams'>
-                <button className='addStudentToExams' onClick={(e)=>addExams(e)}><BsArrowLeft /></button>
+                <button className='btn-add-student-exam' onClick={(e)=>addExams(e)}><BsArrowLeft /></button>
                 <button className='btn-remove-student-exam'onClick={(e)=>removeExams(e)}><BsArrowRight /></button>
               </div>
               <div className='div-list-exams'>

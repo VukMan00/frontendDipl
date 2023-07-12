@@ -134,7 +134,7 @@ input{
 }
 
 #passwordErr,#emailErr,#firstnameErr,#lastnameErr,#indexErr,#birthErr,#registrationTokenErr,
-#contentErr,#oldPasswordErr,#newPasswordErr,#confirmNewPasswordErr{
+#contentErr,#oldPasswordErr,#newPasswordErr,#confirmNewPasswordErr,#pointsErr{
   background: none;
   border: none;
   color:red;
@@ -334,33 +334,36 @@ th{
   justify-content: space-evenly;
 }
 
-.btn-remove-student-exam{
+.btn-remove-student-exam,
+#btn-remove-question-test{
   margin-top: 3px;
   border-radius: 20px;
   cursor: pointer;
 }
 
 .btn-remove-student-exam:hover,
-.addStudentToExams:hover{
+.btn-add-student-exam:hover,
+#btn-add-question-test:hover,
+#btn-remove-question-test:hover{
   background-color: grey;
   color:white;
   transition: background-color 0.5s linear 0.1s;
   box-shadow: 0 5px 15px rgba(0,0,0,0.6);
 }
 
-.listOfExams{
+.listOfExams,.listOfQuestions{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
 
-.div-list-exams{
+.div-list-exams,.div-list-questions{
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 }
 
-.addStudentToExams{
+.btn-add-student-exam,#btn-add-question-test{
   border-radius: 20px;
   margin-top: 40px;
   border-radius: 20px;
@@ -376,5 +379,48 @@ th{
   margin-top: 5px;
   color:black;
   background-color: white;
+}
+
+.btn-confirm{
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+#btn-save-test,
+#link-add-question-test{
+  height: 25px;
+  width: auto;
+  border-radius: 8px;
+  border: 2px solid black;
+  background-color: aliceblue;
+  color: saddlebrown;
+  cursor: pointer;
+  margin:20px 5px 5px 5px;
+  box-sizing: border-box;
+  font-size: medium;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#btn-save-test:hover,
+#link-add-question-test:hover{
+  background-color: #FF8000;
+  color: aliceblue;
+  transition: background-color 0.5s linear 0.1s;
+}
+
+#btn-unselectAll{
+  margin-top: 5px;
+  width: auto;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+#btn-unselectAll:hover{
+  background-color: grey;
+  color:white;
+  transition: background-color 0.5s linear 0.1s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
 }
 

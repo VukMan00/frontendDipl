@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { createTest, saveQuestionTest} from '../services/TestService';
+import { Link, Outlet, useLocation, useNavigate} from 'react-router-dom';
+import { createTest} from '../services/TestService';
 import { getQuestions } from '../services/QuestionService';
 import { validationTest } from '../validation/ValidationHandler';
 
-const CreateTest = ({questionsTest}) => {
+const CreateTest = () => {
 
   const[professor] = useState({
     "id":window.localStorage.getItem("id"),
@@ -21,6 +21,7 @@ const CreateTest = ({questionsTest}) => {
   const[questions,setQuestions] = useState([]);
   const[questionsForPoints,setQuestionsForPoints] = useState([]);
   const[selectedQuestions,setSelectedQuestions]=useState([]);
+  const[testId,setTestId]=useState(0);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -49,24 +50,12 @@ const CreateTest = ({questionsTest}) => {
     e.preventDefault();
     try{
       const response = await createTest(test);
-      addQuestionsTest(response.id);  
+      setTestId(response.id);
+      document.getElementById('textAlert').innerHTML = "Sistem je zapamtio test";
+      document.getElementById("alert").style.visibility='visible';
     }catch(error){
       console.log(error);
       validation(error);
-    }
-  }
-
-  const addQuestionsTest = async(id)=>{
-    try{
-      if(questionsTest.length!==0){
-        await saveQuestionTest(questionsTest,id);
-      }
-      document.getElementById('textAlert').innerHTML = 'Sistem je zapamtio test';
-      document.getElementById("alert").style.visibility = 'visible';
-    }catch(error){
-      console.log(error);
-      document.getElementById('textAlert').innerHTML = 'Sistem ne moze da zapamti pitanja u test';
-      document.getElementById("alert").style.visibility = 'visible';
     }
   }
 
@@ -79,14 +68,14 @@ const CreateTest = ({questionsTest}) => {
   const handleSelectQuestions = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
     setSelectedQuestions(selectedOptions);
+
     const filteredQuestionForPoints = questions.filter(question=>selectedOptions.includes(question.id.toString()));
     setQuestionsForPoints(filteredQuestionForPoints);
   };
 
-  function potvrdi(e){
-    e.preventDefault();
+  function potvrdi(){
     document.getElementById('alert').style.visibility = 'hidden';
-    if(document.getElementById('textAlert').innerHTML === "Sistem je zapamtio test" || document.getElementById('textAlert').innerHTML === "Sistem ne moze da zapamti pitanja u test"){
+    if(document.getElementById("textAlert").innerHTML==="Sistem je zapamtio test"){
       navigate("/tests");
     }
   }
@@ -94,6 +83,11 @@ const CreateTest = ({questionsTest}) => {
   function cancel(e){
     e.preventDefault();
     navigate("/tests");
+  }
+
+  function unSelectAll(e){
+    e.preventDefault();
+    setSelectedQuestions([]);
   }
 
   function validation(error){
@@ -123,7 +117,7 @@ const CreateTest = ({questionsTest}) => {
           <option>Sistem ne moze da ucita pitanja</option>
         }
         </select>
-        <Link to={"addQuestionTest"} className='btn-add-question-test' state={{questionsForPoints:questionsForPoints}}>Unesi broj poena pitanjima</Link>
+        <button id="btn-unselectAll" onClick={(e) => unSelectAll(e)}>Ponisti izbor pitanja</button>
         <div className='button'>
             <input type="submit" name="saveTest" id="btn-save" value="Sacuvaj"/>
             <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
@@ -137,7 +131,10 @@ const CreateTest = ({questionsTest}) => {
                 </div>
                 <div className="sadrzaj">
                     <p id="textAlert">Sistem je zapamtio test</p>
-                    <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
+                    <div className="btn-confirm">
+                      <Link id="link-add-question-test" to={testId!==0 && testId!==undefined && questionsForPoints.length!==0 ? "addQuestionTest" : ""} state={{questionsForPoints:questionsForPoints,testId:testId}} onClick={()=>potvrdi()}>Ubaci pitanja</Link>
+                      <button id="btn-save-test" onClick={(e)=>potvrdi(e)}>OK</button>
+                    </div>
                 </div>
             </div>
       </div>

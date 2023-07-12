@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getQuestionsFromTest, getTest } from '../services/TestService';
+import { getQuestions } from '../services/QuestionService';
+import {BsArrowLeft,BsArrowRight} from 'react-icons/bs';
+import { validationTest } from '../validation/ValidationHandler';
 
 const UpdateTest = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -14,18 +18,53 @@ const UpdateTest = () => {
     'content':''
   });
 
+  const[questionsTest,setQuestionsTest]=useState([]);
+  const[selectedQuestionsTest,setSelectedQuestionsTest]=useState([]);
+  const[questions,setQuestions]=useState([]);
+
   useEffect(()=>{
-    const getTest = async()=>{
+    let isMounted = true;
+    const controller = new AbortController();
+    const getAllQuestions = async()=>{
       try{
-        console.log(testId);
-        const response = await axiosPrivate.get(`/tests/${testId}`);
-        setUpdatedTest(response.data);
+        const response = await getQuestions(controller);
+        isMounted && setQuestions(response);
+      }catch(err){
+        console.error(err);
+        localStorage.clear();
+        navigate('/login',{state:{from:location},replace:true});
+      }
+    }
+    getAllQuestions();
+    return ()=>{
+      isMounted = false;
+      isMounted && controller.abort();
+    }
+  },[axiosPrivate,location,navigate]) 
+
+  useEffect(()=>{
+    const retrieveTest = async()=>{
+      try{
+        const response = await getTest(testId);
+        setUpdatedTest(response);
       }catch(e){
         console.log(e);
       }
     }
-    getTest();
-  },[axiosPrivate,testId])
+    retrieveTest();
+  },[testId])
+
+  useEffect(()=>{
+    const retrieveQuestionsFromTest = async()=>{
+      try{
+        const response = await getQuestionsFromTest(testId);
+        setQuestionsTest(response);
+      }catch(e){
+        console.log(e);
+      }
+    }
+    retrieveQuestionsFromTest();
+  },[testId])
   
   const updateTest = async(e)=>{
     e.preventDefault();
@@ -40,28 +79,36 @@ const UpdateTest = () => {
     }
   }
 
+  function handleSelectQuestionsTest(e){
+    e.preventDefault();
+    //DEFINISI
+  }
+
+  function handleSelectQuestions(e){
+    e.preventDefault();
+    //DEFINISI
+  }
+
   function handleInput(e){
     let newTest = updatedTest;
     newTest[e.target.name] = e.target.value;
     setUpdatedTest(newTest);
   }
 
-  function validation(e){
-    if(e.response.data.message.content!==undefined){
-      document.getElementById('contentErr').style.visibility = 'visible';
-      document.getElementById('contentErr').value = e.response.data.message.name;
-    }
-    else{
-      document.getElementById("contentErr").style.visibility='hidden';
-    }
-    if(e.response.data.message.error!==undefined){
-      document.getElementById('alert').style.visibility = 'visible';
-      document.getElementById('textAlert').innerHTML = e.response.data.message.error;
-    }
-    else{
-      document.getElementById('textAlert').innerHTML = "Student je uspesno sacuvan!";
-      document.getElementById('alert').style.visibility = 'hidden';
-    }
+  function addQuestions(e){
+    e.preventDefault();
+    //DEFINISI
+  }
+
+  function removeQuestions(e){
+    e.preventDefault();
+    //DEFINISI
+  }
+
+  function validation(error){
+    document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti test";
+    document.getElementById('alert').style.visibility = 'visible';
+    validationTest(error,document.getElementById('contentErr'));
   }
 
   function potvrdi(e){
@@ -84,6 +131,45 @@ const UpdateTest = () => {
           <label htmlFor="content">Naziv testa</label>
           <input type="text" name="content" placeholder='Unesite naziv testa' defaultValue={updatedTest.content} onInput={(e)=>handleInput(e)}/>
           <input type="text" name="contentErr" id="contentErr" readOnly/>
+          <div className='listOfQuestions'>
+            <div className='div-list-questions'>
+              <label htmlFor="testQuestions">Pitanja testa: </label>
+              <select name="testQuestions" id="selectionOption" multiple value={selectedQuestionsTest} onChange={(e)=>handleSelectQuestionsTest(e)}>
+                  {questionsTest?.length
+                  ?(
+                  <>
+                    {questionsTest.map((questionTest,i)=>
+                    <option key={i} value={questionTest?.questionTestPK} style={{fontFamily:'cursive'}}>{questionTest?.question?.content}</option>
+                    )}
+                  </>
+                )
+                :
+                <option style={{color:'red'}}>Sistem ne moze da ucita pitanja testa</option>
+                }
+              </select>
+            </div>
+            <div className='div-list-questions'>
+                <button id='btn-add-question-test' onClick={(e)=>addQuestions(e)}><BsArrowLeft /></button>
+                <button id='btn-remove-question-test'onClick={(e)=>removeQuestions(e)}><BsArrowRight /></button>
+              </div>
+            <div className='div-list-questions'>
+              <label htmlFor="testQuestions">Dostupna pitanja: </label>
+              <select name="testQuestions" id="selectionOption" multiple value={selectedQuestionsTest} onChange={(e)=>handleSelectQuestions(e)}>
+                  {questions?.length
+                  ?(
+                  <>
+                    {questions.map((question,i)=>
+                    <option key={i} value={question?.id} style={{fontFamily:'cursive'}}>{question?.content}</option>
+                    )}
+                  </>
+                )
+                :
+                <option style={{color:'red'}}>Sistem ne moze da ucita pitanja</option>
+                }
+              </select>
+            </div>
+          </div>
+          <Link to={"addQuestionTest"} className='btn-add-question-test'>Unesi broj poena pitanjima</Link>
           <div className='button'>
               <input type="submit" name="saveTest" id="btn-save" value="Sacuvaj"/>
               <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>

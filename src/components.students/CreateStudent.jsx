@@ -89,6 +89,11 @@ const CreateStudent = () => {
     navigate("/students");
   }
 
+  function unSelectAll(e){
+    e.preventDefault();
+    setSelectedExams([]);
+  }
+
   function validation(error){
     document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti studenta";
     document.getElementById('alert').style.visibility = 'visible';
@@ -131,6 +136,7 @@ const CreateStudent = () => {
           <option>Sistem ne moze da ucita polaganja</option>
         }
         </select>
+        <button id="btn-unselectAll" onClick={(e) => unSelectAll(e)}>Ponisti izbor polaganja</button>
           <div className='button'>
             <input type="submit" name="saveStudent" id="btn-save" value="Sacuvaj"/>
             <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
