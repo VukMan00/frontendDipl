@@ -2,28 +2,33 @@ import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { saveQuestionTest } from '../services/TestService';
 
-const AddQuestionTest = () => {
+const AddQuestionTest = ({getQuestionsTest}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const questionsForPoints = location.state?.questionsForPoints;
     const testId = location.state?.testId;
+    const updatedTest = location.state?.updatedTest;
     
     const[arrayQuestionTest,setArrayQuestionTest] = useState([]);
 
     function handleInput(e,question,i){
         if(e.target.value>0 && e.target.value<100){
             const questionPoints={
-                "questionId":question.id,
-                "content":question.content,
+                "questionTestPK":{
+                    "questionId":question?.questionTestPK?.questionId===undefined ? question?.id : question?.questionTestPK?.questionId,
+                    "testId":testId
+                },
+                "question": question.question===undefined ? question : question?.question,
+                "test":updatedTest!==undefined ? updatedTest : undefined,
                 "points":e.target.value!==undefined ? e.target.value : 0
             }
             arrayQuestionTest[i] = questionPoints;
+            questionsForPoints[i].points = questionPoints?.points;
             setArrayQuestionTest(arrayQuestionTest);
         }
         else{
             arrayQuestionTest[i] = null;
         }
-
         const filterQuestion = arrayQuestionTest.filter(question=>question==null);
         if(filterQuestion.length>0){
             document.getElementById('pointsErr').value = "Broj poena mora biti u intervalu od 0 do 100";
@@ -34,19 +39,30 @@ const AddQuestionTest = () => {
         }
     }
     
-
     const addQuestionTest = async(e)=>{
         e.preventDefault();
         if(document.getElementById('pointsErr').style.visibility === 'hidden'){
-            const response = await saveQuestionTest(arrayQuestionTest,testId);
-            console.log(response);
-            navigate("/tests");
+            if(updatedTest===undefined){
+                const response = await saveQuestionTest(arrayQuestionTest);
+                console.log(response);
+                navigate("/tests");
+            }
+            else{
+                console.log(questionsForPoints);
+                getQuestionsTest(questionsForPoints);
+                navigate(-1);
+            }
         }
     }
 
     function cancel(e){
         e.preventDefault();
-        navigate("/tests");
+        if(updatedTest===undefined){
+            navigate("/tests");
+        }
+        else{
+            navigate(-1);
+        }
     }
 
     return (
@@ -57,8 +73,8 @@ const AddQuestionTest = () => {
             <>
               {questionsForPoints.map((question,i)=>
               <div>
-                {question?.content}
-                <input key={question?.id} name='points' placeholder='Unesite broj poena pitanja' style={{marginLeft:'10px'}} onChange={(e)=>handleInput(e,question,i)}/>
+                {question?.content || question?.question?.content}
+                <input key={question?.id || question?.questionTestPK?.questionId} name='points' defaultValue={question?.points} placeholder='Unesite broj poena pitanja' style={{marginLeft:'10px'}} onChange={(e)=>handleInput(e,question,i)}/>
               </div>
               )}
             </>

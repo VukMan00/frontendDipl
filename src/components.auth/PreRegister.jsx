@@ -44,7 +44,7 @@ const PreRegister = () => {
   return (
     <div className='register'>
         <div className="register-div">
-            <form className="register-for" onSubmit={preRegister}>
+            <form className="register-form" onSubmit={preRegister}>
                 <label htmlFor="recipient">Email</label>
                 <input type="text" name="recipient" placeholder='Unesite email' onInput={(e)=>handleInput(e)} style={{marginLeft: 10}}/>
                 <input type="text" name="emailErr" id="emailErr" readOnly/>

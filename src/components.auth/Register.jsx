@@ -22,7 +22,7 @@ const Register = () => {
         try{
             const response = await register(registerMember);
             console.log(response);
-            if(response.data.message!=="Student je uspesno registrovan"){
+            if(response.message==="Student je uspesno registrovan"){
                 document.getElementById('registrationTokenErr').style.visibility = 'hidden';
                 localStorage.clear();
                 document.getElementById("textAlert").innerHTML = "Sistem je registrovao korisnika";

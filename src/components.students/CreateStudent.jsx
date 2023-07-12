@@ -47,12 +47,12 @@ const CreateStudent = () => {
     e.preventDefault();
     try{
       const response = await createStudent(student);
-      insertStudentToExam(response.data.id);
+      insertStudentToExam(response.id);
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio studenta";
       document.getElementById('alert').style.visibility = 'visible';
-    }catch(e){
-      console.log(e);
-      validation(e);
+    }catch(error){
+      console.log(error);
+      validation(error);
     }
   }
 

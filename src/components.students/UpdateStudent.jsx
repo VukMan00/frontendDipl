@@ -84,15 +84,14 @@ const UpdateStudent = () => {
         await deleteStudentFromExams(filteredRemoveExams,studentId);
       }
       updatedStudent.results = setResultsOfStudent();
-      console.log(updatedStudent);
       const response = await updateStudent(updatedStudent);
       console.log(response);
 
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio studenta";
       document.getElementById('alert').style.visibility = 'visible';
-    }catch(e){
-      console.log(e);
-      validation(e);
+    }catch(err){
+      console.log(err);
+      validation(err);
     }
   }
 
@@ -135,7 +134,6 @@ const UpdateStudent = () => {
 
   const handleSelectExamsForAdd = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    console.log(selectedOptions);
     setSelectedExamsForAdd(selectedOptions);
   };
 

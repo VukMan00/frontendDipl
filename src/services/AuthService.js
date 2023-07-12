@@ -67,7 +67,7 @@ export const emailPreRegister = async(email)=>{
 export const register = async(registerData)=>{
     try{
         const response = await axios.post("/auth/register",registerData);
-        return response;
+        return response.data;
     }catch(err){
         console.error("Error with registration: " + err);
         throw err;

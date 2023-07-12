@@ -384,7 +384,7 @@ th{
 .btn-confirm{
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 #btn-save-test,

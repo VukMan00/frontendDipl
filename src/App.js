@@ -21,6 +21,7 @@ import Missing from './components.auth/Missing';
 import ChangePassword from './components.auth/ChangePassword';
 import OptionExam from './components.options/OptionExam';
 import AddQuestionTest from './components.questiontest/AddQuestionTest';
+import { useState } from 'react';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -28,6 +29,12 @@ const ROLES={
 }
 
 function App() {
+  const[newQuestionsTest,setNewQuestionsTest]=useState([]);
+
+  function getQuestionsTest(questionsTest){
+    setNewQuestionsTest(questionsTest);
+  }
+
   return (
     <>
     <NavBar />
@@ -48,7 +55,9 @@ function App() {
                 <Route path={"createTest"} element={<CreateTest />}>
                   <Route path={"addQuestionTest"} element={<AddQuestionTest />}/>
                 </Route>
-                <Route path={"updateTest"} element={<UpdateTest />}/>
+                <Route path={"updateTest"} element={<UpdateTest newQuestionsTest={newQuestionsTest}/>}>
+                  <Route path={"addQuestionTest"} element={<AddQuestionTest getQuestionsTest={getQuestionsTest}/>}/>
+                </Route>
                 <Route path={"deleteTest"} element={<DeleteTest />} />
               </Route>
             </Route>
