@@ -114,3 +114,34 @@ export const validationTest = async(e,contentErr)=>{
         contentErr.style.visibility='hidden';
       }
 }
+
+export const validationExam = async(e,nameErr,amphitheaterErr,dateExamErr,testErr)=>{
+    if(e.response.data.message.name!==undefined){
+        nameErr.style.visibility = 'visible';
+        nameErr.value = e.response.data.message.name;
+    }
+    else{
+        nameErr.style.visibility='hidden';
+    }
+    if(e.response.data.message.amphitheater!==undefined){
+        amphitheaterErr.style.visibility = 'visible';
+        amphitheaterErr.value = e.response.data.message.amphitheater;
+    }
+    else{
+        amphitheaterErr.style.visibility='hidden';
+    }
+    if(e.response.data.message.date!==undefined){
+        dateExamErr.style.visibility = 'visible';
+        dateExamErr.value = e.response.data.message.date;
+    }
+    else{
+        dateExamErr.style.visibility='hidden';
+    }
+    if(e.response.data.message.test!==undefined){
+        testErr.style.visibility = 'visible';
+        testErr.value = e.response.data.message.test;
+    }
+    else{
+        testErr.style.visibility='hidden';
+    }
+}

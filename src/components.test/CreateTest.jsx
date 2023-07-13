@@ -34,6 +34,7 @@ const CreateTest = () => {
         const response = await getQuestions(controller);
         isMounted && setQuestions(response);
       }catch(err){
+        localStorage.clear();
         console.error(err);
         navigate('/login',{state:{from:location},replace:true});
       }
@@ -132,7 +133,7 @@ const CreateTest = () => {
                 <div className="sadrzaj">
                     <p id="textAlert">Sistem je zapamtio test</p>
                     <div className="btn-confirm">
-                      <Link id="link-add-question-test" to={testId!==0 && testId!==undefined && questionsForPoints.length!==0 ? "addQuestionTest" : ""} state={{questionsForPoints:questionsForPoints,testId:testId}} onClick={()=>potvrdi()}>Ubaci pitanja</Link>
+                      <Link id="link-add-question-test" to={testId!==0 && testId!==undefined && questionsForPoints.length!==0 ? "addQuestionTest" : "tests"} state={{questionsForPoints:questionsForPoints,testId:testId}} onClick={()=>potvrdi()}>Ubaci pitanja</Link>
                       <button id="btn-save-test" onClick={(e)=>potvrdi(e)}>OK</button>
                     </div>
                 </div>

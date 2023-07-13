@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getExams } from '../services/ExamService';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 const GetExams = (getCheckedId) => {
 
-  const[exams,setExams] = useState();
+  const axiosPrivate = useAxiosPrivate();
+  const[exams,setExams] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -16,8 +18,8 @@ const GetExams = (getCheckedId) => {
     const getAllExams = async()=>{
       try{
         const response = await getExams(controller);
-        isMounted && setExams(response.data);
-
+        console.log(response);
+        isMounted && setExams(response);
       }catch(err){
         console.error(err);
         localStorage.clear();
@@ -25,12 +27,11 @@ const GetExams = (getCheckedId) => {
       }
     }
     getAllExams();
-
     return ()=>{
       isMounted = false;
       isMounted && controller.abort();
     }
-  },[location,navigate])
+  },[axiosPrivate,location,navigate])
 
   const handleCheck = (event)=>{
     var updatedList = [...checked];
@@ -82,8 +83,8 @@ const GetExams = (getCheckedId) => {
             </tr>
           </thead>
           <tbody>
-        {exams?.length
-          ? (
+          {exams?.length
+            ? (
             <>
               {exams.map((exam,i)=>
               <tr key={i}>
@@ -97,7 +98,7 @@ const GetExams = (getCheckedId) => {
           )
           :
           <></>
-        }
+          }
           </tbody>
         </table>
         <div id="alertGet">

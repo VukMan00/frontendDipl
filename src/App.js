@@ -22,6 +22,9 @@ import ChangePassword from './components.auth/ChangePassword';
 import OptionExam from './components.options/OptionExam';
 import AddQuestionTest from './components.questiontest/AddQuestionTest';
 import { useState } from 'react';
+import CreateExam from './components.exams/CreateExam';
+import UpdateExam from './components.exams/UpdateExam';
+import DeleteExam from './components.exams/DeleteExam';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -63,12 +66,13 @@ function App() {
             </Route>
             <Route path={"exams"} element={<OptionExam />}>
               <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
+                <Route path={'createExam'} element={<CreateExam />} />
+                <Route path={'updateExam'} element={<UpdateExam />}/>
+                <Route path={'deleteExam'} element={<DeleteExam />}/>
               </Route>
             </Route>
           </Route>
-
           <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
-             {/* STAVLJAS RUTE KOJIM SAMO ADMIN MOZE DA PRISTUPI */}
              <Route path={"students"} element={<OptionStudent />}>
                 <Route path={"createStudent"} element={<CreateStudent />}/>
                 <Route path={"updateStudent"} element={<UpdateStudent />}/>

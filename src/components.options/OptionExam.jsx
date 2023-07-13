@@ -14,8 +14,8 @@ import { Link, Outlet } from 'react-router-dom';
     <div className='option'>
       <div className="options-entity">
         <Link className="linkOption" to="createExam">Kreiraj polaganje</Link>
-        <Link className='linkOption' to={examId!==undefined && examId!==0 ? "updateExam" : ""} state={{examId:examId}}>Azuriraj polaganje</Link>
-        <Link className='linkOption' to={examId!==undefined && examId!==0 ? "deleteExam" : ""} state={{examId:examId}}>Obrisi polaganje</Link>
+        <Link className='linkOption' to={"updateExam"} state={{examId:examId}}>Azuriraj polaganje</Link>
+        <Link className='linkOption' to={"deleteExam"} state={{examId:examId}}>Obrisi polaganje</Link>
       </div>
       <div className="tableExams">
         <GetExams getCheckedId={getCheckedId}/>

@@ -134,7 +134,8 @@ input{
 }
 
 #passwordErr,#emailErr,#firstnameErr,#lastnameErr,#indexErr,#birthErr,#registrationTokenErr,
-#contentErr,#oldPasswordErr,#newPasswordErr,#confirmNewPasswordErr,#pointsErr{
+#contentErr,#oldPasswordErr,#newPasswordErr,#confirmNewPasswordErr,#pointsErr,
+#nameErr,#amphitheaterErr,#dateExamErr,#testErr{
   background: none;
   border: none;
   color:red;
