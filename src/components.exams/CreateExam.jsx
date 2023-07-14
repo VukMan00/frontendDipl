@@ -77,7 +77,6 @@ const CreateExam = () => {
     setSelectedTest(event.target.value);
     const filteredTest = tests.filter(test=>test.id.toString()===event.target.value);
     if(filteredTest.length!==0){
-      console.log("Usao sam ovde");
       setTest(filteredTest[0]);
     }
   }

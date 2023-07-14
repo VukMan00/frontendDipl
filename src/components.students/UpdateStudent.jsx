@@ -6,8 +6,8 @@ import { getExams } from '../services/ExamService';
 import {BsArrowLeft,BsArrowRight} from 'react-icons/bs';
 
 const UpdateStudent = () => {
+  
   const navigate = useNavigate();
-
   const location = useLocation();
   const studentId = location.state?.studentId;
   
@@ -175,7 +175,7 @@ const UpdateStudent = () => {
     return (
       <div className='update'>
         <div className="update-div" id='update-div'>
-          <form className="update-form" onSubmit={ saveUpdatedStudent}>
+          <form className="update-form" onSubmit={saveUpdatedStudent}>
             <label htmlFor="name">Ime</label>
             <input type="text" name="name" placeholder='Unesite ime' defaultValue={updatedStudent.name} onInput={(e)=>handleInput(e)}/>
             <input type="text" name="firstnameErr" id="firstnameErr" readOnly/>

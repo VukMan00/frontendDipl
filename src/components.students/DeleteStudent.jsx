@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { deleteStudent, getStudent } from '../services/StudentService';
 
 const DeleteStudent = () => {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const location = useLocation();
   const studentId = location.state?.studentId;
 
@@ -71,7 +71,6 @@ const DeleteStudent = () => {
     navigate("/students");
   }
 
-  console.log(studentId);
   if(studentId!==undefined && studentId!==0){
   return (
     <div className='delete'>

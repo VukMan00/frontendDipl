@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getExams } from '../services/ExamService';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
-const GetExams = (getCheckedId) => {
+const GetExams = ({getCheckedId}) => {
 
   const axiosPrivate = useAxiosPrivate();
   const[exams,setExams] = useState([]);
