@@ -24,25 +24,42 @@ body{
 #btn-goBack,
 #btn-save,
 #prepareDelete,
+#btn-add-answer,
+#btn-remove-answer,
 #cancel,
-#btn-changePassword{
+#btn-changePassword,
+#btn-unselectAll{
   width: auto;
+  height: auto;
   cursor: pointer;
+  background-color: white;
+  color: black;
+  text-decoration: none;
   margin-top: 15px;
+  font-family: cursive;
+  font-size: 14px;
+  border: 2px solid black;
 }
 
-#cancel,#prepareDelete{
+#btn-add-answer,#btn-remove-answer,#cancel,#prepareDelete,#btn-unselectAll{
   border-radius: 20px;
+}
+
+#btn-unselectAll{
+  margin-top: 5px;
 }
 
 #btn-login:hover,
 #btn-register:hover,
 #btn-goBack:hover,
 #btn-save:hover,
+#btn-add-answer:hover,
+#btn-remove-answer:hover,
 #prepareDelete:hover,
 #cancel:hover,
 #btn-changePassword,
-.btn-add-question-test:hover{
+.btn-add-question-test:hover,
+#btn-unselectAll:hover{
   background-color: grey;
   color:white;
   transition: background-color 0.5s linear 0.1s;
@@ -135,7 +152,7 @@ input{
 
 #passwordErr,#emailErr,#firstnameErr,#lastnameErr,#indexErr,#birthErr,#registrationTokenErr,
 #contentErr,#oldPasswordErr,#newPasswordErr,#confirmNewPasswordErr,#pointsErr,
-#nameErr,#amphitheaterErr,#dateExamErr,#testErr{
+#nameErr,#amphitheaterErr,#dateExamErr,#testErr,#answerContentErr{
   background: none;
   border: none;
   color:red;
@@ -292,7 +309,7 @@ label{
   justify-content: space-between;
 }
 
-.tableStudents,.tableTests,.tableExams{
+.tableStudents,.tableTests,.tableExams,.tableQuestions{
   border: 2px solid black;
   position: absolute;
   top: 70%;
@@ -389,6 +406,7 @@ th{
 }
 
 #btn-save-test,
+#btn-save-question,
 #link-add-question-test{
   height: 25px;
   width: auto;
@@ -405,23 +423,12 @@ th{
 }
 
 #btn-save-test:hover,
+#btn-save-question:hover,
 #link-add-question-test:hover{
   background-color: #FF8000;
   color: aliceblue;
   transition: background-color 0.5s linear 0.1s;
 }
 
-#btn-unselectAll{
-  margin-top: 5px;
-  width: auto;
-  border-radius: 20px;
-  cursor: pointer;
-}
 
-#btn-unselectAll:hover{
-  background-color: grey;
-  color:white;
-  transition: background-color 0.5s linear 0.1s;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
-}
 

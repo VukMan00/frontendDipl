@@ -101,8 +101,8 @@ const CreateTest = () => {
     <div className='create'>
       <div className="create-div">
         <form className="create-form" onSubmit={saveTest}>
-          <label htmlFor="content">Ime</label>
-          <input type="text" name="content" placeholder='Unesite ime' onInput={(e)=>handleInput(e)}/>
+          <label htmlFor="content">Naziv</label>
+          <input type="text" name="content" placeholder='Unesite naziv' onInput={(e)=>handleInput(e)}/>
           <input type="text" name="contentErr" id="contentErr" readOnly/>
           <label htmlFor="questions">Ubacite pitanja u test:</label>
           <select name="questions" id="selectionOption" multiple value={selectedQuestions} onChange={(e)=>handleSelectQuestions(e)}>
@@ -115,7 +115,7 @@ const CreateTest = () => {
             </>
           )
           :
-          <option>Sistem ne moze da ucita pitanja</option>
+          <option style={{color:'red'}}>Sistem ne moze da ucita pitanja</option>
         }
         </select>
         <button id="btn-unselectAll" onClick={(e) => unSelectAll(e)}>Ponisti izbor pitanja</button>
@@ -132,10 +132,18 @@ const CreateTest = () => {
                 </div>
                 <div className="sadrzaj">
                     <p id="textAlert">Sistem je zapamtio test</p>
-                    <div className="btn-confirm">
-                      <Link id="link-add-question-test" to={testId!==0 && testId!==undefined && questionsForPoints.length!==0 ? "addQuestionTest" : "tests"} state={{questionsForPoints:questionsForPoints,testId:testId}} onClick={()=>potvrdi()}>Ubaci pitanja</Link>
-                      <button id="btn-save-test" onClick={(e)=>potvrdi(e)}>OK</button>
-                    </div>
+                    {questionsForPoints.length!==0 ? (
+                      <div className="btn-confirm">
+                        <Link id="link-add-question-test" to={testId!==0 && testId!==undefined && questionsForPoints.length!==0 ? "addQuestionTest" : "tests"} state={{questionsForPoints:questionsForPoints,testId:testId}} onClick={()=>potvrdi()}>Ubaci pitanja</Link>                        
+                        <button id="btn-save-question" onClick={(e)=>potvrdi(e)}>OK</button>
+                      </div>
+                      ):
+                      (
+                      <div className="btn-confirm">
+                        <button id="btn-save-question" onClick={(e)=>potvrdi(e)}>OK</button>
+                      </div> 
+                      )
+                    }
                 </div>
             </div>
       </div>

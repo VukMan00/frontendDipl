@@ -25,6 +25,9 @@ import { useState } from 'react';
 import CreateExam from './components.exams/CreateExam';
 import UpdateExam from './components.exams/UpdateExam';
 import DeleteExam from './components.exams/DeleteExam';
+import OptionQuestion from './components.options/OptionQuestion';
+import CreateQuestion from './components.questions/CreateQuestion';
+import AddAnswer from './components.answers/AddAnswer';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -33,10 +36,20 @@ const ROLES={
 
 function App() {
   const[newQuestionsTest,setNewQuestionsTest]=useState([]);
+  const[answers,setAnswers]=useState([]);
 
   function getQuestionsTest(questionsTest){
     setNewQuestionsTest(questionsTest);
   }
+
+  function getAnswers(newAnswers){
+    setAnswers(newAnswers);
+  }
+
+  function refreshAnswers(){
+    setAnswers([]);
+  }
+
 
   return (
     <>
@@ -77,6 +90,12 @@ function App() {
                 <Route path={"createStudent"} element={<CreateStudent />}/>
                 <Route path={"updateStudent"} element={<UpdateStudent />}/>
                 <Route path={"deleteStudent"} element={<DeleteStudent />} />
+             </Route>
+             <Route path={"questions"} element={<OptionQuestion refreshAnswers={refreshAnswers} />}>
+                <Route path={"createQuestion"} element={<CreateQuestion newAnswers={answers}/>}>
+                  <Route path={"addQuestionTest"} element={<AddQuestionTest />}/>
+                  <Route path={"addAnswer"} element={<AddAnswer getAnswers={getAnswers}/>} />
+                </Route>
              </Route>
           </Route>
           {/* CATH ALL, WHEN REQUEST ROUTE DOESN'T EXIST */}

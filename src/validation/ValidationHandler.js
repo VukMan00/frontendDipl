@@ -145,3 +145,13 @@ export const validationExam = async(e,nameErr,amphitheaterErr,dateExamErr,testEr
         testErr.style.visibility='hidden';
     }
 }
+
+export const validationQuestion = async(e,contentErr)=>{
+    if(e.response.data.message.content!==undefined){
+        contentErr.style.visibility = 'visible';
+        contentErr.value = e.response.data.message.content;
+    }
+    else{
+        contentErr.style.visibility='hidden';
+    }
+}

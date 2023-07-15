@@ -5,22 +5,40 @@ import { saveQuestionTest } from '../services/TestService';
 const AddQuestionTest = ({getQuestionsTest}) => {
     const navigate = useNavigate();
     const location = useLocation();
+    const pathName = location?.pathname;
+
     const questionsForPoints = location.state?.questionsForPoints;
     const testId = location.state?.testId;
     const updatedTest = location.state?.updatedTest;
+    const questionId = location.state?.questionId;
+    const updatedQuestion = location.state?.updatedQuestion;
     
     const[arrayQuestionTest,setArrayQuestionTest] = useState([]);
 
-    function handleInput(e,question,i){
+    function handleInput(e,questionTest,i){
         if(e.target.value>0 && e.target.value<100){
-            const questionPoints={
-                "questionTestPK":{
-                    "questionId":question?.questionTestPK?.questionId===undefined ? question?.id : question?.questionTestPK?.questionId,
-                    "testId":testId
-                },
-                "question": question.question===undefined ? question : question?.question,
-                "test":updatedTest!==undefined ? updatedTest : undefined,
-                "points":e.target.value!==undefined ? e.target.value : 0
+            let questionPoints = null;
+            if(questionId===undefined){
+                questionPoints={
+                    "questionTestPK":{
+                        "questionId":questionTest?.questionTestPK?.questionId===undefined ? questionTest?.id : questionTest?.questionTestPK?.questionId,
+                        "testId":testId
+                    },
+                    "question": questionTest.question===undefined ? questionTest : questionTest?.question,
+                    "test":updatedTest!==undefined ? updatedTest : undefined,
+                    "points":e.target.value!==undefined ? e.target.value : 0
+                }
+            }
+            else{
+                questionPoints={
+                    "questionTestPK":{
+                        "questionId":questionId,
+                        "testId":questionTest?.questionTestPK?.testId===undefined ? questionTest?.id : questionTest?.questionTestPK?.testId,
+                    },
+                    "question": updatedQuestion!==undefined ? updatedQuestion : undefined,
+                    "test":questionTest.test===undefined ? questionTest : questionTest?.test,
+                    "points":e.target.value!==undefined ? e.target.value : 0
+                }
             }
             arrayQuestionTest[i] = questionPoints;
             questionsForPoints[i].points = questionPoints?.points;
@@ -29,8 +47,8 @@ const AddQuestionTest = ({getQuestionsTest}) => {
         else{
             arrayQuestionTest[i] = null;
         }
-        const filterQuestion = arrayQuestionTest.filter(question=>question==null);
-        if(filterQuestion.length>0){
+        const filterQuestionTest = arrayQuestionTest.filter(questionTest=>questionTest==null);
+        if(filterQuestionTest.length>0){
             document.getElementById('pointsErr').value = "Broj poena mora biti u intervalu od 0 do 100";
             document.getElementById('pointsErr').style.visibility = 'visible';
         }
@@ -42,10 +60,10 @@ const AddQuestionTest = ({getQuestionsTest}) => {
     const addQuestionTest = async(e)=>{
         e.preventDefault();
         if(document.getElementById('pointsErr').style.visibility === 'hidden'){
-            if(updatedTest===undefined){
+            if(updatedTest===undefined || updatedQuestion===undefined){
                 const response = await saveQuestionTest(arrayQuestionTest);
                 console.log(response);
-                navigate("/tests");
+                pathName.includes("tests/") ? navigate("/tests") : navigate("/questions");
             }
             else{
                 console.log(questionsForPoints);
@@ -57,11 +75,11 @@ const AddQuestionTest = ({getQuestionsTest}) => {
 
     function cancel(e){
         e.preventDefault();
-        if(updatedTest===undefined){
-            navigate("/tests");
+        if(updatedQuestion!==undefined || updatedTest!==null){
+            navigate(-1);
         }
         else{
-            navigate(-1);
+            pathName.includes("tests/") ? navigate("/tests") : navigate("/questions");
         }
     }
 
@@ -71,10 +89,10 @@ const AddQuestionTest = ({getQuestionsTest}) => {
             {questionsForPoints?.length
             ? (
             <>
-              {questionsForPoints.map((question,i)=>
+              {questionsForPoints.map((questionTest,i)=>
               <div>
-                {question?.content || question?.question?.content}
-                <input key={question?.id || question?.questionTestPK?.questionId} name='points' defaultValue={question?.points} placeholder='Unesite broj poena pitanja' style={{marginLeft:'10px'}} onChange={(e)=>handleInput(e,question,i)}/>
+                {questionTest?.content || questionTest?.question?.content || questionTest?.test?.content}
+                <input key={questionTest?.id || questionTest?.questionTestPK?.questionId || questionTest?.questionTestPK?.testId} name='points' defaultValue={questionTest?.points} placeholder='Unesite broj poena pitanja' style={{marginLeft:'10px'}} onChange={(e)=>handleInput(e,questionTest,i)}/>
               </div>
               )}
             </>
