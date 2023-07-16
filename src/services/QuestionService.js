@@ -20,6 +20,16 @@ export const updateQuestion = async(question)=>{
     }
 }
 
+export const deleteQuestion = async(questionId)=>{
+    try{
+        const response = await axiosPrivate.delete(`/questions/${questionId}`);
+        return response.data;
+      }catch(err){
+        console.error("Error deleting question: " + err);
+        throw err
+      }
+}
+
 export const getQuestions = async(controller)=>{
     try{
         const response = await axiosPrivate.get('/questions',{signal : controller.signal});

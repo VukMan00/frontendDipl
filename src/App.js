@@ -48,8 +48,9 @@ function App() {
     setAnswers(newAnswers);
   }
 
-  function refreshAnswers(){
+  function refresh(){
     setAnswers([]);
+    setNewQuestionsTest([]);
   }
 
 
@@ -68,7 +69,7 @@ function App() {
           {/* PROTECTED ROUTES */}
           <Route element={<RequireAuth allowedRoles={[ROLES.User,ROLES.Admin]}/>}>
             <Route path={"/"} element={<MainPage />} />
-            <Route path={"tests"} element={<OptionTest />}>
+            <Route path={"tests"} element={<OptionTest refresh={refresh}/>}>
               <Route element={<RequireAuth allowedRoles={[ROLES.Admin]}/>}>
                 <Route path={"createTest"} element={<CreateTest />}>
                   <Route path={"addQuestionTest"} element={<AddQuestionTest />}/>
@@ -93,7 +94,7 @@ function App() {
                 <Route path={"updateStudent"} element={<UpdateStudent />}/>
                 <Route path={"deleteStudent"} element={<DeleteStudent />} />
              </Route>
-             <Route path={"questions"} element={<OptionQuestion refreshAnswers={refreshAnswers} />}>
+             <Route path={"questions"} element={<OptionQuestion refresh={refresh} />}>
                 <Route path={"createQuestion"} element={<CreateQuestion newAnswers={answers}/>}>
                   <Route path={"addQuestionTest"} element={<AddQuestionTest />}/>
                   <Route path={"addAnswer"} element={<AddAnswer getAnswers={getAnswers}/>} />

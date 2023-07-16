@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import GetTests from '../components.test/GetTests';
 
-const OptionTest = () => {
+const OptionTest = ({refresh}) => {
 
   const[testId,setTestId] = useState(0);
 
@@ -14,7 +14,7 @@ const OptionTest = () => {
     <div className='option'>
       <div className="options-entity">
         <Link className="linkOption" to="createTest">Kreiraj test</Link>
-        <Link className='linkOption' to={"updateTest"} state={{testId:testId}}>Azuriraj test</Link>
+        <Link className='linkOption' to={"updateTest"} state={{testId:testId}} refresh={refresh}>Azuriraj test</Link>
         <Link className='linkOption' to={"deleteTest"} state={{testId:testId}}>Obrisi test</Link>
       </div>
       <div className="tableTests">

@@ -59,45 +59,68 @@ const DeleteTest = () => {
     navigate("/tests");
   }
 
-  return (
-    <div className='delete'>
-      <div className="delete-div" id='delete-div'>
-        <form className="delete-form">
-          <label htmlFor="content">Naziv testa</label>
-          <input type="text" name="content" placeholder='Unesite naziv testa' defaultValue={deletedTest?.content} readOnly/>
-          <div className='button'>
-              <button id='prepareDelete'onClick={(e)=>prepareDelete(e)}>Obrisi</button>
-              <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
+  function potvrdiNotFound(e){
+    e.preventDefault();
+    document.getElementById('alertWrong').style.visibility = 'hidden';
+    navigate('/tests');
+  }
+
+  if(testId!==undefined && testId!==0){
+    return (
+      <div className='delete'>
+        <div className="delete-div" id='delete-div'>
+          <form className="delete-form">
+            <label htmlFor="content">Naziv testa</label>
+            <input type="text" name="content" placeholder='Unesite naziv testa' defaultValue={deletedTest?.content} readOnly/>
+            <div className='button'>
+                <button id='prepareDelete'onClick={(e)=>prepareDelete(e)}>Obrisi</button>
+                <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
+            </div>
+          </form>
+        </div>
+        <div id="alert-delete">
+              <div id="box-delete">
+                <div className="obavestenje-delete">
+                  Upozorenje
+                </div>
+                <div className="sadrzaj-delete">
+                  <p id="textAlert-delete">Da li ste sigurni da zelite da obrisete test?</p>
+                  <div className="button-delete">
+                    <button id="delete" onClick={(e)=>confirmDelete(e)}>Da</button>
+                    <button id="delete" onClick={(e)=>cancel(e)}>Ne</button>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div id="alert">
+              <div id="box">
+                  <div className="obavestenje">
+                      Obaveštenje!
+                  </div>
+                  <div className="sadrzaj">
+                    <p id="textAlert">Sistem je izbrisao test</p>
+                    <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
+                  </div>
+              </div>
+        </div>
+      </div>
+    )
+  }
+  else{
+    return(
+      <div id="alertWrong">
+        <div id="box">
+          <div className="obavestenje">
+              Obaveštenje!
           </div>
-        </form>
-      </div>
-      <div id="alert-delete">
-            <div id="box-delete">
-              <div className="obavestenje-delete">
-                Upozorenje
-              </div>
-              <div className="sadrzaj-delete">
-                <p id="textAlert-delete">Da li ste sigurni da zelite da obrisete test?</p>
-                <div className="button-delete">
-                  <button id="delete" onClick={(e)=>confirmDelete(e)}>Da</button>
-                  <button id="delete" onClick={(e)=>cancel(e)}>Ne</button>
-                </div>
-              </div>
-            </div>
-      </div>
-      <div id="alert">
-            <div id="box">
-                <div className="obavestenje">
-                    Obaveštenje!
-                </div>
-                <div className="sadrzaj">
-                  <p id="textAlert">Sistem je izbrisao test</p>
-                  <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
-                </div>
-            </div>
-      </div>
+          <div className="sadrzaj">
+            <p id="textAlert">Sistem ne moze da ucita test</p>
+            <button id="confirm" onClick={(e)=>potvrdiNotFound(e)}>OK</button>
+          </div>
+        </div>
     </div>
-  )
+    )
+  }
 }
 
 export default DeleteTest

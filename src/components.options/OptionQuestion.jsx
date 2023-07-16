@@ -2,7 +2,7 @@ import React, {useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import GetQuestions from '../components.questions/GetQuestions'
 
-const OptionQuestion = ({refreshAnswers}) => {
+const OptionQuestion = ({refresh}) => {
 
   const[questionId,setQuestionId] = useState(0);
 
@@ -13,8 +13,8 @@ const OptionQuestion = ({refreshAnswers}) => {
   return (
     <div className='option'>
       <div className="options-entity">
-        <Link className="linkOption" to={"createQuestion"} onClick={refreshAnswers}>Kreiraj pitanje</Link>
-        <Link className='linkOption' to={"updateQuestion"} state={{questionId:questionId}}>Azuriraj pitanje</Link>
+        <Link className="linkOption" to={"createQuestion"} onClick={refresh}>Kreiraj pitanje</Link>
+        <Link className='linkOption' to={"updateQuestion"} state={{questionId:questionId}} onClick={refresh}>Azuriraj pitanje</Link>
         <Link className='linkOption' to={"deleteQuestion"} state={{questionId:questionId}}>Obrisi pitanje</Link>
       </div>
       <div className="tableQuestions">
