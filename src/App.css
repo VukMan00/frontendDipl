@@ -369,13 +369,13 @@ th{
   box-shadow: 0 5px 15px rgba(0,0,0,0.6);
 }
 
-.listOfExams,.listOfQuestions,.listOfStudents{
+.listOfExams,.listOfQuestions,.listOfStudents,.listOfTests{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
 
-.div-list-exams,.div-list-questions,.div-list-students{
+.div-list-exams,.div-list-questions,.div-list-students,.div-list-tests{
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

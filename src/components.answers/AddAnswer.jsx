@@ -5,7 +5,6 @@ const AddAnswer = ({getAnswers}) => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const questionId = location.state?.questionId;
     const answers = location.state?.answers;
 
     const[answer,setAnswer]=useState({
@@ -22,27 +21,25 @@ const AddAnswer = ({getAnswers}) => {
 
     const saveAnswer = async(e)=>{
         e.preventDefault();
-        if(questionId===undefined){
-            if(answer.content!==undefined && answer.content!=='' && answer.content.length>2){
-                document.getElementById('answerContentErr').style.visibility = 'hidden';
-                if(trueSolution){
-                    answer.solution = true;
-                }
-                else if(falseSolution){
-                    answer.solution = false;
-                }
-                answers.push(answer);
-                getAnswers(answers);
-                navigate(-1);
+        if(answer.content!==undefined && answer.content!=='' && answer.content.length>2){
+            document.getElementById('answerContentErr').style.visibility = 'hidden';
+            if(trueSolution){
+                 answer.solution = true;
             }
-            else{
-                console.log("USAO OVDE")
-                document.getElementById('answerContentErr').style.visibility = 'visible';
-                document.getElementById('answerContentErr').value = "Neispravno uneti podaci za naziv pitanja";
+            else if(falseSolution){
+                answer.solution = false;
             }
+            console.log(answers.length);
+            answer.answerPK.answerId = answers.length===0 ? answers?.length+1 : answers[answers.length-1].answerPK.answerId + 1;
+            console.log(answer);
+            answers.push(answer);
+            getAnswers(answers);
+            navigate(-1);
         }
         else{
-            //OVDE PISES KADA DIREKTNO NAD BAZOM SACUVAS
+            console.log("USAO OVDE")
+            document.getElementById('answerContentErr').style.visibility = 'visible';
+            document.getElementById('answerContentErr').value = "Neispravno uneti podaci za naziv pitanja";
         }
     }
 

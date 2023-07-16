@@ -85,7 +85,7 @@ export const getQuestionsFromTest = async(testId)=>{
             throw new Error("Did not provide id of test");
         }
     }catch(err){
-        console.error("Error with retrieving student: " + err);
+        console.error("Error with retrieving questions from test: " + err);
         throw err;
     }
 }

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { deleteQuestionsFromTest, getQuestionsFromTest, getTest } from '../services/TestService';
+import { deleteQuestionsFromTest, getQuestionsFromTest, getTest, updateTest } from '../services/TestService';
 import { getQuestions } from '../services/QuestionService';
 import {BsArrowLeft,BsArrowRight} from 'react-icons/bs';
 import { validationTest } from '../validation/ValidationHandler';
@@ -99,7 +99,7 @@ const UpdateTest = ({newQuestionsTest}) => {
     setQuestionsTest(newQuestionsTest);
   },[newQuestionsTest]);
   
-  const updateTest = async(e)=>{
+  const saveUpdatedTest = async(e)=>{
     e.preventDefault();
     try{
       const filteredRemoveQuestionsTest = dbQuestionsTest.filter(dbQuestionTest=>!questionsTest.includes(dbQuestionTest));
@@ -107,9 +107,9 @@ const UpdateTest = ({newQuestionsTest}) => {
         await deleteQuestionsFromTest(filteredRemoveQuestionsTest,testId);
       }
       updatedTest.questions = questionsTest;
-      const response = await axiosPrivate.put('/tests',updatedTest);
+      const response = await updateTest(updatedTest);
       console.log(response.data);
-      document.getElementById('textAlert').innerHTML = "Test je uspesno sacuvan!";
+      document.getElementById('textAlert').innerHTML = "Sistem je sacuvao test";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
@@ -158,7 +158,7 @@ const UpdateTest = ({newQuestionsTest}) => {
   function potvrdi(e){
     e.preventDefault();
     document.getElementById('alert').style.visibility = 'hidden';
-    if(document.getElementById('textAlert').innerHTML === "Test je uspesno sacuvan!"){
+    if(document.getElementById('textAlert').innerHTML === "Sistem je sacuvao test"){
       navigate("/tests");
     }
   }
@@ -178,7 +178,7 @@ const UpdateTest = ({newQuestionsTest}) => {
     return (
       <div className='update'>
         <div className="update-div" id='update-div'>
-          <form className="update-form" onSubmit={updateTest}>
+          <form className="update-form" onSubmit={saveUpdatedTest}>
             <label htmlFor="content">Naziv testa</label>
             <input type="text" name="content" placeholder='Unesite naziv testa' defaultValue={updatedTest.content} onInput={(e)=>handleInput(e)}/>
             <input type="text" name="contentErr" id="contentErr" readOnly/>
@@ -233,7 +233,7 @@ const UpdateTest = ({newQuestionsTest}) => {
                 Obaveštenje!
             </div>
             <div className="sadrzaj">
-                <p id="textAlert">Test je uspesno sacuvan!</p>
+                <p id="textAlert">Sistem je sacuvao test</p>
                 <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
             </div>
           </div>

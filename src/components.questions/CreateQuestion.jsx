@@ -72,7 +72,7 @@ const CreateQuestion = ({newAnswers}) => {
     const handleSelectTests = (event) => {
         const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
         setSelectedTests(selectedOptions);
-    
+        console.log(selectedTests);
         const filteredQuestionForPoints = tests.filter(test=>selectedOptions.includes(test.id.toString()));
         setQuestionsForPoints(filteredQuestionForPoints);
     };
@@ -80,6 +80,14 @@ const CreateQuestion = ({newAnswers}) => {
     const handleSelectAnswers = (event)=>{
         const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
         setSelectedAnswers(selectedOptions);
+    }
+
+    const removeAnswers = (e)=>{
+        e.preventDefault();
+        console.log(answers);
+        console.log(selectedAnswers);
+        const filteredAnswers = answers.filter(answer=>!selectedAnswers.includes(answer.answerPK.answerId.toString()));
+        setAnswers(filteredAnswers);
     }
 
     function unSelectAll(e){
@@ -117,9 +125,8 @@ const CreateQuestion = ({newAnswers}) => {
                     {answers?.length
                     ? (
                         <>
-                        {console.log(answers)}
                         {answers.map((a,i)=>
-                        <option key={i} value={a?.answersPK?.answerId}>{a?.content}</option>
+                        <option key={i} value={a?.answerPK?.answerId}>{a?.content}</option>
                         )}
                         </>
                     )
@@ -129,7 +136,7 @@ const CreateQuestion = ({newAnswers}) => {
                     </select>
                     <div className='button'>
                         <Link id='btn-add-answer' to={"addAnswer"} state={{answers:answers}}>Ubaci odgovor</Link>
-                        <button id="btn-remove-answer">Izbaci odgovor</button>
+                        <button id="btn-remove-answer" onClick={(e)=>removeAnswers(e)}>Izbaci odgovor</button>
                     </div>
                     <label htmlFor="questions">Ubacite pitanje u testove:</label>
                     <select name="questions" id="selectionOption" multiple value={selectedTests} onChange={(e)=>handleSelectTests(e)}>

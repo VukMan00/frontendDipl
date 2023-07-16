@@ -28,6 +28,8 @@ import DeleteExam from './components.exams/DeleteExam';
 import OptionQuestion from './components.options/OptionQuestion';
 import CreateQuestion from './components.questions/CreateQuestion';
 import AddAnswer from './components.answers/AddAnswer';
+import UpdateQuestion from './components.questions/UpdateQuestion';
+import DeleteQuestion from './components.questions/DeleteQuestion';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -96,6 +98,11 @@ function App() {
                   <Route path={"addQuestionTest"} element={<AddQuestionTest />}/>
                   <Route path={"addAnswer"} element={<AddAnswer getAnswers={getAnswers}/>} />
                 </Route>
+                <Route path={"updateQuestion"} element={<UpdateQuestion newAnswers={answers} newQuestionsTest={newQuestionsTest} />}>
+                  <Route path={"addQuestionTest"} element={<AddQuestionTest getQuestionsTest={getQuestionsTest} />}/>
+                  <Route path={"addAnswer"} element={<AddAnswer getAnswers={getAnswers}/>} />
+                </Route>
+                <Route path={"deleteQuestion"} element={<DeleteQuestion />}/>
              </Route>
           </Route>
           {/* CATH ALL, WHEN REQUEST ROUTE DOESN'T EXIST */}

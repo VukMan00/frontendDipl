@@ -60,7 +60,7 @@ const AddQuestionTest = ({getQuestionsTest}) => {
     const addQuestionTest = async(e)=>{
         e.preventDefault();
         if(document.getElementById('pointsErr').style.visibility === 'hidden'){
-            if(updatedTest===undefined || updatedQuestion===undefined){
+            if(!pathName.includes("updateTest") && !pathName.includes("updateQuestion")){
                 const response = await saveQuestionTest(arrayQuestionTest);
                 console.log(response);
                 pathName.includes("tests/") ? navigate("/tests") : navigate("/questions");
@@ -90,9 +90,9 @@ const AddQuestionTest = ({getQuestionsTest}) => {
             ? (
             <>
               {questionsForPoints.map((questionTest,i)=>
-              <div>
-                {questionTest?.content || questionTest?.question?.content || questionTest?.test?.content}
-                <input key={questionTest?.id || questionTest?.questionTestPK?.questionId || questionTest?.questionTestPK?.testId} name='points' defaultValue={questionTest?.points} placeholder='Unesite broj poena pitanja' style={{marginLeft:'10px'}} onChange={(e)=>handleInput(e,questionTest,i)}/>
+              <div key={pathName.includes("tests") ?  questionTest?.questionTestPK?.questionId || questionTest?.id : questionTest?.questionTestPK?.testId || questionTest?.id}>
+                {pathName.includes("tests") ? questionTest?.content || questionTest?.question?.content : questionTest?.content || questionTest?.test?.content}
+                <input key={i} name='points' defaultValue={questionTest?.points} placeholder='Unesite broj poena pitanja' style={{marginLeft:'10px'}} onChange={(e)=>handleInput(e,questionTest,i)}/>
               </div>
               )}
             </>
