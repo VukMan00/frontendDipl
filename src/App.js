@@ -30,6 +30,7 @@ import CreateQuestion from './components.questions/CreateQuestion';
 import AddAnswer from './components.answers/AddAnswer';
 import UpdateQuestion from './components.questions/UpdateQuestion';
 import DeleteQuestion from './components.questions/DeleteQuestion';
+import OptionAnswer from './components.options/OptionAnswer';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -104,6 +105,9 @@ function App() {
                   <Route path={"addAnswer"} element={<AddAnswer getAnswers={getAnswers}/>} />
                 </Route>
                 <Route path={"deleteQuestion"} element={<DeleteQuestion />}/>
+                <Route path={"answers"} element={<OptionAnswer />}>
+                  
+                </Route>
              </Route>
           </Route>
           {/* CATH ALL, WHEN REQUEST ROUTE DOESN'T EXIST */}

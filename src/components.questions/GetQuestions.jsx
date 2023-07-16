@@ -13,25 +13,25 @@ const GetQuestions = ({getCheckedId}) => {
     const[checked,setChecked]=useState([]);
 
     useEffect(()=>{
-        let isMounted = true;
-        const controller = new AbortController();
-        const getAllQuestions = async()=>{
-          try{
-            const response = await getQuestions(controller);
-            isMounted && setQuestions(response);
-          }catch(err){
-            localStorage.clear();
-            console.error(err);
-            navigate('/login',{state:{from:location},replace:true});
-          }
+      let isMounted = true;
+      const controller = new AbortController();
+      const getAllQuestions = async()=>{
+        try{
+          const response = await getQuestions(controller);
+          isMounted && setQuestions(response);
+        }catch(err){
+          localStorage.clear();
+          console.error(err);
+          navigate('/login',{state:{from:location},replace:true});
         }
-        getAllQuestions();
+      }
+      getAllQuestions();
     
-        return ()=>{
-          isMounted = false;
-          isMounted && controller.abort();
-        }
-      },[axiosPrivate,location,navigate])
+      return ()=>{
+        isMounted = false;
+        isMounted && controller.abort();
+      }
+    },[axiosPrivate,location,navigate])
 
     const handleCheck = (event)=>{
         var updatedList = [...checked];
@@ -70,7 +70,7 @@ const GetQuestions = ({getCheckedId}) => {
   return (
     <div className='questions'>
         <form action="" className="searchCriteria">
-          <label htmlFor="criteria">Unesite naziv pitanja:</label>
+          <label htmlFor="criteria">Unesite naziv:</label>
           <input type="text" name="criteria" className='criteria' placeholder='Unesite kriterijum pretrage' onKeyDown={(e)=>filterQuestions(e)}/>
         </form>
         <table>

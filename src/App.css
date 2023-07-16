@@ -309,7 +309,8 @@ label{
   justify-content: space-between;
 }
 
-.tableStudents,.tableTests,.tableExams,.tableQuestions{
+.tableStudents,.tableTests,.tableExams,.tableQuestions,
+.tableAnswers{
   border: 2px solid black;
   position: absolute;
   top: 70%;
