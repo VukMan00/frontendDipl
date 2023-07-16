@@ -68,24 +68,24 @@ const AddAnswer = ({getAnswers}) => {
 
     return (
         <div className='create'>
-        <div className="create-div">
-            <form className="create-form" onSubmit={saveAnswer}>
-                <label htmlFor="content">Naziv odgovora</label>
-                <input type="text" name="content" placeholder='Unesite naziv odgovora' onInput={(e)=>handleInput(e)}/>
-                <input type="text" name="answerContentErr" id="answerContentErr" readOnly/>
-                <label htmlFor="solution">Odgovor</label>
-                <label>
-                    <input type='checkbox' className="answerId" value="Tacno" onChange={handleCheckTrue}/> Tacno
-                </label>
-                <label>
-                    <input type='checkbox' className="answerId" value="Netacno" onChange={handleCheckFalse}/> Netacno
-                </label>
-                <div className='button'>
-                    <input type="submit" name="saveAnswer" id="btn-save" value="Sacuvaj"/>
-                    <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
-                </div>
-            </form>
-        </div>
+            <div className="create-div">
+                <form className="create-form" onSubmit={saveAnswer}>
+                    <label htmlFor="content">Naziv odgovora</label>
+                    <input type="text" name="content" placeholder='Unesite naziv odgovora' onInput={(e)=>handleInput(e)}/>
+                    <input type="text" name="answerContentErr" id="answerContentErr" readOnly/>
+                    <label htmlFor="solution">Resenje</label>
+                    <label>
+                        <input type='checkbox' className="answerId" value="Tacno" onChange={handleCheckTrue}/> Tacno
+                    </label>
+                    <label>
+                        <input type='checkbox' className="answerId" value="Netacno" onChange={handleCheckFalse}/> Netacno
+                    </label>
+                    <div className='button'>
+                        <input type="submit" name="saveAnswer" id="btn-save" value="Sacuvaj"/>
+                        <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }

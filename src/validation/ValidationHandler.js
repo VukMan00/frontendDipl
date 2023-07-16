@@ -155,3 +155,13 @@ export const validationQuestion = async(e,contentErr)=>{
         contentErr.style.visibility='hidden';
     }
 }
+
+export const validationAnswer = async(e,contentErr)=>{
+    if(e.response.data.message.content!==undefined){
+        contentErr.style.visibility = 'visible';
+        contentErr.value = e.response.data.message.content;
+    }
+    else{
+        contentErr.style.visibility='hidden';
+    }
+}

@@ -98,7 +98,6 @@ const GetAnswers = ({questionId,getCheckedId}) => {
           )
           :
           <>
-            <td style={{color:'red'}}>Sistem ne moze da ucita odgovore</td>
           </>
           }
           </tbody>

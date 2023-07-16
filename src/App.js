@@ -31,6 +31,9 @@ import AddAnswer from './components.answers/AddAnswer';
 import UpdateQuestion from './components.questions/UpdateQuestion';
 import DeleteQuestion from './components.questions/DeleteQuestion';
 import OptionAnswer from './components.options/OptionAnswer';
+import CreateAnswer from './components.answers/CreateAnswer';
+import UpdateAnswer from './components.answers/UpdateAnswer';
+import DeleteAnswer from './components.answers/DeleteAnswer';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -106,7 +109,9 @@ function App() {
                 </Route>
                 <Route path={"deleteQuestion"} element={<DeleteQuestion />}/>
                 <Route path={"answers"} element={<OptionAnswer />}>
-                  
+                  <Route path={"createAnswer"} element={<CreateAnswer />}/>
+                  <Route path={"updateAnswer"} element={<UpdateAnswer />}/>
+                  <Route path={"deleteAnswer"} element={<DeleteAnswer />}/>
                 </Route>
              </Route>
           </Route>

@@ -42,9 +42,9 @@ const OptionAnswer = () => {
     return (
         <div className='option'>
             <div className="options-entity">
-                <Link className="linkOption" to={"createAnswer"}>Kreiraj odgovor</Link>
-                <Link className='linkOption' to={"updateAnswer"} state={{answerId:answerId}}>Azuriraj odgovor</Link>
-                <Link className='linkOption' to={"deleteAnswer"} state={{answerId:answerId}}>Obrisi odgovor</Link>
+                <Link className="linkOption" to={"createAnswer"} state={{questionId:questionId}}>Kreiraj odgovor</Link>
+                <Link className='linkOption' to={"updateAnswer"} state={{answerId:answerId,questionId:questionId}}>Azuriraj odgovor</Link>
+                <Link className='linkOption' to={"deleteAnswer"} state={{answerId:answerId,questionId:questionId}}>Obrisi odgovor</Link>
             </div>
             <div className="tableAnswers">
                 <h3>Pitanje: {question.content}</h3>
