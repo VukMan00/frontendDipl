@@ -152,7 +152,8 @@ input{
 
 #passwordErr,#emailErr,#firstnameErr,#lastnameErr,#indexErr,#birthErr,#registrationTokenErr,
 #contentErr,#oldPasswordErr,#newPasswordErr,#confirmNewPasswordErr,#pointsErr,
-#nameErr,#amphitheaterErr,#dateExamErr,#testErr,#answerContentErr{
+#nameErr,#amphitheaterErr,#dateExamErr,#testErr,#answerContentErr,
+#pointsErr,#gradeErr{
   background: none;
   border: none;
   color:red;
@@ -325,6 +326,17 @@ label{
   margin-top: 5%;
 }
 
+.tableResults{
+  border: 2px solid black;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.501);
+  backdrop-filter: blur(5px);
+  color: wheat;
+  text-align: center;
+  border-radius: 20px;
+  width: 70%;
+}
+
 th{
   border-bottom: 2px solid white;
 }
@@ -389,6 +401,13 @@ th{
   cursor: pointer;
 }
 
+.btn-add-student-exam{
+  text-decoration: none;
+  color: black;
+  background-color: white;
+  border: 2px solid black;
+}
+
 .btn-add-question-test{
   border-radius: 20px;
   border: 2px solid black;
@@ -429,6 +448,11 @@ th{
   background-color: #FF8000;
   color: aliceblue;
   transition: background-color 0.5s linear 0.1s;
+}
+
+.points,.grades{
+  width: 40%;
+  text-align: center;
 }
 
 

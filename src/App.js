@@ -34,6 +34,8 @@ import OptionAnswer from './components.options/OptionAnswer';
 import CreateAnswer from './components.answers/CreateAnswer';
 import UpdateAnswer from './components.answers/UpdateAnswer';
 import DeleteAnswer from './components.answers/DeleteAnswer';
+import GetAllResultExam from './components.resultexam/GetAllResultExam';
+import AddResultExam from './components.resultexam/AddResultExam';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -89,6 +91,9 @@ function App() {
                 <Route path={'createExam'} element={<CreateExam />} />
                 <Route path={'updateExam'} element={<UpdateExam />}/>
                 <Route path={'deleteExam'} element={<DeleteExam />}/>
+                <Route path={'getResults'} element={<GetAllResultExam />}>
+                  <Route path={'addStudent'} element={<AddResultExam />}/>
+                </Route>
               </Route>
             </Route>
           </Route>

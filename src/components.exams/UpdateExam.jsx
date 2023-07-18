@@ -110,15 +110,15 @@ const UpdateExam = () => {
   const saveUpdatedExam = async(e)=>{
     e.preventDefault();
     try{
-      updatedExam.test = test;
-      updatedExam.results = setResultsOfExam();
-      const response = await updateExam(updatedExam);
-      console.log(response);
-
       const filteredRemoveStudents = dbStudentsOfExam.filter(dbStudent=>!studentsOfExam.includes(dbStudent));
       if(filteredRemoveStudents.length!==0){
         await deleteExamsFromStudent(filteredRemoveStudents,examId);
       }
+      
+      updatedExam.test = test;
+      updatedExam.results = setResultsOfExam();
+      const response = await updateExam(updatedExam);
+      console.log(response);
       
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio polaganje";
       document.getElementById('alert').style.visibility = 'visible';

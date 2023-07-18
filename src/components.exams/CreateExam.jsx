@@ -177,7 +177,7 @@ const CreateExam = () => {
           </select>
           <input type="text" id="testErr" name="testErr" readOnly />
           <label htmlFor="students">Dostupni studenti</label>
-          <select name="studentss" id="selectionOption" multiple value={selectedStudents} onChange={(e)=>handleSelectStudents(e)}>
+          <select name="students" id="selectionOption" multiple value={selectedStudents} onChange={(e)=>handleSelectStudents(e)}>
           {students?.length
           ? (
             <>

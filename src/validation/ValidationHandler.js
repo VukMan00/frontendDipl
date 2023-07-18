@@ -165,3 +165,20 @@ export const validationAnswer = async(e,contentErr)=>{
         contentErr.style.visibility='hidden';
     }
 }
+
+export const validationResultExam = async(e,pointsErr,gradeErr)=>{
+    if(e.response.data.message.points!==undefined){
+        pointsErr.style.visibility = 'visible';
+        pointsErr.value = e.response.data.message.points;
+    }
+    else{
+        pointsErr.style.visibility='hidden';
+    }
+    if(e.response.data.message.grade!==undefined){
+        gradeErr.style.visibility = 'visible';
+        gradeErr.value = e.response.data.message.grade;
+    }
+    else{
+        gradeErr.style.visibility='hidden';
+    }
+}
