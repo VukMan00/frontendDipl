@@ -366,7 +366,7 @@ label{
   margin-top: 5%;
 }
 
-.tableResults{
+.tableResults,.tableFutureExams,.tablePastExams{
   border: 2px solid black;
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.501);
