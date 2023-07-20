@@ -127,9 +127,11 @@ body{
 .changePassword-div{
   border: 2px solid white;
   border-radius: 20px;
-  width: 20%;
   padding: 10px 10px 10px 10px;
   position: fixed;
+  overflow-x: auto;
+  max-height: 700px;
+  max-width: 900px;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
@@ -139,6 +141,44 @@ body{
   color:white;
   width: auto;
   height: auto;
+}
+
+.viewTest{
+  border: 2px solid white;
+  border-radius: 20px;
+  padding: 10px 10px 10px 10px;
+  position: fixed;
+  overflow-x: auto;
+  max-height: 700px;
+  max-width: 900px;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); 
+  color:black;
+  width: auto;
+  height: auto;
+  background-color: white;
+}
+
+.printTest{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border: 2px solid black;
+  padding: 20px 20px 20px 20px;
+}
+
+.questionsOfTest,.answersOfQuestion{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.questionOfTest{
+  margin-top: 10px;
+  border: 2px solid black;
+  padding: 10px 10px 10px 10px;
 }
 
 .create-div,.update-div,.delete-div{

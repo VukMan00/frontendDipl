@@ -36,6 +36,7 @@ import UpdateAnswer from './components.answers/UpdateAnswer';
 import DeleteAnswer from './components.answers/DeleteAnswer';
 import GetAllResultExam from './components.resultexam/GetAllResultExam';
 import AddResultExam from './components.resultexam/AddResultExam';
+import ViewTest from './components.test/ViewTest';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -83,7 +84,8 @@ function App() {
                 <Route path={"updateTest"} element={<UpdateTest newQuestionsTest={newQuestionsTest}/>}>
                   <Route path={"addQuestionTest"} element={<AddQuestionTest getQuestionsTest={getQuestionsTest}/>}/>
                 </Route>
-                <Route path={"deleteTest"} element={<DeleteTest />} />
+                <Route path={"deleteTest"} element={<DeleteTest />}/>
+                <Route path={"viewTest"} element={<ViewTest />}/>
               </Route>
             </Route>
             <Route path={"exams"} element={<OptionExam />}>
