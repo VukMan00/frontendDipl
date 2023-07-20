@@ -6,9 +6,9 @@ const Missing = () => {
     <div className='missing' style={{ padding: "100px" }}>
         <div className="missing-div">
             <h1>Oops!</h1>
-            <p>Page Not Found</p>
+            <p>Trazena stranica nije pronadjena!</p>
             <div className="flexGrow">
-                <Link to="/" className='missingLink'>Visit Our Homepage</Link>
+                <Link to="/" className='missingLink'>Posetite glavnu stranicu</Link>
             </div>
         </div>
     </div>

@@ -8,12 +8,20 @@ function MainPage() {
         <h1>Dobrodosli na sajt baze testova i polaganja</h1>
         <h1>Fakulteta organizacionih nauka</h1>
       </div>
+      {localStorage.getItem("role")==='ROLE_ADMIN'? (
       <div className="options-entity">
         <Link className='linkOption' to="/students">Studenti</Link>
         <Link className="linkOption" to="/tests">Testovi</Link>
         <Link className="linkOption" to="/exams">Polaganja</Link>
         <Link className="linkOption" to="/questions">Pitanja</Link>
       </div>
+      ):
+      (
+      <div className="options-entity">
+        <Link className="linkOption" to="/tests">Testovi</Link>
+        <Link className="linkOption" to="/exams">Polaganja</Link>
+      </div>
+      )}
     </div>
   )
 }

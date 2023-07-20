@@ -70,10 +70,20 @@ export const saveResultExam = async(selectedExams,studentId)=>{
           const response = await axiosPrivate.post("/students/results",resultExam);
           console.log(response);
         }
-      }catch(err){
-        console.error("Error saving result exam: " + err);
-        throw err;
-      }
+    }catch(err){
+      console.error("Error saving result exam: " + err);
+      throw err;
+    }
+}
+
+export const getResults = async(studentId,controller)=>{
+  try{
+      const response = await axiosPrivate.get(`/students/${studentId}/results`,{signal : controller.signal});
+      return response.data;
+  }catch(err){
+    console.error("Error with retrieveng results of students: " + err);
+    throw err;
+  }
 }
 
 export const getExamsOfStudent = async(studentId)=>{
@@ -97,5 +107,15 @@ export const deleteStudentFromExams = async(removeExams,studentId)=>{
       console.log("Error with deleting student from exams: " + err);
       throw err;
     }
+}
+
+export const deleteStudentFromExam = async(examId,studentId)=>{
+  try{
+      const response = await axiosPrivate.delete(`/students/${studentId}/exams/${examId}`);
+      console.log(response.data);
+  }catch(err){
+    console.log("Error with deleting student from exams: " + err);
+    throw err;
+  }
 }
 

@@ -37,6 +37,7 @@ import DeleteAnswer from './components.answers/DeleteAnswer';
 import GetAllResultExam from './components.resultexam/GetAllResultExam';
 import AddResultExam from './components.resultexam/AddResultExam';
 import ViewTest from './components.test/ViewTest';
+import GetExamsOfStudent from './components.exams/GetExamsOfStudent';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -96,6 +97,9 @@ function App() {
                 <Route path={'getResults'} element={<GetAllResultExam />}>
                   <Route path={'addStudent'} element={<AddResultExam />}/>
                 </Route>
+              </Route>
+              <Route element={<RequireAuth allowedRoles={[ROLES.User]}/>}>
+                <Route path={'viewExams'} element={<GetExamsOfStudent />} />
               </Route>
             </Route>
           </Route>

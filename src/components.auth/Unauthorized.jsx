@@ -8,7 +8,7 @@ const Unauthorized = () => {
   return (
     <div className="unauthorized">
       <div className='unauthorized-div'>
-          <h1>Unauthorized</h1>
+          <h1>Neovlascen pristup</h1>
           <br />
           <p>Nemate pristup trazenoj stranici!</p>
           <div className="flexGrow">

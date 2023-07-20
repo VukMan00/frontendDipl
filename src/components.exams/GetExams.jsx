@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getExams } from '../services/ExamService';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { deleteStudentFromExam, getExamsOfStudent } from '../services/StudentService';
 
 const GetExams = ({getCheckedId}) => {
 
@@ -11,6 +12,7 @@ const GetExams = ({getCheckedId}) => {
   const location = useLocation();
 
   const[checked,setChecked] = useState([]);
+  const[idExamsOfStudent,setIdExamsOfStudent]=useState([]);
 
   useEffect(()=>{
     let isMounted = true;
@@ -18,7 +20,6 @@ const GetExams = ({getCheckedId}) => {
     const getAllExams = async()=>{
       try{
         const response = await getExams(controller);
-        console.log(response);
         isMounted && setExams(response);
       }catch(err){
         console.error(err);
@@ -33,14 +34,46 @@ const GetExams = ({getCheckedId}) => {
     }
   },[axiosPrivate,location,navigate])
 
+  useEffect(()=>{
+    if(localStorage.getItem("role")==="ROLE_USER"){
+      const retrieveExamsOfStudent = async()=>{
+        try{
+          const response = await getExamsOfStudent(localStorage.getItem('id'));
+          for(let i=0;i<response.length;i++){
+            idExamsOfStudent[idExamsOfStudent.length+1] = response[i].id; 
+          }
+          setIdExamsOfStudent(idExamsOfStudent);
+        }catch(err){
+          console.log(err);
+        }
+      }
+      retrieveExamsOfStudent();
+    }
+  })
+
+  const removeStudentFromExam = async(e,examId)=>{
+    e.preventDefault();
+    try{
+      await deleteStudentFromExam(examId,localStorage.getItem('id'));
+      const filteredIdsExamsOfStudent = idExamsOfStudent.filter(id=>id!==examId);
+      setIdExamsOfStudent(filteredIdsExamsOfStudent);
+    }catch(err){
+      console.log(err);
+    }
+  }
+
   const handleCheck = (event)=>{
     var updatedList = [...checked];
     if(event.target.checked){
-      updatedList=[...checked,event.target.value];
+      if(!updatedList.includes(event.target.value)){
+        updatedList=[...checked,event.target.value];
+      }
     }
     setChecked(updatedList);
     getCheckedId(updatedList);
-    setChecked([]);
+    if(localStorage.getItem('role')==="ROLE_ADMIN"){
+      setChecked([]);
+    }
   }
 
   function filterExams(e){
@@ -80,6 +113,26 @@ const GetExams = ({getCheckedId}) => {
               <th>Naziv</th>
               <th>Datum polaganja</th>
               <th>Amfiteatar</th>
+              {
+                localStorage.getItem("role")==="ROLE_USER" ?
+                (
+                  <th></th>
+                )
+                :
+                (
+                  <></>
+                )
+              }
+              {
+                localStorage.getItem("role")==="ROLE_USER" ?
+                (
+                  <th></th>
+                )
+                :
+                (
+                  <></>
+                )
+              }
             </tr>
           </thead>
           <tbody>
@@ -92,6 +145,20 @@ const GetExams = ({getCheckedId}) => {
                 <td>{exam?.name}</td>
                 <td>{exam?.date}</td>
                 <td>{exam?.amphitheater}</td>
+                {localStorage.getItem("role")==="ROLE_USER" ?
+                (
+                  <td>{idExamsOfStudent.includes(exam?.id) ? "Prijavljeni ste" : "Niste prijavljeni"}</td>
+                ):
+                (
+                  <></>
+                )}
+                {localStorage.getItem("role")==="ROLE_USER" ?
+                (
+                  <td>{idExamsOfStudent.includes(exam?.id) ? <button className='btn-remove-student-exam' onClick={(e)=>removeStudentFromExam(e,exam.id)}>Odjavite se</button> : <></>}</td>
+                ):
+                (
+                  <></>
+                )}
               </tr>
               )}
             </>

@@ -173,7 +173,7 @@ const GetAllResultExam = () => {
         <div style={{display:'flex', flexDirection:'column',justifyContent:'space-evenly'}}>
             <h1 style={{color:'white',textAlign:'start',marginTop:'5px',fontWeight:'bolder',fontStyle:'italic'}}>Polaganje: {exam?.name}</h1>
             <h1 style={{color:'white',textAlign:'start',marginTop:'15px',fontWeight:'bolder',fontStyle:'italic'}}>Test: {exam?.test?.content}</h1>
-            <h1 style={{color:'white',textAlign:'center',marginTop:'30px',fontWeight:'bolder',fontStyle:'italic'}}>Datum polaganja: {exam?.date}</h1>
+            <h1 style={{color:'white',textAlign:'start',marginTop:'30px',fontWeight:'bolder',fontStyle:'italic'}}>Datum polaganja: {exam?.date}</h1>
             <div className='tableResults'>
                 <form className="searchCriteria" onSubmit={saveResultsExam}>
                 <label htmlFor="criteria">Unesite broj indeksa:</label>
