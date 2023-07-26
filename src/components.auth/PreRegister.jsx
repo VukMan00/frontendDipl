@@ -13,7 +13,6 @@ const PreRegister = () => {
     function handleInput(e){
         let newEmail = email;
         newEmail[e.target.name] = e.target.value;
-        console.log(newEmail);
         setEmail(newEmail);
     }
 

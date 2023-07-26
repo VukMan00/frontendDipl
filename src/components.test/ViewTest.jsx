@@ -82,68 +82,95 @@ const ViewTest = () => {
       }
     }
 
+    function potvrdiNotFound(e){
+      e.preventDefault();
+      document.getElementById('alertWrong').style.visibility = 'hidden';
+      navigate('/tests');
+    }
+
     function cancel(e){
       e.preventDefault();
       navigate(-1);
     }
-    
-  return (
-    <div className='viewTest'>
-          <form onSubmit={printTest}>
-            <div className="printTest" id="printTest">
-              <p style={{fontStyle:'italic',textAlign:'end'}}>Autor: {test?.author?.name + " " + test?.author?.lastname}</p>
-              <p style={{fontStyle:'italic',textAlign:'end'}}>Maksimalan broj poena: {maxPoints}</p>
-              <h1>{test?.content}</h1>
-              <p style={{fontStyle:'italic',textAlign:'start'}}>_ / {maxPoints}</p>
-              {questionsTest?.length
-              ?(
-                  <div className='questionsOfTest'>
-                  {questionsTest.map((questionTest,i)=>
-                      <div key={i} className='questionOfTest'>
-                          {(i+1) + ". " + questionTest?.question?.content}
-                          {questionTest?.question?.answers?.length
-                          ?(
-                            <div key={questionTest.questionTestPK.questionId} className='answersOfQuestion'>
-                              {questionTest?.question?.answers.map((answer,j)=>
-                                <label style={{color:'black', marginBottom:'10px',marginLeft:'10px'}}  key={answer?.answerPK?.answerId}>
-                                  <input type="checkbox" checked={false} readOnly/> {answer?.content}
-                                </label>
-                              )}
-                            </div>
-                          )
-                          :
-                          <>
-                          </>
-                          }
-                        <div style={{textAlign:'end'}}>
-                          {"_ / " + questionTest?.points}
-                        </div>
-                      </div> 
-                  )}
-                  </div>
-              )
-              :
-                  <></>
-              }
-            </div>
-            <div className='button'>
-                <input type="submit" name="printTest" id="btn-save" value="Odstampaj test"/>
-                <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
-            </div>
-          </form>
-          <div id="alert">
-            <div id="box">
-              <div className="obavestenje">
-                  Obaveštenje!
+  
+  if(testId!==undefined && testId!==0){
+    return (
+      <div className='viewTest'>
+            <form onSubmit={printTest}>
+              <div className="printTest" id="printTest">
+                <p style={{fontStyle:'italic',textAlign:'end'}}>Autor: {test?.author?.name + " " + test?.author?.lastname}</p>
+                <p style={{fontStyle:'italic',textAlign:'end'}}>Maksimalan broj poena: {maxPoints}</p>
+                <div style={{display:'flex',flexDirection:'row'}}>
+                  <p>Ime i Prezime: _________________________________________</p>
+                  <p>Broj indeksa: ______/___</p>
+                </div>
+                <h1>{test?.content}</h1>
+                <p style={{fontStyle:'italic',textAlign:'start'}}>_ / {maxPoints}</p>
+                {questionsTest?.length
+                ?(
+                    <div className='questionsOfTest'>
+                    {questionsTest.map((questionTest,i)=>
+                        <div key={i} className='questionOfTest'>
+                            {(i+1) + ". " + questionTest?.question?.content}
+                            {questionTest?.question?.answers?.length
+                            ?(
+                              <div key={questionTest.questionTestPK.questionId} className='answersOfQuestion'>
+                                {questionTest?.question?.answers.map((answer,j)=>
+                                  <label style={{color:'black', marginBottom:'10px',marginLeft:'10px'}}  key={answer?.answerPK?.answerId}>
+                                    <input type="checkbox" checked={false} readOnly/> {answer?.content}
+                                  </label>
+                                )}
+                              </div>
+                            )
+                            :
+                            <>
+                            </>
+                            }
+                          <div style={{textAlign:'end'}}>
+                            {"_ / " + questionTest?.points}
+                          </div>
+                        </div> 
+                    )}
+                    </div>
+                )
+                :
+                    <></>
+                }
               </div>
-              <div className="sadrzaj">
-                  <p id="textAlert">Sistem je odstampao test</p>
-                  <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
+              <div className='button'>
+                  <input type="submit" name="printTest" id="btn-save" value="Odstampaj test"/>
+                  <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
               </div>
+            </form>
+            <div id="alert">
+              <div id="box">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlert">Sistem je odstampao test</p>
+                    <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
+                </div>
+              </div>
+          </div>
+      </div>
+    )
+  }
+  else{
+    return (
+      <div id="alertWrong">
+        <div id="box">
+            <div className="obavestenje">
+              Obaveštenje!
+            </div>
+            <div className="sadrzaj">
+              <p id="textAlert">Sistem ne moze da ucita test</p>
+              <button id="confirm" onClick={(e)=>potvrdiNotFound(e)}>OK</button>
             </div>
         </div>
-    </div>
-  )
+      </div>
+    )
+  }
 }
 
 export default ViewTest

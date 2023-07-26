@@ -6,7 +6,7 @@ body{
 }
 
 .mainPage,.login,.register,.unauthorized,.option,.missing
-.create,.update,.delete,.changePassword{
+.create,.update,.delete,.changePassword,.preForgottenPassword{
   height: 900px;
   padding:20px 20px 20px 20px;
 }
@@ -28,7 +28,8 @@ body{
 #btn-remove-answer,
 #cancel,
 #btn-changePassword,
-#btn-unselectAll{
+#btn-unselectAll,
+#btn-check-account{
   width: auto;
   height: auto;
   cursor: pointer;
@@ -59,7 +60,8 @@ body{
 #cancel:hover,
 #btn-changePassword,
 .btn-add-question-test:hover,
-#btn-unselectAll:hover{
+#btn-unselectAll:hover,
+#btn-check-account:hover{
   background-color: grey;
   color:white;
   transition: background-color 0.5s linear 0.1s;
@@ -96,13 +98,13 @@ body{
   margin-top: 15px;
 }
 
-.registerLink,.missingLink,.forgotPasswordLink{
+.registerLink,.missingLink,.forgottenPasswordLink{
   color:wheat;
 }
 
 .registerLink:hover,
 .missingLink:hover,
-.forgotPasswordLink:hover{
+.forgottenPasswordLink:hover{
   color:blue;
 }
 
@@ -111,7 +113,8 @@ body{
 .create-form,
 .update-form,
 .delete-form,
-.changePassword-form{
+.changePassword-form,
+.preForgottenPassword-form{
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -124,7 +127,8 @@ body{
 .create-div,
 .update-div,
 .delete-div,
-.changePassword-div{
+.changePassword-div,
+.preForgottenPassword-div{
   border: 2px solid white;
   border-radius: 20px;
   padding: 10px 10px 10px 10px;
@@ -467,7 +471,10 @@ th{
 
 #btn-save-test,
 #btn-save-question,
-#link-add-question-test{
+#link-add-question-test,
+#btn-to-register,
+#btn-to-login,
+#btn-confirm{
   height: 25px;
   width: auto;
   border-radius: 8px;
@@ -484,7 +491,10 @@ th{
 
 #btn-save-test:hover,
 #btn-save-question:hover,
-#link-add-question-test:hover{
+#link-add-question-test:hover,
+#btn-to-register:hover,
+#btn-to-login:hover,
+#btn-confirm:hover{
   background-color: #FF8000;
   color: aliceblue;
   transition: background-color 0.5s linear 0.1s;

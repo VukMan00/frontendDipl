@@ -4,14 +4,13 @@ import { changePassword } from '../services/AuthService';
 import { validationChangingPassword } from '../validation/ValidationHandler';
 
 const ChangePassword = () => {
+    const navigate = useNavigate();
+
     const[reqPassword,setReqPassword]=useState({
        'username':window.localStorage.getItem('username'),
-       'oldPassword':'',
        'newPassword':'',
        'confirmNewPassword':'' 
     });
-
-    const navigate = useNavigate();
 
     function handleInput(e){
         let newReqPassword = reqPassword;

@@ -38,6 +38,8 @@ import GetAllResultExam from './components.resultexam/GetAllResultExam';
 import AddResultExam from './components.resultexam/AddResultExam';
 import ViewTest from './components.test/ViewTest';
 import GetExamsOfStudent from './components.exams/GetExamsOfStudent';
+import PreForgottenPassword from './components.auth/PreForgottenPassword';
+import ForgottenPassword from './components.auth/ForgottenPassword';
 
 const ROLES={
   'User' : 'ROLE_USER',
@@ -73,6 +75,8 @@ function App() {
           <Route path={"register"} element={<Register />} />
           <Route path={"unauthorized"} element={<Unauthorized />}/>
           <Route path={"changePassword"} element={<ChangePassword />}/>
+          <Route path={"preForgottenPassword"} element={<PreForgottenPassword />}/>
+          <Route path={"forgottenPassword"} element={<ForgottenPassword />}/>
 
           {/* PROTECTED ROUTES */}
           <Route element={<RequireAuth allowedRoles={[ROLES.User,ROLES.Admin]}/>}>

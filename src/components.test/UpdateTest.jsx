@@ -85,6 +85,7 @@ const UpdateTest = ({newQuestionsTest}) => {
     const retrieveQuestionsFromTest = async()=>{
       try{
         const response = await getQuestionsFromTest(testId);
+        console.log(response);
         setQuestionsTest(response);
         setDbQuestionsTest(response);
       }catch(e){
@@ -107,8 +108,9 @@ const UpdateTest = ({newQuestionsTest}) => {
         await deleteQuestionsFromTest(filteredRemoveQuestionsTest,testId);
       }
       updatedTest.questions = questionsTest;
+      console.log(updatedTest);
       const response = await updateTest(updatedTest);
-      console.log(response.data);
+      console.log(response);
       document.getElementById('textAlert').innerHTML = "Sistem je sacuvao test";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
@@ -190,7 +192,7 @@ const UpdateTest = ({newQuestionsTest}) => {
                     ?(
                     <>
                       {questionsTest.map((qt,i)=>
-                      <option key={i} value={qt?.questionTestPK?.questionId} style={{fontFamily:'cursive'}}>{qt?.question?.content + " " + qt?.points}</option>
+                      <option key={i} value={qt?.questionTestPK?.questionId} style={{fontFamily:'cursive'}}>{qt?.question?.content + " - " + qt?.points}</option>
                       )}
                     </>
                   )
@@ -210,7 +212,7 @@ const UpdateTest = ({newQuestionsTest}) => {
                     ?(
                     <>
                       {questions.map((question,i)=>
-                      <option key={i} value={question?.questionTestPK.questionId} style={{fontFamily:'cursive'}}>{question?.question.content + " " + question?.points} </option>
+                      <option key={i} value={question?.questionTestPK.questionId} style={{fontFamily:'cursive'}}>{question?.question.content + " - " + question?.points} </option>
                       )}
                     </>
                   )

@@ -32,7 +32,7 @@ function NavBar() {
         <Link to="/" className='homePage'>Pocetna stranica</Link>
       </div>
       <div className='credentials'>
-        {pathname==="/login" || pathname==="/register" || pathname==="/preRegister" ? (
+        {pathname==="/login" || pathname==="/register" || pathname==="/preRegister" || pathname==="/preForgottenPassword" || pathname==="/forgottenPassword" ? (
           <></>
         ):(
           <>

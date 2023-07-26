@@ -25,17 +25,17 @@ const Register = () => {
             if(response.message==="Student je uspesno registrovan"){
                 document.getElementById('registrationTokenErr').style.visibility = 'hidden';
                 localStorage.clear();
-                document.getElementById("textAlert").innerHTML = "Sistem je registrovao korisnika";
+                document.getElementById("textAlert").innerHTML = "Student je uspesno registrovan";
                 document.getElementById("alert").style.visibility = 'visible';
             }
             else{
-                document.getElementById("textAlert").innerHTML = "Sistem ne moze da registruje korisnika";
+                document.getElementById("textAlert").innerHTML = "Greska pri registraciji";
                 document.getElementById("alert").style.visibility = 'visible';
                 document.getElementById('registrationTokenErr').style.visibility = 'visible';
                 document.getElementById('registrationTokenErr').value = response.data.message;
             }
         }catch(e){
-            document.getElementById('textAlert').innerHTML = "Sistem ne moze da registruje korisnika";
+            document.getElementById('textAlert').innerHTML = "Greska pri registraciji";
             document.getElementById("alert").style.visibility = 'visible';
             validationRegistration(e,document.getElementById('firstnameErr'),
                                     document.getElementById("lastnameErr"),document.getElementById("passwordErr"),
@@ -51,7 +51,7 @@ const Register = () => {
     }
 
     function potvrdi(){
-        if(document.getElementById("textAlert").innerHTML === "Sistem je registrovao korisnika"){
+        if(document.getElementById("textAlert").innerHTML === "Student je uspesno registrovan"){
             document.getElementById("alert").style.visibility = 'hidden';
             navigate("/login");
         }
@@ -93,7 +93,7 @@ const Register = () => {
                     Obaveštenje!
                 </div>
                 <div className="sadrzaj">
-                    <p id="textAlert">Sistem je registrovao korisnika</p>
+                    <p id="textAlert">Student je uspesno registrovan</p>
                     <button id="confirm" onClick={()=>potvrdi()}>OK</button>
                 </div>
             </div>
