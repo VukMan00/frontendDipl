@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet} from 'react-router-dom'
 import GetStudents from '../components.students/GetStudents'
 
 const OptionStudent = () => {
-
   const[studentId,setStudentId] = useState(0);
 
   function getCheckedId(checkedIds){

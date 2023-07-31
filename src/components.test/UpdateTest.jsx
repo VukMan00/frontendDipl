@@ -111,7 +111,7 @@ const UpdateTest = ({newQuestionsTest}) => {
       console.log(updatedTest);
       const response = await updateTest(updatedTest);
       console.log(response);
-      document.getElementById('textAlert').innerHTML = "Sistem je sacuvao test";
+      document.getElementById('textAlert').innerHTML = "Sistem je zapamtio test";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
@@ -160,7 +160,7 @@ const UpdateTest = ({newQuestionsTest}) => {
   function potvrdi(e){
     e.preventDefault();
     document.getElementById('alert').style.visibility = 'hidden';
-    if(document.getElementById('textAlert').innerHTML === "Sistem je sacuvao test"){
+    if(document.getElementById('textAlert').innerHTML === "Sistem je zapamtio test"){
       navigate("/tests");
     }
   }
@@ -235,7 +235,7 @@ const UpdateTest = ({newQuestionsTest}) => {
                 Obaveštenje!
             </div>
             <div className="sadrzaj">
-                <p id="textAlert">Sistem je sacuvao test</p>
+                <p id="textAlert">Sistem je zapamtio test</p>
                 <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
             </div>
           </div>

@@ -75,7 +75,7 @@ const GetAnswers = ({questionId,getCheckedId}) => {
           <label htmlFor="criteria">Unesite naziv:</label>
           <input type="text" name="criteria" className='criteria' placeholder='Unesite kriterijum pretrage' onKeyDown={(e)=>filterAnswers(e)}/>
         </form>
-        <table>
+        <table style={{width:'100%'}}>
           <thead>
             <tr>
               <th></th>

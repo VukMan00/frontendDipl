@@ -29,15 +29,12 @@ const AddAnswer = ({getAnswers}) => {
             else if(falseSolution){
                 answer.solution = false;
             }
-            console.log(answers.length);
             answer.answerPK.answerId = answers.length===0 ? answers?.length+1 : answers[answers.length-1].answerPK.answerId + 1;
-            console.log(answer);
             answers.push(answer);
             getAnswers(answers);
             navigate(-1);
         }
         else{
-            console.log("USAO OVDE")
             document.getElementById('answerContentErr').style.visibility = 'visible';
             document.getElementById('answerContentErr').value = "Neispravno uneti podaci za naziv pitanja";
         }

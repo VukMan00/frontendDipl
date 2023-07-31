@@ -49,11 +49,13 @@ const Login = () => {
                 sendEmailForPassword(email);
             }
             else{
-                navigate(from,{replace:true});
+                document.getElementById('textAlert').innerHTML = "Uspesno ste se ulogovali";
+                document.getElementById('alert').style.visibility = 'visible';
             }     
         }
         catch(e){
             console.log(e);
+            document.getElementById('textAlert').innerHTML = "Neispravno uneti podaci";
             document.getElementById("alert").style.visibility = 'visible';
         }
     }
@@ -72,6 +74,9 @@ const Login = () => {
 
     function potvrdi(){
         document.getElementById("alert").style.visibility = 'hidden';
+        if(document.getElementById('textAlert').innerHTML === 'Uspesno ste se ulogovali'){
+            navigate(from,{replace:true});
+        }
     }
 
     function potvrdiPassword(){
@@ -102,7 +107,7 @@ const Login = () => {
                     Obaveštenje!
                 </div>
                 <div className="sadrzaj">
-                    <p id="textAlert">Neuspesno, pokusajte ponovo!</p>
+                    <p id="textAlert">Neispravno uneti podaci</p>
                     <button id="confirm" onClick={()=>potvrdi()}>OK</button>
                 </div>
             </div>

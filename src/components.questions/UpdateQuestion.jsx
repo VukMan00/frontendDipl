@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { deleteAnswersFromQuestion, deleteTestsFromQuestion, getAnswers, getQuestion, getTestsFromQuestion, updateQuestion } from '../services/QuestionService';
+import { deleteAnswersFromQuestion, deleteTestsFromQuestion, getQuestion, getTestsFromQuestion, updateQuestion } from '../services/QuestionService';
 import {BsArrowLeft,BsArrowRight} from 'react-icons/bs';
 import { getTests } from '../services/TestService';
 import { validationQuestion } from '../validation/ValidationHandler';
@@ -34,8 +34,11 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
     const retrieveQuestion = async()=>{
       try{
         const response = await getQuestion(questionId);
+        setAnswers(response.answers);
+        setDbAnswers(response.answers);
         setUpdatedQuestion(response);
       }catch(e){
+        setAnswers([]);
         console.log(e);
       }
     }
@@ -104,20 +107,6 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
   },[questionId])
 
   useEffect(()=>{
-    const retrieveAnswersFromQuestion = async()=>{
-        try{
-          const response = await getAnswers(questionId);
-          setAnswers(response);
-          setDbAnswers(response);
-        }catch(e){
-          setAnswers([]);
-          console.log(e);
-        }
-      }
-      retrieveAnswersFromQuestion();
-  },[questionId])
-
-  useEffect(()=>{
     setQuestionsTest(newQuestionsTest);
   },[newQuestionsTest]);
 
@@ -139,7 +128,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
         console.log(updatedQuestion);
         const response = await updateQuestion(updatedQuestion);
         console.log(response.data);
-        document.getElementById('textAlert').innerHTML = "Sistem je sacuvao pitanje";
+        document.getElementById('textAlert').innerHTML = "Sistem je zapamtio pitanje";
         document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
         console.log(e);
@@ -211,7 +200,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
    function potvrdi(e){
      e.preventDefault();
      document.getElementById('alert').style.visibility = 'hidden';
-     if(document.getElementById('textAlert').innerHTML === "Sistem je sacuvao pitanje"){
+     if(document.getElementById('textAlert').innerHTML === "Sistem je zapamtio pitanje"){
        navigate("/questions");
      }
    }
@@ -310,7 +299,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
                         Obaveštenje!
                     </div>
                     <div className="sadrzaj">
-                        <p id="textAlert">Sistem je sacuvao pitanje</p>
+                        <p id="textAlert">Sistem je zapamtio pitanje</p>
                         <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
                     </div>
                 </div>

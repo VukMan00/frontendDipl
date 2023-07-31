@@ -30,7 +30,6 @@ const CreateAnswer = () => {
                answer.solution = false;
             }
             const response = await createAnswer(answer);
-            console.log(response);
             document.getElementById('textAlert').innerHTML = "Sistem je zapamtio odgovor";
             document.getElementById('alert').style.visibility = 'visible';
         }catch(err){

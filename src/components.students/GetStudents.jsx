@@ -50,7 +50,7 @@ const GetStudents = ({getCheckedId}) => {
       e.preventDefault();
       const filteredStudents = students.filter(student => student.index.includes(e.target.value));
       if(filteredStudents.length === 0){
-        document.getElementById('textAlertGet').innerHTML = 'Sistem ne moze da pronadje studente po zadatoj vrednosti';
+        document.getElementById('textAlertGet').innerHTML = 'Sistem ne moze da nadje studente po zadatoj vrednosti';
         document.getElementById("alertGet").style.visibility = 'visible';
       }
       else{

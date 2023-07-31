@@ -198,7 +198,7 @@ input{
 #contentErr,#oldPasswordErr,#newPasswordErr,#confirmNewPasswordErr,#pointsErr,
 #nameErr,#amphitheaterErr,#dateExamErr,#testErr,#answerContentErr,
 #pointsErr,#gradeErr{
-  background: none;
+  background-color: white;
   border: none;
   color:red;
   visibility: hidden;

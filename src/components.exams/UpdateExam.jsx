@@ -308,7 +308,7 @@ const UpdateExam = () => {
               Obaveštenje!
           </div>
           <div className="sadrzaj">
-            <p id="textAlert">Sistem ne moze da ucita studenta</p>
+            <p id="textAlert">Sistem ne moze da ucita polaganje</p>
             <button id="confirm" onClick={(e)=>potvrdiNotFound(e)}>OK</button>
           </div>
         </div>
