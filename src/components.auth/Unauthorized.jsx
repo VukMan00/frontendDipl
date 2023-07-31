@@ -12,7 +12,7 @@ const Unauthorized = () => {
           <br />
           <p>Nemate pristup trazenoj stranici!</p>
           <div className="flexGrow">
-              <button id='btn-goBack' onClick={() => navigate(-1)}>Vrati se nazad</button>
+              <button id='btn-goBack' onClick={() => navigate("/")}>Vrati se na pocetnu stranicu</button>
           </div>
       </div>
     </div>
