@@ -41,7 +41,14 @@ const UpdateExam = () => {
       try{
         const response = await getExam(examId);
         setUpdatedExam(response);
+        console.log(response);
         setTest(response.test);
+        let convertedStudents = [];
+        for(let i=0;i<response?.results?.length;i++){
+          convertedStudents.push(response.results[i]?.student);
+        }
+        setStudentsOfExam(convertedStudents);
+        setDbStudentsOfExam(convertedStudents);
       }catch(e){
         console.log(e);
       }
@@ -93,19 +100,6 @@ const UpdateExam = () => {
       isMounted && controller.abort();
     }
   },[location,navigate])
-
-  useEffect(()=>{
-    const retrieveStudentsOfExam = async()=>{
-      try{
-        const response = await getStudentsOfExam(examId);
-        setStudentsOfExam(response);
-        setDbStudentsOfExam(response);
-      }catch(e){
-        console.log(e);
-      }
-    }
-    retrieveStudentsOfExam();
-  },[examId])
 
   const saveUpdatedExam = async(e)=>{
     e.preventDefault();
@@ -238,7 +232,7 @@ const UpdateExam = () => {
             </>
             )
             :
-            <option style={{color:'red'}}>Sistem ne moze da ucita testove</option>
+            <option style={{color:'red'}}>Nije moguce ucitati listu testova</option>
             }
             </select>
             <input type="text" id="testErr" name="testErr" readOnly />
@@ -255,7 +249,7 @@ const UpdateExam = () => {
                     </>
                   )
                   :
-                  <option style={{color:'red'}}>Sistem ne moze da ucita studente</option>
+                  <option style={{color:'red'}}>Ne postoje prijavljeni studenti</option>
                   }
                 </select>
               </div>
@@ -275,7 +269,7 @@ const UpdateExam = () => {
                     </>
                   )
                   :
-                  <option style={{color:'red'}}>Sistem ne moze da ucita studente</option>
+                  <option style={{color:'red'}}>Nije moguce ucitati listu studenata</option>
                   }
                 </select>
               </div> 

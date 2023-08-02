@@ -74,26 +74,13 @@ const UpdateTest = ({newQuestionsTest}) => {
       try{
         const response = await getTest(testId);
         setUpdatedTest(response);
+        setQuestionsTest(response?.questions);
+        setDbQuestionsTest(response?.questions);
       }catch(e){
         console.log(e);
       }
     }
     retrieveTest();
-  },[testId])
-
-  useEffect(()=>{
-    const retrieveQuestionsFromTest = async()=>{
-      try{
-        const response = await getQuestionsFromTest(testId);
-        console.log(response);
-        setQuestionsTest(response);
-        setDbQuestionsTest(response);
-      }catch(e){
-        console.log(e);
-        setQuestionsTest([]);
-      }
-    }
-    retrieveQuestionsFromTest();
   },[testId])
 
   useEffect(()=>{

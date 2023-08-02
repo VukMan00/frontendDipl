@@ -77,7 +77,6 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
       try{
         const response = await getTests(controller);
         const mappedQuestionsTest = mapIntoQuestionsTest(response);
-        console.log(mappedQuestionsTest);
         isMounted && setTests(mappedQuestionsTest);
       }catch(err){
         console.error(err);

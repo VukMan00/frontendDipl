@@ -56,24 +56,17 @@ const UpdateStudent = () => {
       try{
         const response = await getStudent(studentId);
         setUpdatedStudent(response);
+        let convertedExams = [];
+        for(let i=0;i<response?.results?.length;i++){
+          convertedExams.push(response.results[i]?.exam);
+        }
+        setExamsOfStudent(convertedExams);
+        setDbExamsOfStudent(convertedExams);
       }catch(e){
         console.log(e);
       }
     }
     retrieveStudent();
-  },[studentId])
-  
-  useEffect(()=>{
-    const retrieveExamsOfStudent = async()=>{
-      try{
-        const response = await getExamsOfStudent(studentId);
-        setExamsOfStudent(response);
-        setDbExamsOfStudent(response);
-      }catch(e){
-        console.log(e);
-      }
-    }
-    retrieveExamsOfStudent();
   },[studentId])
 
   const saveUpdatedStudent = async(e)=>{
@@ -204,7 +197,7 @@ const UpdateStudent = () => {
                     </>
                   )
                   :
-                  <option style={{color:'red'}}>Sistem ne moze da ucita polaganja</option>
+                  <option style={{color:'red'}}>Ne postoje prijavljena polaganje</option>
                   }
                 </select>
               </div>
@@ -224,7 +217,7 @@ const UpdateStudent = () => {
                     </>
                   )
                   :
-                  <option style={{color:'red'}}>Sistem ne moze da ucita polaganja</option>
+                  <option style={{color:'red'}}>Nje moguce ucitati listu polaganja</option>
                   }
                 </select>
               </div> 
