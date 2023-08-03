@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import {useState} from "react";
 import { useLocation, useNavigate} from 'react-router-dom';
 import { getExams } from '../services/ExamService';
-import { createStudent, saveResultExam } from '../services/StudentService';
+import moment from 'moment';
+import { createStudent} from '../services/StudentService';
 import { validationStudent } from '../validation/ValidationHandler';
 
 const CreateStudent = () => {
@@ -12,7 +13,8 @@ const CreateStudent = () => {
     'lastname':'',
     'email':'',
     'index':'',
-    'birth':''
+    'birth':'',
+    'results':''
   });
 
   const[exams,setExams] = useState();
@@ -28,7 +30,8 @@ const CreateStudent = () => {
     const getAllExams = async()=>{
       try{
         const response = await getExams(controller);
-        isMounted && setExams(response);
+        const availableExams = retrieveFutureExams(response);
+        isMounted && setExams(availableExams);
 
       }catch(err){
         console.error(err);
@@ -43,11 +46,24 @@ const CreateStudent = () => {
     }
   },[location,navigate])
 
+  function retrieveFutureExams(listOfExams){
+    const availableExams = [];
+    for(let i=0;i<listOfExams.length;i++){
+      const currentDate = moment().format('YYYY-MM-DD');
+      const isLater = moment(listOfExams[i]?.date).isAfter(currentDate);
+      if(isLater){
+        availableExams.push(listOfExams[i]);
+      }
+    }
+    return availableExams;
+  }
+
   const saveStudent = async(e)=>{
     e.preventDefault();
     try{
+      student.results = setResultsOfStudent();
       const response = await createStudent(student);
-      insertStudentToExam(response.id);
+      console.log(response)
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio studenta";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(error){
@@ -56,13 +72,20 @@ const CreateStudent = () => {
     }
   }
 
-  const insertStudentToExam= async(studentId) =>{
-      try{
-        const response = await saveResultExam(selectedExams,studentId);
-        console.log(response);
-      }catch(e){
-        console.log(e);
+  function setResultsOfStudent(){
+    const results = [];
+    for(let i=0;i<selectedExams.length;i++){
+      const resultExam = {
+        "resultExamPK":{
+          "studentId":'',
+          "examId":selectedExams[i]
+        },
+        "points":0,
+        "grade":5
       }
+      results.push(resultExam);
+    }
+    return results;
   }
 
   function handleInput(e){

@@ -240,7 +240,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
                         </>
                     )
                     :
-                    <option style={{color:'red'}}>Sistem ne moze da ucita odgovore</option>
+                    <option style={{color:'red'}}>Pitanje nema odgovore</option>
                     }
                     </select>
                     <div className='button'>
@@ -260,7 +260,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
                                 </>
                             )
                             :
-                            <option style={{color:'red'}}>Sistem ne moze da ucita testove pitanja</option>
+                            <option style={{color:'red'}}>Ne postoje testovi pitanja</option>
                             }
                             </select>
                         </div>
@@ -280,7 +280,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
                                 </>
                             )
                             :
-                            <option style={{color:'red'}}>Sistem ne moze da ucita testove</option>
+                            <option style={{color:'red'}}>Nije moguce ucitati testove</option>
                             }
                             </select>
                         </div>

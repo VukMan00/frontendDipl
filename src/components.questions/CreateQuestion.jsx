@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { getTests } from '../services/TestService';
 import { validationQuestion } from '../validation/ValidationHandler';
-import { createQuestion, saveAnswers } from '../services/QuestionService';
+import { createQuestion} from '../services/QuestionService';
 
 const CreateQuestion = ({newAnswers}) => {
 
@@ -11,7 +11,8 @@ const CreateQuestion = ({newAnswers}) => {
     
     const[question,setQuestion]=useState({
         'id':0,
-        'content':''
+        'content':'',
+        'answers':''
     })
 
     const[questionId,setQuestionId]=useState();
@@ -51,9 +52,9 @@ const CreateQuestion = ({newAnswers}) => {
     const saveQuestion = async(e)=>{
         e.preventDefault();
         try{
+            question.answers = setAnswersForQuestion();
             const response = await createQuestion(question);
             setQuestionId(response.id);
-            await saveAnswers(answers,response.id);
             setAnswers([]);
             document.getElementById('textAlert').innerHTML = "Sistem je zapamtio pitanje";
             document.getElementById("alert").style.visibility='visible';
@@ -61,6 +62,22 @@ const CreateQuestion = ({newAnswers}) => {
             console.log(error);
             validation(error);
         }
+    }
+
+    function setAnswersForQuestion(){
+        const changedAnswers = [];
+        for(let i=0;i<answers.length;i++){
+            const newAnswer = {
+                "answerPK":{
+                    "questionId":'',
+                    "answerId":''
+                },
+                "content":answers[i].content,
+                "solution":answers[i].solution
+            }
+            changedAnswers.push(newAnswer);
+        }
+        return changedAnswers;
     }
 
     function handleInput(e){

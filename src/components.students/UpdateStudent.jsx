@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import {deleteStudentFromExams, getExamsOfStudent, getStudent, updateStudent } from '../services/StudentService';
+import {deleteStudentFromExams, getStudent, updateStudent } from '../services/StudentService';
 import { validationStudent } from '../validation/ValidationHandler';
 import { getExams } from '../services/ExamService';
 import {BsArrowLeft,BsArrowRight} from 'react-icons/bs';
+import moment from 'moment';
 
 const UpdateStudent = () => {
   
@@ -35,7 +36,8 @@ const UpdateStudent = () => {
     const getAllExams = async()=>{
       try{
         const response = await getExams(controller);
-        isMounted && setExams(response);
+        const availableExams = retrieveFutureExams(response);
+        isMounted && setExams(availableExams);
 
       }catch(err){
         console.error(err);
@@ -68,6 +70,18 @@ const UpdateStudent = () => {
     }
     retrieveStudent();
   },[studentId])
+
+  function retrieveFutureExams(listOfExams){
+    const availableExams = [];
+    for(let i=0;i<listOfExams.length;i++){
+      const currentDate = moment().format('YYYY-MM-DD');
+      const isLater = moment(listOfExams[i]?.date).isAfter(currentDate);
+      if(isLater){
+        availableExams.push(listOfExams[i]);
+      }
+    }
+    return availableExams;
+  }
 
   const saveUpdatedStudent = async(e)=>{
     e.preventDefault();

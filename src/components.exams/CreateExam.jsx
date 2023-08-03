@@ -12,7 +12,8 @@ const CreateExam = () => {
     "name":'',
     "amphitheater":'',
     "date":'',
-    "test":''
+    "test":'',
+    'results':''
   });
 
   const[test,setTest]=useState({
@@ -106,9 +107,9 @@ const CreateExam = () => {
       else{
         exam.test = test;
       }
-      console.log(exam);
+      exam.results = setResultsOfExam();
       const response = await createExam(exam);
-      insertStudents(response.id);
+      console.log(response);
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio polaganje";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(error){
@@ -117,13 +118,21 @@ const CreateExam = () => {
     }
   }
 
-  const insertStudents= async(examId) =>{
-    try{
-      await saveResultExam(selectedStudents,examId);
-    }catch(e){
-      console.log(e);
+  function setResultsOfExam(){
+    const results = [];
+    for(let i=0;i<selectedStudents.length;i++){
+      const resultExam = {
+        "resultExamPK":{
+          "studentId":selectedStudents[i],
+          "examId":''
+        },
+        "points":0,
+        "grade":5
+      }
+      results.push(resultExam);
     }
-}
+    return results;
+  }
 
   function potvrdi(e){
     e.preventDefault();
