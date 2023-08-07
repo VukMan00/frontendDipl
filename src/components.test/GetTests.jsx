@@ -99,7 +99,7 @@ const GetTests = ({getCheckedId}) => {
           </>
         )
         :
-        <></>
+        <>Nije moguce ucitati listu testova</>
       }
         </tbody>
       </table>

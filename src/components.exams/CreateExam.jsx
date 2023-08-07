@@ -181,7 +181,7 @@ const CreateExam = () => {
             </>
           )
           :
-            <option style={{color:'red'}}>Sistem ne moze da ucita testove</option>
+            <option style={{color:'red'}}>Nije moguce ucitati listu testova</option>
           }
           </select>
           <input type="text" id="testErr" name="testErr" readOnly />
@@ -196,7 +196,7 @@ const CreateExam = () => {
             </>
           )
           :
-          <option style={{color:'red'}}>Sistem ne moze da ucita studente</option>
+          <option style={{color:'red'}}>Nije moguce ucitati listu studenata</option>
         }
         </select>
         <button id="btn-unselectAll" onClick={(e) => unSelectAll(e)}>Ponisti izbor studenata</button>

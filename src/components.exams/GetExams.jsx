@@ -164,7 +164,7 @@ const GetExams = ({getCheckedId}) => {
             </>
           )
           :
-          <></>
+          <>Nije moguce ucitati listu polaganja</>
           }
           </tbody>
         </table>

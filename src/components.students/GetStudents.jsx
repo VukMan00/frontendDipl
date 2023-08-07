@@ -103,7 +103,7 @@ const GetStudents = ({getCheckedId}) => {
             </>
           )
           :
-          <></>
+          <>Nje moguce ucitati listu studenata</>
         }
           </tbody>
         </table>

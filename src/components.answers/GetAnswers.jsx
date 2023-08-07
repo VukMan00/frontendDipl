@@ -98,6 +98,7 @@ const GetAnswers = ({questionId,getCheckedId}) => {
           )
           :
           <>
+          Nije moguce ucitati listu odgovora
           </>
           }
           </tbody>

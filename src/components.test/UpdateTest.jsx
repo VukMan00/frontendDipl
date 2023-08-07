@@ -184,7 +184,7 @@ const UpdateTest = ({newQuestionsTest}) => {
                     </>
                   )
                   :
-                  <option style={{color:'red'}}>Sistem ne moze da ucita pitanja testa</option>
+                  <option style={{color:'red'}}>Ne postoje pitanja testa</option>
                   }
                 </select>
               </div>
@@ -204,7 +204,7 @@ const UpdateTest = ({newQuestionsTest}) => {
                     </>
                   )
                   :
-                  <option style={{color:'red'}}>Sistem ne moze da ucita pitanja</option>
+                  <option style={{color:'red'}}>Nije moguce ucitati listu pitanja</option>
                   }
                 </select>
               </div>

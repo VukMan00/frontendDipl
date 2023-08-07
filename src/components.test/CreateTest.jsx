@@ -115,7 +115,7 @@ const CreateTest = () => {
             </>
           )
           :
-          <option style={{color:'red'}}>Sistem ne moze da ucita pitanja</option>
+          <option style={{color:'red'}}>Nije moguce ucitati listu pitanja</option>
         }
         </select>
         <button id="btn-unselectAll" onClick={(e) => unSelectAll(e)}>Ponisti izbor pitanja</button>

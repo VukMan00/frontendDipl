@@ -156,7 +156,7 @@ const CreateStudent = () => {
             </>
           )
           :
-          <option>Sistem ne moze da ucita polaganja</option>
+          <option style={{color:'red'}}>Nije moguce ucitati listu polaganja</option>
         }
         </select>
         <button id="btn-unselectAll" onClick={(e) => unSelectAll(e)}>Ponisti izbor polaganja</button>

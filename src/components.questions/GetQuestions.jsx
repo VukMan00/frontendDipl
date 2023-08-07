@@ -93,7 +93,7 @@ const GetQuestions = ({getCheckedId}) => {
             </>
           )
           :
-          <></>
+          <>Nije moguce ucitati listu pitanja</>
           }
           </tbody>
         </table>

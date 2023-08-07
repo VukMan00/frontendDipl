@@ -20,18 +20,18 @@ const ForgottenPassword = () => {
     if(newReqPassword.confirmNewPassword === newReqPassword.newPassword && newReqPassword.confirmNewPassword!==''){
       document.getElementById('confirmNewPasswordErr').style.visibility = 'visible';
       document.getElementById('confirmNewPasswordErr').style.color = 'green';
-      document.getElementById('confirmNewPasswordErr').value = 'Nova lozinka se poklapa sa potvrdjenom!';
+      document.getElementById('confirmNewPasswordErr').value = 'Nova lozinka se poklapa!';
     }
     else{
       document.getElementById('confirmNewPasswordErr').style.visibility = 'visible';
       document.getElementById('confirmNewPasswordErr').style.color = 'red';
-      document.getElementById('confirmNewPasswordErr').value = 'Nova lozinka se ne poklapa sa potvrdjenom!';
+      document.getElementById('confirmNewPasswordErr').value = 'Nova lozinka se ne poklapa!';
     }
   }
 
   const savePassword = async(e)=>{
     e.preventDefault();
-    if(document.getElementById('confirmNewPasswordErr').value === 'Nova lozinka se poklapa sa potvrdjenom!'){
+    if(document.getElementById('confirmNewPasswordErr').value === 'Nova lozinka se poklapa!'){
       try{
         const response = await changePassword(reqPassword);
         console.log(response);

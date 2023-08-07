@@ -21,7 +21,7 @@ const PreRegister = () => {
         try{
             const response = await emailPreRegister(email);
             console.log(response.data);
-            if(response.data!=="Email already exist"){
+            if(response.data!=="Email vec postoji"){
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 document.getElementById("alert").style.visibility = 'visible';
                 window.localStorage.setItem("emailRegister",email.recipient);

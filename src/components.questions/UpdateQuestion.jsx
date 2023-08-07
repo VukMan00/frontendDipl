@@ -260,7 +260,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
                                 </>
                             )
                             :
-                            <option style={{color:'red'}}>Ne postoje testovi pitanja</option>
+                            <option style={{color:'red'}}>Nije moguce ucitati listu testova pitanja</option>
                             }
                             </select>
                         </div>
@@ -280,7 +280,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
                                 </>
                             )
                             :
-                            <option style={{color:'red'}}>Nije moguce ucitati testove</option>
+                            <option style={{color:'red'}}>Nije moguce ucitati listu testova</option>
                             }
                             </select>
                         </div>

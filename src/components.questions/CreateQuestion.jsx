@@ -166,7 +166,7 @@ const CreateQuestion = ({newAnswers}) => {
                         </>
                     )
                     :
-                    <option style={{color:'red'}}>Sistem ne moze da ucita testove</option>
+                    <option style={{color:'red'}}>Nije moguce ucitati listu testova</option>
                     }
                     </select>
                     <button id="btn-unselectAll" onClick={(e) => unSelectAll(e)}>Ponisti izbor testova</button>
