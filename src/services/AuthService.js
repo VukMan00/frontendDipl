@@ -46,6 +46,7 @@ export const emailForPassowrd = async(email)=>{
 
 export const changePassword = async(reqPassword)=>{
     try{
+        console.log(reqPassword);
         const response = await axiosPrivate.post("/auth/changePassword",reqPassword);
         return response;
     }catch(err){
@@ -66,7 +67,7 @@ export const emailPreRegister = async(email)=>{
 
 export const checkEmail = async(email)=>{
     try{
-        const response = await axios.post("/auth/checkEmail",email);
+        const response = await axios.post("/auth/forgottenEmail",email);
         return response;
     }catch(err){
         console.error("Error checking email: " + err);

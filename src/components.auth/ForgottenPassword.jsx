@@ -9,7 +9,8 @@ const ForgottenPassword = () => {
   const[reqPassword,setReqPassword]=useState({
     'username':window.localStorage.getItem('email'),
     'newPassword':'',
-    'confirmNewPassword':'' 
+    'confirmNewPassword':'',
+    'token':''
   });
 
   function handleInput(e){
@@ -72,6 +73,9 @@ const ForgottenPassword = () => {
                 <label htmlFor='confirmNewPassword'>Potvrda nove lozinke</label>
                 <input type="password" name="confirmNewPassword" id="confirmNewPassword" placeholder='Potvrdite novu lozinku' onInput={(e)=>handleInput(e)}/>
                 <input type="text" name="confirmNewPasswordErr" id="confirmNewPasswordErr" defaultValue="Nova lozinka se ne poklapa sa potvrdjenom!" readOnly />
+                <label htmlFor="token">Token</label>
+                <input type="text" name='token' placeholder='Unesite token' onInput={(e)=>handleInput(e)} />
+                <input type="text" name="token" id="tokenErr" readOnly/>
                 <div className='button'>
                     <input type="submit" name="changePassword" id="btn-changePassword" value="Promeni lozinku" />
                 </div>

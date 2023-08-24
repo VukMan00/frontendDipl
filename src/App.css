@@ -197,7 +197,7 @@ input{
 #passwordErr,#emailErr,#firstnameErr,#lastnameErr,#indexErr,#birthErr,#registrationTokenErr,
 #contentErr,#oldPasswordErr,#newPasswordErr,#confirmNewPasswordErr,#pointsErr,
 #nameErr,#amphitheaterErr,#dateExamErr,#testErr,#answerContentErr,
-#pointsErr,#gradeErr{
+#pointsErr,#gradeErr,#tokenErr{
   background-color: white;
   border: none;
   color:red;

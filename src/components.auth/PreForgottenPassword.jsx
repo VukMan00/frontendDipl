@@ -13,11 +13,11 @@ const PreForgottenPassword = () => {
     });
 
 
-    const checkAccount = async(e)=>{
+    const forgottenEmail = async(e)=>{
         e.preventDefault();
         try{
             const response = await checkEmail(email);
-            if(response.data!=="Email doesn't exist"){
+            if(response.data!=="Email ne postoji"){
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 document.getElementById("alert").style.visibility = 'visible';
                 localStorage.setItem("email",email.recipient);
@@ -42,7 +42,6 @@ const PreForgottenPassword = () => {
     function potvrdi(e){
         e.preventDefault();
         document.getElementById("alert").style.visibility = 'hidden';
-        navigate('/forgottenPassword');
     }
 
     function cancel(e){
@@ -66,7 +65,7 @@ const PreForgottenPassword = () => {
   return (
     <div className='preForgottenPassword'>
         <div className="preForgottenPassword-div">
-            <form className="preForgottenPassword-form" onSubmit={checkAccount}>
+            <form className="preForgottenPassword-form" onSubmit={forgottenEmail}>
                 <label htmlFor="recipient">Email</label>
                 <input type="text" name="recipient" placeholder='Unesite email' onInput={(e)=>handleInput(e)} style={{marginLeft: 10}}/>
                 <input type="text" name="emailErr" id="emailErr" readOnly/>
@@ -82,7 +81,7 @@ const PreForgottenPassword = () => {
                 </div>
                 <div className="sadrzaj">
                     <p id="textAlert">Nalog postoji u sistemu.</p>
-                    <p id="textAlert">Bicete prebaceni na stranicu promene lozinke!</p>
+                    <p id="textAlert">Poverite email za dalje korake!</p>
                     <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
                 </div>
             </div>
