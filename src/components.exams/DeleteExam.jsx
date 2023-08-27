@@ -56,18 +56,28 @@ const DeleteExam = () => {
   function potvrdi(e){
     e.preventDefault();
     document.getElementById('alert').style.visibility = 'hidden';
+    clearCheckBoxes();
     navigate("/exams");
   }
 
   function potvrdiNotFound(e){
     e.preventDefault();
     document.getElementById('alertWrong').style.visibility = 'hidden';
+    clearCheckBoxes();
     navigate('/exams');
   }
 
   function cancel(e){
     e.preventDefault();
+    clearCheckBoxes();
     navigate("/exams");
+  }
+
+  function clearCheckBoxes(){
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
   }
 
   if(examId!==undefined && examId!==0){

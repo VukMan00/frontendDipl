@@ -69,18 +69,28 @@ const DeleteAnswer = () => {
   function potvrdi(e){
     e.preventDefault();
     document.getElementById('alert').style.visibility = 'hidden';
+    clearCheckBoxes();
     navigate(-1);
   }
 
   function potvrdiNotFound(e){
     e.preventDefault();
     document.getElementById('alertWrong').style.visibility = 'hidden';
+    clearCheckBoxes();
     navigate(-1);
   }
   
   function cancel(e){
     e.preventDefault();
+    clearCheckBoxes();
     navigate(-1);
+  }
+
+  function clearCheckBoxes(){
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
   }
 
   if(answerId!==undefined && answerId!==0){

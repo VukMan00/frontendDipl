@@ -10,6 +10,7 @@ const UpdateStudent = () => {
   
   const navigate = useNavigate();
   const location = useLocation();
+  const [modifiedState, setModifiedState] = useState(location.state || {});
   const studentId = location.state?.studentId;
   
   const[updatedStudent, setUpdatedStudent] = useState({
@@ -22,7 +23,6 @@ const UpdateStudent = () => {
     'results':''
   })
 
-  
   const[dbExamsOfStudent,setDbExamsOfStudent]=useState([]);
   const[examsOfStudent,setExamsOfStudent] = useState([]);
   const[exams,setExams]=useState([]);
@@ -154,6 +154,7 @@ const UpdateStudent = () => {
     e.preventDefault();
     document.getElementById('alert').style.visibility = 'hidden';
     if(document.getElementById('textAlert').innerHTML === "Sistem je zapamtio studenta"){
+      clearCheckBoxes();
       navigate("/students");
     }
   }
@@ -161,12 +162,21 @@ const UpdateStudent = () => {
   function potvrdiNotFound(e){
     e.preventDefault();
     document.getElementById('alertWrong').style.visibility = 'hidden';
+    clearCheckBoxes();
     navigate('/students');
   }
 
   function cancel(e){
     e.preventDefault();
+    clearCheckBoxes();
     navigate("/students");
+  }
+
+  function clearCheckBoxes(){
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
   }
 
   function validation(error){

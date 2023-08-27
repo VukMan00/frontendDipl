@@ -85,18 +85,21 @@ const UpdateAnswer = () => {
         e.preventDefault()
         document.getElementById('alert').style.visibility = 'hidden';
         if(document.getElementById("textAlert").innerHTML === "Sistem je zapamtio odgovor"){
+            clearCheckBoxes();
             navigate(-1);
         }
     }
 
     function cancel(e){
         e.preventDefault();
+        clearCheckBoxes();
         navigate(-1);
     }
 
     function potvrdiNotFound(e){
         e.preventDefault();
         document.getElementById('alertWrong').style.visibility = 'hidden';
+        clearCheckBoxes();
         navigate(-1);
     }
 
@@ -106,6 +109,13 @@ const UpdateAnswer = () => {
     
         validationAnswer(error,document.getElementById("contentErr"));
     }
+
+    function clearCheckBoxes(){
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = false;
+        });
+      }
 
   if(answerId!==undefined && answerId!==0){
     return (

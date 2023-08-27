@@ -61,7 +61,7 @@ const GetExamsOfStudent = () => {
 
   return (
     <div className='examsOfStudent'>
-      <h1 style={{fontStyle:'italic'}}>Predstojeca polaganja</h1>
+      <h1 style={{fontStyle:'italic',color:'white'}}>Predstojeca polaganja</h1>
       <div className='tableFutureExams'>
         <table>
           <thead>
@@ -98,7 +98,7 @@ const GetExamsOfStudent = () => {
           </tbody>
         </table>
       </div>
-      <h1 style={{fontStyle:'italic'}}>Prosla polaganja</h1>
+      <h1 style={{fontStyle:'italic',color:'white'}}>Prosla polaganja</h1>
       <div className='tablePastExams'>
         <table>
           <thead>

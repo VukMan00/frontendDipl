@@ -148,6 +148,7 @@ const UpdateTest = ({newQuestionsTest}) => {
     e.preventDefault();
     document.getElementById('alert').style.visibility = 'hidden';
     if(document.getElementById('textAlert').innerHTML === "Sistem je zapamtio test"){
+      clearCheckBoxes();
       navigate("/tests");
     }
   }
@@ -155,12 +156,21 @@ const UpdateTest = ({newQuestionsTest}) => {
   function potvrdiNotFound(e){
     e.preventDefault();
     document.getElementById('alertWrong').style.visibility = 'hidden';
+    clearCheckBoxes();
     navigate('/tests');
   }
 
   function cancel(e){
     e.preventDefault();
+    clearCheckBoxes();
     navigate("/tests");
+  }
+
+  function clearCheckBoxes(){
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
   }
 
   if(testId!==undefined && testId!==0){

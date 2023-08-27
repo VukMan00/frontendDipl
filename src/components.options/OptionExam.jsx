@@ -21,11 +21,19 @@ import { saveResultExam } from '../services/StudentService';
       try{
         if(examIds.length!==0){
           await saveResultExam(examIds,localStorage.getItem('id'));
+          clearCheckBoxes();
           navigate("/exams");
         }
       }catch(err){
         console.log(err);
       }
+    }
+
+    function clearCheckBoxes(){
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(function(checkbox) {
+          checkbox.checked = false;
+      });
     }
 
   return (

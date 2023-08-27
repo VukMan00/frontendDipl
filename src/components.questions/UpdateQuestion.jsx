@@ -200,6 +200,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
      e.preventDefault();
      document.getElementById('alert').style.visibility = 'hidden';
      if(document.getElementById('textAlert').innerHTML === "Sistem je zapamtio pitanje"){
+       clearCheckBoxes();
        navigate("/questions");
      }
    }
@@ -207,12 +208,21 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
   function potvrdiNotFound(e){
     e.preventDefault();
     document.getElementById('alertWrong').style.visibility = 'hidden';
+    clearCheckBoxes();
     navigate('/questions');
   }
 
   function cancel(e){
     e.preventDefault();
+    clearCheckBoxes();
     navigate("/questions");
+  }
+
+  function clearCheckBoxes(){
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
   }
 
   function validation(error){

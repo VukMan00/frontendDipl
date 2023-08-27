@@ -78,6 +78,7 @@ const ViewTest = () => {
       e.preventDefault();
       document.getElementById('alert').style.visibility = 'hidden';
       if(document.getElementById('textAlert').innerHTML === "Sistem je odstampao test"){
+        clearCheckBoxes();
         navigate("/tests");
       }
     }
@@ -85,12 +86,21 @@ const ViewTest = () => {
     function potvrdiNotFound(e){
       e.preventDefault();
       document.getElementById('alertWrong').style.visibility = 'hidden';
+      clearCheckBoxes();
       navigate('/tests');
     }
 
     function cancel(e){
       e.preventDefault();
-      navigate(-1);
+      clearCheckBoxes();
+      navigate('/tests');
+    }
+
+    function clearCheckBoxes(){
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(function(checkbox) {
+          checkbox.checked = false;
+      });
     }
   
   if(testId!==undefined && testId!==0){

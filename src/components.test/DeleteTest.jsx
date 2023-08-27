@@ -51,18 +51,28 @@ const DeleteTest = () => {
   function potvrdi(e){
     e.preventDefault();
     document.getElementById('alert').style.visibility = 'hidden';
+    clearCheckBoxes();
     navigate("/tests");
   }
 
   function cancel(e){
     e.preventDefault();
+    clearCheckBoxes();
     navigate("/tests");
   }
 
   function potvrdiNotFound(e){
     e.preventDefault();
     document.getElementById('alertWrong').style.visibility = 'hidden';
+    clearCheckBoxes();
     navigate('/tests');
+  }
+
+  function clearCheckBoxes(){
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
   }
 
   if(testId!==undefined && testId!==0){

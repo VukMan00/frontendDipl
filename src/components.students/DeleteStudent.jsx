@@ -57,18 +57,28 @@ const DeleteStudent = () => {
   function potvrdi(e){
     e.preventDefault();
     document.getElementById('alert').style.visibility = 'hidden';
+    clearCheckBoxes();
     navigate("/students");
   }
 
   function potvrdiNotFound(e){
     e.preventDefault();
     document.getElementById('alertWrong').style.visibility = 'hidden';
+    clearCheckBoxes();
     navigate('/students');
   }
 
   function cancel(e){
     e.preventDefault();
+    clearCheckBoxes();
     navigate("/students");
+  }
+
+  function clearCheckBoxes(){
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
   }
 
   if(studentId!==undefined && studentId!==0){
