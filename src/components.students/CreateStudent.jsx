@@ -96,7 +96,13 @@ const CreateStudent = () => {
 
   const handleSelectExams = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedExams(selectedOptions);
+    if(selectedOptions[0]!==-1){
+      setSelectedExams(selectedOptions);
+    }
+    else{
+      setSelectedExams([]);
+    }
+
   };
 
   function potvrdi(e){
@@ -156,7 +162,7 @@ const CreateStudent = () => {
             </>
           )
           :
-          <option style={{color:'red'}}>Nije moguce ucitati listu polaganja</option>
+          <option style={{color:'red'}} value={-1}>Nije moguce ucitati listu polaganja</option>
         }
         </select>
         <button id="btn-unselectAll" onClick={(e) => unSelectAll(e)}>Ponisti izbor polaganja</button>

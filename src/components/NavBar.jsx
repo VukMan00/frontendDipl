@@ -54,7 +54,7 @@ function NavBar() {
           </> 
           ):(
             <>
-            <Link to="/logout" className='btn-logout' onClick={(e)=>logOutMember(e)}>LogOut</Link>
+            <Link to="/logout" className='btn-logout' onClick={(e)=>logOutMember(e)}>Odjava</Link>
             </>
           )}
           </>

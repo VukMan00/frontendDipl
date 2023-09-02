@@ -10,7 +10,6 @@ const UpdateStudent = () => {
   
   const navigate = useNavigate();
   const location = useLocation();
-  const [modifiedState, setModifiedState] = useState(location.state || {});
   const studentId = location.state?.studentId;
   
   const[updatedStudent, setUpdatedStudent] = useState({
@@ -136,12 +135,22 @@ const UpdateStudent = () => {
 
   const handleSelectExamsForRemove = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedExamsForRemove(selectedOptions);
+    if(selectedOptions[0]!==-1){
+      setSelectedExamsForRemove(selectedOptions);
+    }
+    else{
+      setSelectedExamsForRemove([]);
+    }
   };
 
   const handleSelectExamsForAdd = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedExamsForAdd(selectedOptions);
+    if(selectedOptions[0]!==-1){
+      setSelectedExamsForAdd(selectedOptions);
+    }
+    else{
+      setSelectedExamsForAdd([]);
+    }
   };
 
   function handleInput(e){
@@ -221,7 +230,7 @@ const UpdateStudent = () => {
                     </>
                   )
                   :
-                  <option style={{color:'red'}}>Ne postoje prijavljena polaganje</option>
+                  <option value={-1} style={{color:'red'}}>Ne postoje prijavljena polaganje</option>
                   }
                 </select>
               </div>
@@ -241,7 +250,7 @@ const UpdateStudent = () => {
                     </>
                   )
                   :
-                  <option style={{color:'red'}}>Nje moguce ucitati listu polaganja</option>
+                  <option value={-1} style={{color:'red'}}>Nje moguce ucitati listu polaganja</option>
                   }
                 </select>
               </div> 

@@ -88,15 +88,24 @@ const CreateQuestion = ({newAnswers}) => {
 
     const handleSelectTests = (event) => {
         const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-        setSelectedTests(selectedOptions);
-        console.log(selectedTests);
+        if(selectedOptions[0]!==-1){
+            setSelectedTests(selectedOptions);
+        }
+        else{
+            setSelectedTests([]);
+        }
         const filteredQuestionForPoints = tests.filter(test=>selectedOptions.includes(test.id.toString()));
         setQuestionsForPoints(filteredQuestionForPoints);
     };
 
     const handleSelectAnswers = (event)=>{
         const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-        setSelectedAnswers(selectedOptions);
+        if(selectedOptions[0]!==-1){
+            setSelectedAnswers(selectedOptions);
+        }
+        else{
+            setSelectedAnswers([]);
+        }
     }
 
     const removeAnswers = (e)=>{
@@ -148,7 +157,7 @@ const CreateQuestion = ({newAnswers}) => {
                         </>
                     )
                     :
-                    <option style={{color:'red'}}>Niste ubacili odgovore</option>
+                    <option value={-1} style={{color:'red'}}>Niste ubacili odgovore</option>
                     }
                     </select>
                     <div className='button'>
@@ -166,7 +175,7 @@ const CreateQuestion = ({newAnswers}) => {
                         </>
                     )
                     :
-                    <option style={{color:'red'}}>Nije moguce ucitati listu testova</option>
+                    <option value={-1} style={{color:'red'}}>Nije moguce ucitati listu testova</option>
                     }
                     </select>
                     <button id="btn-unselectAll" onClick={(e) => unSelectAll(e)}>Ponisti izbor testova</button>

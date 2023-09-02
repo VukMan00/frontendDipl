@@ -161,17 +161,32 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
 
   const handleSelectQuestionsTest = (event) =>{
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedQuestionsTest(selectedOptions);
+    if(selectedOptions[0]!==-1){
+      setSelectedQuestionsTest(selectedOptions);
+    }
+    else{
+      setSelectedQuestionsTest([]);
+    }
   }
 
   const handleSelectTests = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedTests(selectedOptions);
+    if(selectedOptions[0]!==-1){
+      setSelectedTests(selectedOptions);
+    }
+    else{
+      setSelectedTests([]);
+    }
   }
 
   const handleSelectAnswers = (event)=>{
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedAnswers(selectedOptions);
+    if(selectedOptions[0]!==-1){
+      setSelectedAnswers(selectedOptions);
+    }
+    else{
+      setSelectedAnswers([]);
+    }
   }   
 
   const addTests = async(e)=>{
@@ -250,7 +265,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
                         </>
                     )
                     :
-                    <option style={{color:'red'}}>Pitanje nema odgovore</option>
+                    <option value={-1} style={{color:'red'}}>Pitanje nema odgovore</option>
                     }
                     </select>
                     <div className='button'>
@@ -270,7 +285,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
                                 </>
                             )
                             :
-                            <option style={{color:'red'}}>Nije moguce ucitati listu testova pitanja</option>
+                            <option value={-1} style={{color:'red'}}>Nije moguce ucitati listu testova pitanja</option>
                             }
                             </select>
                         </div>
@@ -290,7 +305,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
                                 </>
                             )
                             :
-                            <option style={{color:'red'}}>Nije moguce ucitati listu testova</option>
+                            <option value={-1} style={{color:'red'}}>Nije moguce ucitati listu testova</option>
                             }
                             </select>
                         </div>

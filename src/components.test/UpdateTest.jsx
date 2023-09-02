@@ -108,12 +108,22 @@ const UpdateTest = ({newQuestionsTest}) => {
 
   const handleSelectQuestionsTest = (event) =>{
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedQuestionsTest(selectedOptions);
+    if(selectedOptions[0]!==-1){
+      setSelectedQuestionsTest(selectedOptions);
+    }
+    else{
+      setSelectedQuestionsTest([]);
+    }
   }
 
   const handleSelectQuestions = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedQuestions(selectedOptions);
+    if(selectedOptions[0]!==-1){
+      setSelectedQuestions(selectedOptions);
+    }
+    else{
+      setSelectedQuestions([]);
+    }
   }
 
   function handleInput(e){
@@ -194,7 +204,7 @@ const UpdateTest = ({newQuestionsTest}) => {
                     </>
                   )
                   :
-                  <option style={{color:'red'}}>Ne postoje pitanja testa</option>
+                  <option value={-1} style={{color:'red'}}>Ne postoje pitanja testa</option>
                   }
                 </select>
               </div>
@@ -214,7 +224,7 @@ const UpdateTest = ({newQuestionsTest}) => {
                     </>
                   )
                   :
-                  <option style={{color:'red'}}>Nije moguce ucitati listu pitanja</option>
+                  <option value={-1} style={{color:'red'}}>Nije moguce ucitati listu pitanja</option>
                   }
                 </select>
               </div>

@@ -68,7 +68,12 @@ const CreateTest = () => {
 
   const handleSelectQuestions = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-    setSelectedQuestions(selectedOptions);
+    if(selectedOptions[0]!==-1){
+      setSelectedQuestions(selectedOptions);
+    }
+    else{
+      setSelectedQuestions([]);
+    }
 
     const filteredQuestionForPoints = questions.filter(question=>selectedOptions.includes(question.id.toString()));
     setQuestionsForPoints(filteredQuestionForPoints);
@@ -115,7 +120,7 @@ const CreateTest = () => {
             </>
           )
           :
-          <option style={{color:'red'}}>Nije moguce ucitati listu pitanja</option>
+          <option value={-1} style={{color:'red'}}>Nije moguce ucitati listu pitanja</option>
         }
         </select>
         <button id="btn-unselectAll" onClick={(e) => unSelectAll(e)}>Ponisti izbor pitanja</button>
