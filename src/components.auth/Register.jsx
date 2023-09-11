@@ -27,20 +27,24 @@ const Register = () => {
                 localStorage.clear();
                 document.getElementById("textAlert").innerHTML = "Student je uspesno registrovan";
                 document.getElementById("alert").style.visibility = 'visible';
+                document.getElementById('registrationTokenErr').style.visibility = 'hidden';
             }
-            else{
+            else if(response.message==="Greska pri registraciji" && response.data!==undefined){
                 document.getElementById("textAlert").innerHTML = "Greska pri registraciji";
                 document.getElementById("alert").style.visibility = 'visible';
                 document.getElementById('registrationTokenErr').style.visibility = 'visible';
                 document.getElementById('registrationTokenErr').value = response.data.message;
             }
         }catch(e){
+            console.log(e);
             document.getElementById('textAlert').innerHTML = "Greska pri registraciji";
             document.getElementById("alert").style.visibility = 'visible';
-            validationRegistration(e,document.getElementById('firstnameErr'),
+            if(e.response!==undefined){
+                validationRegistration(e,document.getElementById('firstnameErr'),
                                     document.getElementById("lastnameErr"),document.getElementById("passwordErr"),
                                     document.getElementById("indexErr"),document.getElementById("birthErr"),
                                     document.getElementById("registrationTokenErr"));
+            }
         }
     }
 
