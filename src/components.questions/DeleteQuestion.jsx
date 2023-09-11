@@ -6,6 +6,7 @@ const DeleteQuestion = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const questionId = location.state?.questionId;
+  const [isLoading, setIsLoading] = useState(false);
 
   const[deletedQuestion,setDeletedQuestion]=useState({
     "id":0,
@@ -14,9 +15,11 @@ const DeleteQuestion = () => {
 
   useEffect(()=>{
     const retrieveQuestion = async()=>{
+      setIsLoading(true);
       try{
         const response = await getQuestion(questionId);
         setDeletedQuestion(response);
+        setIsLoading(false);
       }catch(e){
         console.log(e);
       }
@@ -26,13 +29,15 @@ const DeleteQuestion = () => {
 
   const removeQuestion = async()=>{
     try{
+      setIsLoading(true);
       const response = await deleteQuestion(questionId);
       console.log(response.data);
-
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao pitanje";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise pitanje";
       document.getElementById('alert').style.visibility = 'visible';
     }
@@ -111,6 +116,17 @@ const DeleteQuestion = () => {
             <div className="sadrzaj">
               <p id="textAlert">Sistem je izbrisao pitanje</p>
               <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
+            </div>
+          </div>
+        </div>
+        <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+          <div id="boxLoading">
+            <div className="obavestenje">
+              Obaveštenje!
+            </div>
+            <div className="sadrzaj">
+              <p id="textAlertLoading">Ucitavanje...</p>
+              <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ import { validationChangingPassword } from '../validation/ValidationHandler';
 
 const ChangePassword = () => {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     const[reqPassword,setReqPassword]=useState({
        'username':window.localStorage.getItem('username'),
@@ -32,18 +33,22 @@ const ChangePassword = () => {
 
     const savePassword = async(e)=>{
         e.preventDefault();
+        setIsLoading(true);
         if(document.getElementById('confirmNewPasswordErr').value === 'Nova lozinka se poklapa sa potvrdjenom!'){
             try{
                 const response = await changePassword(reqPassword);
                 console.log(response);
+                setIsLoading(false);
                 document.getElementById('textAlert').innerHTML = 'Sistem je promenio lozinku';
                 document.getElementById('alert').style.visibility = 'visible';
             }catch(e){
+                setIsLoading(false);
                 document.getElementById("textAlert").innerHTML = "Sistem ne moze da promeni lozinku";
                 document.getElementById("alert").style.visibility = 'visible';
             }
         }
         else{
+            setIsLoading(false);
             document.getElementById('textAlert').innerHTML = 'Sistem ne moze da promeni lozinku';
             document.getElementById('alert').style.visibility = 'visible';
         }
@@ -91,6 +96,17 @@ const ChangePassword = () => {
                 <div className="sadrzaj">
                     <p id="textAlert">Sistem je promenio lozinku</p>
                     <button id="confirm" onClick={()=>potvrdi()}>OK</button>
+                </div>
+            </div>
+        </div>
+        <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlert">Ucitavanje...</p>
+                    <p id='textAlert'>Molimo Vas sacekajte!</p>
                 </div>
             </div>
         </div>

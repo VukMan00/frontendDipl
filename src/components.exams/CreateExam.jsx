@@ -29,18 +29,20 @@ const CreateExam = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(()=>{
     let isMounted = true;
     const controller = new AbortController();
+    setIsLoading(true);
     const getAllTests = async()=>{
       try{
         const response = await getTests(controller);
         isMounted && setTests(response);
-
       }catch(err){
         console.error(err);
         localStorage.clear();
+        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
       }
     }
@@ -59,9 +61,11 @@ const CreateExam = () => {
       try{
         const response = await getStudents(controller);
         isMounted && setStudents(response);
+        setIsLoading(false);
       }catch(err){
         localStorage.clear();
         console.error(err);
+        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
       }
     }
@@ -100,6 +104,7 @@ const CreateExam = () => {
 
   const saveExam = async(e)=>{
     e.preventDefault();
+    setIsLoading(true);
     try{
       if(test.id===0){
         exam.test = null;
@@ -110,10 +115,12 @@ const CreateExam = () => {
       exam.results = setResultsOfExam();
       const response = await createExam(exam);
       console.log(response);
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio polaganje";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(error){
       console.log(error);
+      setIsLoading(false);
       validation(error);
     }
   }
@@ -217,6 +224,17 @@ const CreateExam = () => {
             <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
           </div>
         </div>
+      </div>
+      <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading">Ucitavanje...</p>
+                    <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
+                </div>
+            </div>
       </div>
     </div>
   )

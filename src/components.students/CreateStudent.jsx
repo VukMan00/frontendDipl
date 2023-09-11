@@ -17,6 +17,8 @@ const CreateStudent = () => {
     'results':''
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const[exams,setExams] = useState();
 
   const[selectedExams, setSelectedExams] = useState([]);
@@ -27,14 +29,16 @@ const CreateStudent = () => {
   useEffect(()=>{
     let isMounted = true;
     const controller = new AbortController();
+    setIsLoading(true);
     const getAllExams = async()=>{
       try{
         const response = await getExams(controller);
         const availableExams = retrieveFutureExams(response);
         isMounted && setExams(availableExams);
-
+        setIsLoading(false);
       }catch(err){
         console.error(err);
+        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
       }
     }
@@ -60,14 +64,17 @@ const CreateStudent = () => {
 
   const saveStudent = async(e)=>{
     e.preventDefault();
+    setIsLoading(true);
     try{
       student.results = setResultsOfStudent();
       const response = await createStudent(student);
-      console.log(response)
+      console.log(response);
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio studenta";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(error){
       console.log(error);
+      setIsLoading(false);
       validation(error);
     }
   }
@@ -182,7 +189,18 @@ const CreateStudent = () => {
                     <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
                 </div>
             </div>
-        </div>
+      </div>
+      <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading">Ucitavanje...</p>
+                    <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
+                </div>
+            </div>
+      </div>
     </div>
   )
 }

@@ -8,6 +8,7 @@ import moment from 'moment';
 
 const UpdateStudent = () => {
   
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const studentId = location.state?.studentId;
@@ -32,6 +33,7 @@ const UpdateStudent = () => {
   useEffect(()=>{
     let isMounted = true;
     const controller = new AbortController();
+    setIsLoading(true);
     const getAllExams = async()=>{
       try{
         const response = await getExams(controller);
@@ -63,6 +65,7 @@ const UpdateStudent = () => {
         }
         setExamsOfStudent(convertedExams);
         setDbExamsOfStudent(convertedExams);
+        setIsLoading(false);
       }catch(e){
         console.log(e);
       }
@@ -84,6 +87,7 @@ const UpdateStudent = () => {
 
   const saveUpdatedStudent = async(e)=>{
     e.preventDefault();
+    setIsLoading(true);
     try{
       const filteredRemoveExams = dbExamsOfStudent.filter(dbExam=>!examsOfStudent.includes(dbExam));
       if(filteredRemoveExams.length!==0){
@@ -92,11 +96,13 @@ const UpdateStudent = () => {
       updatedStudent.results = setResultsOfStudent();
       const response = await updateStudent(updatedStudent);
       console.log(response);
+      setIsLoading(false);
 
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio studenta";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(err){
       console.log(err);
+      setIsLoading(false);
       validation(err);
     }
   }
@@ -270,6 +276,17 @@ const UpdateStudent = () => {
                 <p id="textAlert">Student je uspesno sacuvan!</p>
                 <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
               </div>
+            </div>
+        </div>
+        <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading">Ucitavanje...</p>
+                    <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
+                </div>
             </div>
         </div>
       </div>

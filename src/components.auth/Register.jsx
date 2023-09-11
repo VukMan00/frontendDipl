@@ -14,15 +14,18 @@ const Register = () => {
         "birth":'',
         'registrationToken':''
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     let navigate = useNavigate();
 
     const registration = async(e)=>{
         e.preventDefault();
+        setIsLoading(true);
         try{
             const response = await register(registerMember);
             console.log(response);
             if(response.message==="Student je uspesno registrovan"){
+                setIsLoading(false);
                 document.getElementById('registrationTokenErr').style.visibility = 'hidden';
                 localStorage.clear();
                 document.getElementById("textAlert").innerHTML = "Student je uspesno registrovan";
@@ -30,6 +33,7 @@ const Register = () => {
                 document.getElementById('registrationTokenErr').style.visibility = 'hidden';
             }
             else if(response.message==="Greska pri registraciji" && response.data!==undefined){
+                setIsLoading(false);
                 document.getElementById("textAlert").innerHTML = "Greska pri registraciji";
                 document.getElementById("alert").style.visibility = 'visible';
                 document.getElementById('registrationTokenErr').style.visibility = 'visible';
@@ -37,6 +41,7 @@ const Register = () => {
             }
         }catch(e){
             console.log(e);
+            setIsLoading(false);
             document.getElementById('textAlert').innerHTML = "Greska pri registraciji";
             document.getElementById("alert").style.visibility = 'visible';
             if(e.response!==undefined){
@@ -99,6 +104,17 @@ const Register = () => {
                 <div className="sadrzaj">
                     <p id="textAlert">Student je uspesno registrovan</p>
                     <button id="confirm" onClick={()=>potvrdi()}>OK</button>
+                </div>
+            </div>
+        </div>
+        <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlert">Ucitavanje...</p>
+                    <p id='textAlert'>Molimo Vas sacekajte!</p>
                 </div>
             </div>
         </div>

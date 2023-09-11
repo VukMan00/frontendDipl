@@ -5,6 +5,7 @@ import { deleteAnswer, getAnswer } from '../services/AnswerService';
 const DeleteAnswer = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const questionId = location.state?.questionId;
   const answerId = location.state?.answerId;
@@ -23,6 +24,7 @@ const DeleteAnswer = () => {
 
   useEffect(()=>{
     const retrieveAnswer = async()=>{
+      setIsLoading(true);
         try{
             const response = await getAnswer(answerId,questionId);
             setDeletedAnswer(response);
@@ -34,8 +36,10 @@ const DeleteAnswer = () => {
                 setTrueSolution(false);
                 setFalseSolution(true);
             }
+            setIsLoading(false);
         }catch(err){
             console.log(err);
+            setIsLoading(false);
         }
     }
     retrieveAnswer();
@@ -43,13 +47,15 @@ const DeleteAnswer = () => {
 
   const removeAnswer = async()=>{
     try{
+      setIsLoading(true);
       const response = await deleteAnswer(answerId,questionId);
       console.log(response.data);
-
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao odgovor";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise odgovor";
       document.getElementById('alert').style.visibility = 'visible';
     }
@@ -137,6 +143,17 @@ const DeleteAnswer = () => {
                         <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
                     </div>
                 </div>
+            </div>
+            <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+              <div id="boxLoading">
+                  <div className="obavestenje">
+                      Obaveštenje!
+                  </div>
+                  <div className="sadrzaj">
+                      <p id="textAlertLoading">Ucitavanje...</p>
+                      <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
+                  </div>
+              </div>
             </div>     
         </div>
     )

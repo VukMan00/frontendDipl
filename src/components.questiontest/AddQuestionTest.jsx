@@ -6,6 +6,7 @@ const AddQuestionTest = ({getQuestionsTest}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const pathName = location?.pathname;
+    const [isLoading, setIsLoading] = useState(false);
 
     const questionsForPoints = location.state?.questionsForPoints;
     const testId = location.state?.testId;
@@ -59,18 +60,25 @@ const AddQuestionTest = ({getQuestionsTest}) => {
     
     const addQuestionTest = async(e)=>{
         e.preventDefault();
+        setIsLoading(true);
         if(document.getElementById('pointsErr').style.visibility === 'hidden'){
             if(!pathName.includes("updateTest") && !pathName.includes("updateQuestion")){
+                console.log("HEREE")
                 const response = await saveQuestionTest(arrayQuestionTest);
                 console.log(response);
+                setIsLoading(false);
                 pathName.includes("tests/") ? navigate("/tests") : navigate("/questions");
             }
             else{
+                console.log("ALO")
                 console.log(questionsForPoints);
                 getQuestionsTest(questionsForPoints);
+                setIsLoading(false);
                 navigate(-1);
             }
         }
+        setIsLoading(false);
+        navigate(-1);
     }
 
     function cancel(e){
@@ -106,6 +114,17 @@ const AddQuestionTest = ({getQuestionsTest}) => {
                 <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
             </div>
         </form>
+        <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading" style={{color:'black'}}>Ucitavanje...</p>
+                    <p id='textAlertLoading' style={{color:'black'}}>Molimo Vas sacekajte!</p>
+                </div>
+            </div>
+        </div>
     </div>
      )
 }

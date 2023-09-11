@@ -9,6 +9,7 @@ const GetExamsOfStudent = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const studentId = localStorage.getItem('id');
+  const [isLoading, setIsLoading] = useState(false);
   
   const[resultExamsFuture,setResultExamsFuture]=useState([]);
   const[resultExamsPast,setResultExamsPast]=useState([]);
@@ -16,6 +17,7 @@ const GetExamsOfStudent = () => {
   useEffect(()=>{
     let isMounted = true;
     const controller = new AbortController();
+    setIsLoading(true);
     const getAllResultsOfExam = async()=>{
       try{
         const response = await getResults(studentId,controller);
@@ -33,9 +35,11 @@ const GetExamsOfStudent = () => {
         }
         setResultExamsFuture(arrayFuture);
         isMounted && setResultExamsPast(arrayPast);
+        setIsLoading(false);
       }catch(err){
         console.error(err);
         localStorage.clear();
+        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
       }
     }
@@ -48,10 +52,12 @@ const GetExamsOfStudent = () => {
   },[studentId,axiosPrivate,location,navigate])
 
   const removeStudent = async(e,i)=>{
+    setIsLoading(true);
     e.preventDefault();
     try{
       const response = await deleteStudentFromExam(resultExamsFuture[i]?.resultExamPK?.examId,resultExamsFuture[i]?.resultExamPK?.studentId);
       console.log(response);
+      setIsLoading(false);
       const filteredResultExams = resultExamsFuture.filter(resultExamFuture=>resultExamFuture.resultExamPK!==resultExamsFuture[i].resultExamPK);
       setResultExamsFuture(filteredResultExams);
     }catch(err){
@@ -132,6 +138,17 @@ const GetExamsOfStudent = () => {
             }
           </tbody>
         </table>
+      </div>
+      <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+        <div id="boxLoading">
+          <div className="obavestenje">
+            Obaveštenje!
+          </div>
+          <div className="sadrzaj">
+            <p id="textAlertLoading">Ucitavanje...</p>
+            <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
+          </div>
+        </div>
       </div>
     </div>
   )

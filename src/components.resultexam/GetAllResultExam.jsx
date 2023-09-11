@@ -11,6 +11,7 @@ const GetAllResultExam = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const examId = location.state?.examId;
+    const [isLoading, setIsLoading] = useState(false);
 
     const[exam,setExam]=useState({
         "id":0,
@@ -82,28 +83,33 @@ const GetAllResultExam = () => {
 
     const saveResultsExam = async(e)=>{
         e.preventDefault();
+        setIsLoading(true);
         try{
             console.log(resultExams);
             const response = await saveResults(resultExams);
             console.log(response);
-        
+            setIsLoading(false);
             document.getElementById('textAlertGet').innerHTML = "Sistem je zapamtio rezultate polaganja";
             document.getElementById('alertGet').style.visibility = 'visible';
         }catch(err){
             console.log(err);
             validation(err);
+            setIsLoading(false);
         }
     }
 
     const removeStudent = async(e,i)=>{
       e.preventDefault();
+      setIsLoading(true);
       try{
         const response = await deleteStudentFromExam(resultExams[i]);
         console.log(response);
+        setIsLoading(false);
         const filteredResultExams = resultExams.filter(resultExam=>resultExam.resultExamPK!==resultExams[i].resultExamPK);
         setResultExams(filteredResultExams);
       }catch(err){
         console.log(err);
+        setIsLoading(false);
       }
     }
 
@@ -230,7 +236,17 @@ const GetAllResultExam = () => {
                     </div>
                 </div>
             </div>
-
+            <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+                  <div id="boxLoading">
+                      <div className="obavestenje">
+                          Obaveštenje!
+                      </div>
+                      <div className="sadrzaj">
+                          <p id="textAlertLoading">Ucitavanje...</p>
+                          <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
+                      </div>
+                  </div>
+            </div>
             <Outlet />
         </div>
     )

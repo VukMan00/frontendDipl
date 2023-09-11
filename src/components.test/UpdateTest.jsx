@@ -11,6 +11,7 @@ const UpdateTest = ({newQuestionsTest}) => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
   const testId = location.state?.testId;
 
   const[updatedTest, setUpdatedTest] = useState({
@@ -71,13 +72,16 @@ const UpdateTest = ({newQuestionsTest}) => {
 
   useEffect(()=>{
     const retrieveTest = async()=>{
+      setIsLoading(true);
       try{
         const response = await getTest(testId);
         setUpdatedTest(response);
         setQuestionsTest(response?.questions);
         setDbQuestionsTest(response?.questions);
+        setIsLoading(false);
       }catch(e){
         console.log(e);
+        setIsLoading(false);
       }
     }
     retrieveTest();
@@ -88,6 +92,7 @@ const UpdateTest = ({newQuestionsTest}) => {
   },[newQuestionsTest]);
   
   const saveUpdatedTest = async(e)=>{
+    setIsLoading(true);
     e.preventDefault();
     try{
       const filteredRemoveQuestionsTest = dbQuestionsTest.filter(dbQuestionTest=>!questionsTest.includes(dbQuestionTest));
@@ -98,10 +103,12 @@ const UpdateTest = ({newQuestionsTest}) => {
       console.log(updatedTest);
       const response = await updateTest(updatedTest);
       console.log(response);
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio test";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
+      setIsLoading(false);
       validation(e);
     }
   }
@@ -246,6 +253,17 @@ const UpdateTest = ({newQuestionsTest}) => {
                 <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
             </div>
           </div>
+        </div>
+        <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading">Ucitavanje...</p>
+                    <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
+                </div>
+            </div>
         </div>
         <Outlet />
       </div>

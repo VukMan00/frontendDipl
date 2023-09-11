@@ -6,7 +6,7 @@ import { authenticate, emailForPassowrd } from '../services/AuthService';
 const Login = () => {
 
     const{setAuth} = useAuth();
-
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -35,6 +35,7 @@ const Login = () => {
 
     const login = async(e)=>{
         e.preventDefault();
+        setIsLoading(true);
         try{
             const memberResponse = await authenticate(memberData);
             setMemberData(memberResponse);
@@ -44,17 +45,20 @@ const Login = () => {
             setAuth({roles, accessToken});
 
             if(memberData?.password === memberData?.index){
+                setIsLoading(false);
                 email.recipient = memberData.username;
                 setEmail(email);
                 sendEmailForPassword(email);
             }
             else{
+                setIsLoading(false);
                 document.getElementById('textAlert').innerHTML = "Uspesno ste se ulogovali";
                 document.getElementById('alert').style.visibility = 'visible';
             }     
         }
         catch(e){
             console.log(e);
+            setIsLoading(false);
             document.getElementById('textAlert').innerHTML = "Neispravno uneti podaci";
             document.getElementById("alert").style.visibility = 'visible';
         }
@@ -122,6 +126,17 @@ const Login = () => {
                     <p id="textAlert">Radi Vaše sigurnosti molimo Vas da je promenite</p>
                     <p id="textAlert">Proverite inbox na Vašem email-u za dalje korake!</p>
                     <button id="confirm" onClick={()=>potvrdiPassword()}>OK</button>
+                </div>
+            </div>
+        </div>
+        <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlert">Ucitavanje...</p>
+                    <p id='textAlert'>Molimo Vas sacekajte!</p>
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@ const ViewTest = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const testId = location.state?.testId;
-    
+    const [isLoading, setIsLoading] = useState(false);
 
     const[test,setTest]=useState({
         'id':0,
@@ -23,6 +23,7 @@ const ViewTest = () => {
 
     useEffect(()=>{
         const retrieveTest = async()=>{
+          setIsLoading(true);
           try{
             const response = await getTest(testId);
             setTest(response);
@@ -44,10 +45,12 @@ const ViewTest = () => {
                 points = points + response[i].points;
             }
             setMaxPoints(points);
+            setIsLoading(false);
 
           }catch(e){
             console.log(e);
             setQuestionsTest([]);
+            setIsLoading(false);
           }
         }
         retrieveQuestionsFromTest();
@@ -55,6 +58,7 @@ const ViewTest = () => {
 
     const printTest = (e) => {
       e.preventDefault();
+      setIsLoading(true);
       const input = document.getElementById('printTest');
   
       const pdf = new jsPDF('p', 'mm', 'a4');
@@ -64,10 +68,12 @@ const ViewTest = () => {
         const imgData = canvas.toDataURL('image/png');
         pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
         pdf.save(`${test.content}.pdf`);
+        setIsLoading(false);
         document.getElementById('textAlert').innerHTML = "Sistem je odstampao test";
         document.getElementById('alert').style.visibility = 'visible';
       })
       .catch((error) => {
+        setIsLoading(false);
         document.getElementById('textAlert').innerHTML = "Sistem ne moze da odstampa test";
         document.getElementById('alert').style.visibility = 'visible';
         console.error('Error generating PDF:', error);
@@ -163,6 +169,17 @@ const ViewTest = () => {
                 </div>
               </div>
           </div>
+          <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading">Ucitavanje...</p>
+                    <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
+                </div>
+            </div>
+        </div>
       </div>
     )
   }

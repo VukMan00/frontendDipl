@@ -7,6 +7,7 @@ const DeleteExam = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const examId = location.state?.examId;
+  const [isLoading, setIsLoading] = useState(false);
 
   const[deletedExam,setDeletedExam]=useState({
     "id":0,
@@ -18,9 +19,11 @@ const DeleteExam = () => {
 
   useEffect(()=>{
     const retrieveExam = async()=>{
+      setIsLoading(true);
       try{
         const response = await getExam(examId);
         setDeletedExam(response);
+        setIsLoading(false);
       }catch(e){
         console.log(e);
       }
@@ -30,13 +33,15 @@ const DeleteExam = () => {
 
   const removeExam = async()=>{
     try{
+      setIsLoading(true);
       const response = await deleteExam(examId);
       console.log(response.data);
-
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao polaganje";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise polaganje";
       document.getElementById('alert').style.visibility = 'visible';
     }
@@ -123,6 +128,17 @@ const DeleteExam = () => {
               <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
             </div>
           </div>
+        </div>
+        <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading">Ucitavanje...</p>
+                    <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
+                </div>
+            </div>
         </div>
       </div>
     )

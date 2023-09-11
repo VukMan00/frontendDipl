@@ -23,19 +23,23 @@ const CreateTest = () => {
   const[selectedQuestions,setSelectedQuestions]=useState([]);
   const[testId,setTestId]=useState(0);
 
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(()=>{
     let isMounted = true;
     const controller = new AbortController();
+    setIsLoading(true);
     const getAllQuestions = async()=>{
       try{
         const response = await getQuestions(controller);
         isMounted && setQuestions(response);
+        setIsLoading(false);
       }catch(err){
         localStorage.clear();
         console.error(err);
+        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
       }
     }
@@ -49,13 +53,16 @@ const CreateTest = () => {
 
   const saveTest = async(e)=>{
     e.preventDefault();
+    setIsLoading(true);
     try{
       const response = await createTest(test);
       setTestId(response.id);
+      setIsLoading(false)
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio test";
       document.getElementById("alert").style.visibility='visible';
     }catch(error){
       console.log(error);
+      setIsLoading(false);
       validation(error);
     }
   }
@@ -149,6 +156,17 @@ const CreateTest = () => {
                       </div> 
                       )
                     }
+                </div>
+            </div>
+      </div>
+      <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading">Ucitavanje...</p>
+                    <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
                 </div>
             </div>
       </div>

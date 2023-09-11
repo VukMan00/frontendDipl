@@ -4,6 +4,7 @@ import { deleteStudent, getStudent } from '../services/StudentService';
 
 const DeleteStudent = () => {
 
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const studentId = location.state?.studentId;
@@ -19,11 +20,14 @@ const DeleteStudent = () => {
 
   useEffect(()=>{
     const retrieveStudent = async()=>{
+      setIsLoading(true);
       try{
         const response = await getStudent(studentId);
         setDeletedStudent(response);
+        setIsLoading(false);
       }catch(e){
         console.log(e);
+        setIsLoading(false);
       }
     }
     retrieveStudent();
@@ -31,13 +35,15 @@ const DeleteStudent = () => {
 
   const removeStudent = async()=>{
     try{
+      setIsLoading(true);
       const response = await deleteStudent(studentId);
       console.log(response.data);
-
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao studenta";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise studenta";
       document.getElementById('alert').style.visibility = 'visible';
     }
@@ -124,6 +130,17 @@ const DeleteStudent = () => {
                 <div className="sadrzaj">
                   <p id="textAlert">Sistem je izbrisao studenta</p>
                   <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
+                </div>
+            </div>
+      </div>
+      <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading">Ucitavanje...</p>
+                    <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
                 </div>
             </div>
       </div>

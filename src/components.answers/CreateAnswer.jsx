@@ -7,6 +7,7 @@ const CreateAnswer = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const questionId = location.state?.questionId;
+    const [isLoading, setIsLoading] = useState(false);
 
     const[trueSolution,setTrueSolution]=useState(undefined);
     const[falseSolution,setFalseSolution]=useState(undefined);
@@ -22,6 +23,7 @@ const CreateAnswer = () => {
 
     const saveAnswer = async(e)=>{
         e.preventDefault();
+        setIsLoading(true);
         try{
             if(trueSolution){
                 answer.solution = true;
@@ -31,10 +33,12 @@ const CreateAnswer = () => {
             }
             const response = await createAnswer(answer);
             console.log(response);
+            setIsLoading(false);
             document.getElementById('textAlert').innerHTML = "Sistem je zapamtio odgovor";
             document.getElementById('alert').style.visibility = 'visible';
         }catch(err){
             console.log(err);
+            setIsLoading(false);
             validation(err);
         }
     }
@@ -107,6 +111,17 @@ const CreateAnswer = () => {
                 <div className="sadrzaj">
                     <p id="textAlert">Sistem je zapamtio odgovor</p>
                     <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
+                </div>
+            </div>
+        </div>
+        <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading">Ucitavanje...</p>
+                    <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
                 </div>
             </div>
         </div>

@@ -6,7 +6,8 @@ import { validationAnswer } from '../validation/ValidationHandler';
 const UpdateAnswer = () => {
     const location = useLocation();
     const navigate = useNavigate();
-
+    const [isLoading, setIsLoading] = useState(false);
+    
     const answerId = location.state?.answerId;
     const questionId = location.state?.questionId;
 
@@ -24,6 +25,7 @@ const UpdateAnswer = () => {
 
     useEffect(()=>{
         const retrieveAnswer = async()=>{
+            setIsLoading(true);
             try{
                 const response = await getAnswer(answerId,questionId);
                 setUpdatedAnswer(response);
@@ -35,14 +37,17 @@ const UpdateAnswer = () => {
                     setTrueSolution(false);
                     setFalseSolution(true);
                 }
+                setIsLoading(false);
             }catch(err){
                 console.log(err);
+                setIsLoading(false);
             }
         }
         retrieveAnswer();
     },[answerId,questionId])
 
     const saveUpdatedAnswer = async(e)=>{
+        setIsLoading(true);
         e.preventDefault();
         try{
             if(trueSolution){
@@ -53,11 +58,13 @@ const UpdateAnswer = () => {
             }
             const response = await updateAnswer(updatedAnswer);
             console.log(response);
+            setIsLoading(false);
             document.getElementById('textAlert').innerHTML = "Sistem je zapamtio odgovor";
             document.getElementById('alert').style.visibility = 'visible';
         }catch(err){
             console.log(err);
             validation(err);
+            setIsLoading(false);
         }
     }
 
@@ -146,6 +153,17 @@ const UpdateAnswer = () => {
                     <div className="sadrzaj">
                         <p id="textAlert">Sistem je zapamtio odgovor</p>
                         <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
+                    </div>
+                </div>
+            </div>
+            <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+                <div id="boxLoading">
+                    <div className="obavestenje">
+                        Obaveštenje!
+                    </div>
+                    <div className="sadrzaj">
+                        <p id="textAlertLoading">Ucitavanje...</p>
+                        <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
                     </div>
                 </div>
             </div>

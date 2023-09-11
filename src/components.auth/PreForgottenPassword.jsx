@@ -12,22 +12,27 @@ const PreForgottenPassword = () => {
         'attachment':''
     });
 
+    const [isLoading, setIsLoading] = useState(false);
 
     const forgottenEmail = async(e)=>{
         e.preventDefault();
+        setIsLoading(true);
         try{
             const response = await checkEmail(email);
             if(response.data!=="Email ne postoji"){
+                setIsLoading(false);
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 document.getElementById("alert").style.visibility = 'visible';
                 localStorage.setItem("email",email.recipient);
             }
             else{
+                setIsLoading(false);
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 document.getElementById('alertWrong').style.visibility = 'visible';
             }
         }catch(err){
             console.log(err);
+            setIsLoading(false);
             document.getElementById('emailErr').style.visibility = 'visible';
             document.getElementById('emailErr').value = err.response.data.message.recipient;
         }
@@ -96,6 +101,17 @@ const PreForgottenPassword = () => {
                     <button id='btn-to-register' onClick={(e)=>toRegister(e)}>Registrujte se</button>
                     <button id="btn-to-login" onClick={(e)=>toLogin(e)}>Povratak na login</button>
                     <button id="btn-confirm" onClick={(e)=>cancel(e)}>Otkazi</button>
+                </div>
+            </div>
+        </div>
+        <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlert">Ucitavanje...</p>
+                    <p id='textAlert'>Molimo Vas sacekajte!</p>
                 </div>
             </div>
         </div>

@@ -12,6 +12,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const questionId = location.state?.questionId;
+  const [isLoading, setIsLoading] = useState(false);
 
   const[dbQuestionsTest,setDbQuestionsTest]=useState([]);
   const[questionsTest,setQuestionsTest]=useState([]);
@@ -32,6 +33,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
 
   useEffect(()=>{
     const retrieveQuestion = async()=>{
+      setIsLoading(true);
       try{
         const response = await getQuestion(questionId);
         setAnswers(response.answers);
@@ -40,6 +42,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
       }catch(e){
         setAnswers([]);
         console.log(e);
+        setIsLoading(false);
       }
     }
     retrieveQuestion();
@@ -81,6 +84,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
       }catch(err){
         console.error(err);
         localStorage.clear();
+        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
       }
     }
@@ -97,9 +101,11 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
         const response = await getTestsFromQuestion(questionId);
         setQuestionsTest(response);
         setDbQuestionsTest(response);
+        setIsLoading(false);
       }catch(e){
         console.log(e);
         setQuestionsTest([]);
+        setIsLoading(false);
       }
     }
     retrieveTestsFromQuestion();
@@ -111,6 +117,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
 
   const saveUpdatedQuestion = async(e)=>{
     e.preventDefault();
+    setIsLoading(true);
     try{
         const arrayAnswers = setAnswersForQuestion();
         console.log(arrayAnswers);
@@ -127,10 +134,12 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
         console.log(updatedQuestion);
         const response = await updateQuestion(updatedQuestion);
         console.log(response.data);
+        setIsLoading(false);
         document.getElementById('textAlert').innerHTML = "Sistem je zapamtio pitanje";
         document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
         console.log(e);
+        setIsLoading(false);
         validation(e);
     }
   }
@@ -325,6 +334,17 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
                     <div className="sadrzaj">
                         <p id="textAlert">Sistem je zapamtio pitanje</p>
                         <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
+                    </div>
+                </div>
+            </div>
+            <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+                <div id="boxLoading">
+                    <div className="obavestenje">
+                        Obaveštenje!
+                    </div>
+                    <div className="sadrzaj">
+                        <p id="textAlertLoading">Ucitavanje...</p>
+                        <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
                     </div>
                 </div>
             </div>

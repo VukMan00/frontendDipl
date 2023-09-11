@@ -5,6 +5,7 @@ import { deleteTest, getTest } from '../services/TestService';
 const DeleteTest = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
   const testId = location.state?.testId;
 
   const[deletedTest,setDeletedTest] = useState({
@@ -14,11 +15,14 @@ const DeleteTest = () => {
 
   useEffect(()=>{
     const retrieveTest = async()=>{
+      setIsLoading(true);
       try{
         const response = await getTest(testId);
         setDeletedTest(response);
+        setIsLoading(false);
       }catch(e){
         console.log(e);
+        setIsLoading(false);
       }
     }
     retrieveTest();
@@ -26,12 +30,15 @@ const DeleteTest = () => {
 
   const removeTest = async()=>{
     try{
+      setIsLoading(true);
       const response = await deleteTest(testId);
       console.log(response);
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao test";
       document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
+      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise test";
       document.getElementById('alert').style.visibility = 'visible';
     }
@@ -112,6 +119,17 @@ const DeleteTest = () => {
                     <button id="confirm" onClick={(e)=>potvrdi(e)}>OK</button>
                   </div>
               </div>
+        </div>
+        <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading">Ucitavanje...</p>
+                    <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
+                </div>
+            </div>
         </div>
       </div>
     )

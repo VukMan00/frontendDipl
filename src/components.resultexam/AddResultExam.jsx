@@ -9,6 +9,7 @@ const AddResultExam = () => {
     const axiosPrivate = useAxiosPrivate();
     const location = useLocation();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const examId = location.state?.examId;
 
     const[students,setStudents]=useState([]);
@@ -17,13 +18,16 @@ const AddResultExam = () => {
     useEffect(()=>{
         let isMounted = true;
         const controller = new AbortController();
+        setIsLoading(true);
         const getAllStudents = async()=>{
           try{
             const response = await getStudents(controller);
             isMounted && setStudents(response);
+            setIsLoading(false);
           }catch(err){
             localStorage.clear();
             console.error(err);
+            setIsLoading(false);
             navigate('/login',{state:{from:location},replace:true});
           }
         }
@@ -37,11 +41,14 @@ const AddResultExam = () => {
 
     const addStudents = async(e)=>{
         e.preventDefault();
+        setIsLoading(true);
         try{
             await saveResultExam(selectedStudents,examId);
+            setIsLoading(false);
             navigate(-1);
         }catch(err){
             console.log(err);
+            setIsLoading(false);
         }
     }
 
@@ -78,6 +85,17 @@ const AddResultExam = () => {
             <button id="cancel" onClick={(e)=>cancel(e)}>Otkazi</button>
         </div>
         </form>
+      </div>
+      <div id="alertLoading" style={isLoading ? {visibility:'visible'} : {visibility:'hidden'}}>
+            <div id="boxLoading">
+                <div className="obavestenje">
+                    Obaveštenje!
+                </div>
+                <div className="sadrzaj">
+                    <p id="textAlertLoading">Ucitavanje...</p>
+                    <p id='textAlertLoading'>Molimo Vas sacekajte!</p>
+                </div>
+            </div>
       </div>
     </div>
   )
