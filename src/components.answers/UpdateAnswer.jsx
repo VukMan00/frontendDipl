@@ -37,9 +37,9 @@ const UpdateAnswer = () => {
                     setTrueSolution(false);
                     setFalseSolution(true);
                 }
-                setIsLoading(false);
             }catch(err){
                 console.log(err);
+            }finally{
                 setIsLoading(false);
             }
         }
@@ -58,13 +58,13 @@ const UpdateAnswer = () => {
             }
             const response = await updateAnswer(updatedAnswer);
             console.log(response);
-            setIsLoading(false);
             document.getElementById('textAlert').innerHTML = "Sistem je zapamtio odgovor";
-            document.getElementById('alert').style.visibility = 'visible';
         }catch(err){
             console.log(err);
             validation(err);
+        }finally{
             setIsLoading(false);
+            document.getElementById('alert').style.visibility = 'visible';
         }
     }
 
@@ -112,7 +112,6 @@ const UpdateAnswer = () => {
 
     function validation(error){
         document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti odgovor";
-        document.getElementById('alert').style.visibility = 'visible';
     
         validationAnswer(error,document.getElementById("contentErr"));
     }

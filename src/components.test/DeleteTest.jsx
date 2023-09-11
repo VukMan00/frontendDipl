@@ -19,9 +19,9 @@ const DeleteTest = () => {
       try{
         const response = await getTest(testId);
         setDeletedTest(response);
-        setIsLoading(false);
       }catch(e){
         console.log(e);
+      }finally{
         setIsLoading(false);
       }
     }
@@ -29,17 +29,16 @@ const DeleteTest = () => {
   },[testId])
 
   const removeTest = async()=>{
+    setIsLoading(true);
     try{
-      setIsLoading(true);
       const response = await deleteTest(testId);
       console.log(response);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao test";
-      document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise test";
+    }finally{
+      setIsLoading(false);
       document.getElementById('alert').style.visibility = 'visible';
     }
   }

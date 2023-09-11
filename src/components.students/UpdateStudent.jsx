@@ -39,7 +39,6 @@ const UpdateStudent = () => {
         const response = await getExams(controller);
         const availableExams = retrieveFutureExams(response);
         isMounted && setExams(availableExams);
-
       }catch(err){
         console.error(err);
         localStorage.clear();
@@ -65,9 +64,10 @@ const UpdateStudent = () => {
         }
         setExamsOfStudent(convertedExams);
         setDbExamsOfStudent(convertedExams);
-        setIsLoading(false);
       }catch(e){
         console.log(e);
+      }finally{
+        setIsLoading(false);
       }
     }
     retrieveStudent();
@@ -96,14 +96,13 @@ const UpdateStudent = () => {
       updatedStudent.results = setResultsOfStudent();
       const response = await updateStudent(updatedStudent);
       console.log(response);
-      setIsLoading(false);
-
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio studenta";
-      document.getElementById('alert').style.visibility = 'visible';
     }catch(err){
       console.log(err);
-      setIsLoading(false);
       validation(err);
+    }finally{
+      setIsLoading(false);
+      document.getElementById('alert').style.visibility = 'visible';
     }
   }
 
@@ -196,7 +195,6 @@ const UpdateStudent = () => {
 
   function validation(error){
     document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti studenta";
-    document.getElementById('alert').style.visibility = 'visible';
 
     validationStudent(error,document.getElementById("firstnameErr"),
                       document.getElementById("lastnameErr"),document.getElementById("indexErr"),

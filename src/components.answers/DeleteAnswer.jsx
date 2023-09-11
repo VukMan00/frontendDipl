@@ -26,37 +26,36 @@ const DeleteAnswer = () => {
     const retrieveAnswer = async()=>{
       setIsLoading(true);
         try{
-            const response = await getAnswer(answerId,questionId);
-            setDeletedAnswer(response);
-            if(response.solution){
-                setTrueSolution(true);
-                setFalseSolution(false);
-            }
-            else{
-                setTrueSolution(false);
-                setFalseSolution(true);
-            }
-            setIsLoading(false);
+          const response = await getAnswer(answerId,questionId);
+          setDeletedAnswer(response);
+          if(response.solution){
+            setTrueSolution(true);
+            setFalseSolution(false);
+          }
+          else{
+            setTrueSolution(false);
+            setFalseSolution(true);
+          }
         }catch(err){
-            console.log(err);
-            setIsLoading(false);
+          console.log(err);
+        }finally{
+          setIsLoading(false);
         }
     }
     retrieveAnswer();
   },[answerId,questionId])
 
   const removeAnswer = async()=>{
+    setIsLoading(true);
     try{
-      setIsLoading(true);
       const response = await deleteAnswer(answerId,questionId);
       console.log(response.data);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao odgovor";
-      document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise odgovor";
+    }finally{
+      setIsLoading(false);
       document.getElementById('alert').style.visibility = 'visible';
     }
   }

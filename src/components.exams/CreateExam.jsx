@@ -42,7 +42,6 @@ const CreateExam = () => {
       }catch(err){
         console.error(err);
         localStorage.clear();
-        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
       }
     }
@@ -61,12 +60,12 @@ const CreateExam = () => {
       try{
         const response = await getStudents(controller);
         isMounted && setStudents(response);
-        setIsLoading(false);
       }catch(err){
         localStorage.clear();
         console.error(err);
-        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
+      }finally{
+        setIsLoading(false);
       }
     }
     getAllStudents();
@@ -115,13 +114,14 @@ const CreateExam = () => {
       exam.results = setResultsOfExam();
       const response = await createExam(exam);
       console.log(response);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio polaganje";
-      document.getElementById('alert').style.visibility = 'visible';
     }catch(error){
       console.log(error);
-      setIsLoading(false);
       validation(error);
+    }
+    finally{
+      setIsLoading(false);
+      document.getElementById('alert').style.visibility = 'visible';
     }
   }
 
@@ -156,7 +156,6 @@ const CreateExam = () => {
 
   function validation(error){
     document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti polaganje";
-    document.getElementById('alert').style.visibility = 'visible';
 
     validationExam(error,document.getElementById("nameErr"),
                       document.getElementById("amphitheaterErr"),document.getElementById("dateExamErr"),

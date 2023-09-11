@@ -88,13 +88,13 @@ const GetAllResultExam = () => {
             console.log(resultExams);
             const response = await saveResults(resultExams);
             console.log(response);
-            setIsLoading(false);
             document.getElementById('textAlertGet').innerHTML = "Sistem je zapamtio rezultate polaganja";
-            document.getElementById('alertGet').style.visibility = 'visible';
         }catch(err){
             console.log(err);
             validation(err);
-            setIsLoading(false);
+        }finally{
+          setIsLoading(false);
+          document.getElementById('alertGet').style.visibility = 'visible';
         }
     }
 
@@ -104,11 +104,11 @@ const GetAllResultExam = () => {
       try{
         const response = await deleteStudentFromExam(resultExams[i]);
         console.log(response);
-        setIsLoading(false);
         const filteredResultExams = resultExams.filter(resultExam=>resultExam.resultExamPK!==resultExams[i].resultExamPK);
         setResultExams(filteredResultExams);
       }catch(err){
         console.log(err);
+      }finally{
         setIsLoading(false);
       }
     }
@@ -165,10 +165,8 @@ const GetAllResultExam = () => {
         }
     }
 
-
     function validation(error){
         document.getElementById('textAlertGet').innerHTML = "Sistem ne moze da zapamti rezultate polaganja";
-        document.getElementById('alertGet').style.visibility = 'visible';
 
         validationResultExam(error,document.getElementById("pointsErr"),document.getElementById("gradeErr"))
     }

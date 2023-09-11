@@ -24,9 +24,9 @@ const DeleteStudent = () => {
       try{
         const response = await getStudent(studentId);
         setDeletedStudent(response);
-        setIsLoading(false);
       }catch(e){
         console.log(e);
+      }finally{
         setIsLoading(false);
       }
     }
@@ -34,17 +34,16 @@ const DeleteStudent = () => {
   },[studentId])
 
   const removeStudent = async()=>{
+    setIsLoading(true);
     try{
-      setIsLoading(true);
       const response = await deleteStudent(studentId);
       console.log(response.data);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao studenta";
-      document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise studenta";
+    }finally{
+      setIsLoading(false);
       document.getElementById('alert').style.visibility = 'visible';
     }
   }

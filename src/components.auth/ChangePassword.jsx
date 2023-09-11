@@ -38,12 +38,12 @@ const ChangePassword = () => {
             try{
                 const response = await changePassword(reqPassword);
                 console.log(response);
-                setIsLoading(false);
                 document.getElementById('textAlert').innerHTML = 'Sistem je promenio lozinku';
-                document.getElementById('alert').style.visibility = 'visible';
             }catch(e){
-                setIsLoading(false);
                 document.getElementById("textAlert").innerHTML = "Sistem ne moze da promeni lozinku";
+                
+            }finally{
+                setIsLoading(false);
                 document.getElementById("alert").style.visibility = 'visible';
             }
         }

@@ -23,26 +23,26 @@ const DeleteExam = () => {
       try{
         const response = await getExam(examId);
         setDeletedExam(response);
-        setIsLoading(false);
       }catch(e){
         console.log(e);
+      }finally{
+        setIsLoading(false);
       }
     }
     retrieveExam();
   },[examId])
 
   const removeExam = async()=>{
+    setIsLoading(true);
     try{
-      setIsLoading(true);
       const response = await deleteExam(examId);
       console.log(response.data);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao polaganje";
-      document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise polaganje";
+    }finally{
+      setIsLoading(false);
       document.getElementById('alert').style.visibility = 'visible';
     }
   }

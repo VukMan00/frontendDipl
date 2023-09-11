@@ -53,7 +53,6 @@ const UpdateExam = () => {
         setDbStudentsOfExam(convertedStudents);
       }catch(e){
         console.log(e);
-        setIsLoading(false);
       }
     }
     retrieveExam();
@@ -69,7 +68,6 @@ const UpdateExam = () => {
         isMounted && setTests(filteredTest);
       }catch(err){
         console.error(err);
-        setIsLoading(false);
         localStorage.clear();
         navigate('/login',{state:{from:location},replace:true});
       }
@@ -89,12 +87,12 @@ const UpdateExam = () => {
       try{
         const response = await getStudents(controller);
         isMounted && setStudents(response);
-        setIsLoading(false);
       }catch(err){
         console.error(err);
-        setIsLoading(false);
         localStorage.clear();
         navigate('/login',{state:{from:location},replace:true});
+      }finally{
+        setIsLoading(false);
       }
     }
     getAllStudents();
@@ -118,13 +116,13 @@ const UpdateExam = () => {
       updatedExam.results = setResultsOfExam();
       const response = await updateExam(updatedExam);
       console.log(response);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio polaganje";
-      document.getElementById('alert').style.visibility = 'visible';
     }catch(err){
       console.log(err);
-      setIsLoading(false);
       validation(err);
+    }finally{
+      setIsLoading(false);
+      document.getElementById('alert').style.visibility = 'visible';
     }
   }
 
@@ -215,7 +213,6 @@ const UpdateExam = () => {
 
   function validation(error){
     document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti polaganje";
-    document.getElementById('alert').style.visibility = 'visible';
 
     validationExam(error,document.getElementById("nameErr"),
                       document.getElementById("amphitheaterErr"),document.getElementById("dateExamErr"),

@@ -53,13 +53,13 @@ const Login = () => {
             else{
                 setIsLoading(false);
                 document.getElementById('textAlert').innerHTML = "Uspesno ste se ulogovali";
-                document.getElementById('alert').style.visibility = 'visible';
             }     
         }
         catch(e){
             console.log(e);
-            setIsLoading(false);
             document.getElementById('textAlert').innerHTML = "Neispravno uneti podaci";
+        }finally{
+            setIsLoading(false);
             document.getElementById("alert").style.visibility = 'visible';
         }
     }

@@ -33,13 +33,13 @@ const CreateAnswer = () => {
             }
             const response = await createAnswer(answer);
             console.log(response);
-            setIsLoading(false);
             document.getElementById('textAlert').innerHTML = "Sistem je zapamtio odgovor";
-            document.getElementById('alert').style.visibility = 'visible';
         }catch(err){
             console.log(err);
-            setIsLoading(false);
             validation(err);
+        }finally{
+            setIsLoading(false);
+            document.getElementById('alert').style.visibility = 'visible';
         }
     }
 
@@ -78,7 +78,6 @@ const CreateAnswer = () => {
 
     function validation(error){
         document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti odgovor";
-        document.getElementById('alert').style.visibility = 'visible';
     
         validationAnswer(error,document.getElementById("contentErr"));
     }

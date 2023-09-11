@@ -78,9 +78,9 @@ const UpdateTest = ({newQuestionsTest}) => {
         setUpdatedTest(response);
         setQuestionsTest(response?.questions);
         setDbQuestionsTest(response?.questions);
-        setIsLoading(false);
       }catch(e){
         console.log(e);
+      }finally{
         setIsLoading(false);
       }
     }
@@ -100,16 +100,15 @@ const UpdateTest = ({newQuestionsTest}) => {
         await deleteQuestionsFromTest(filteredRemoveQuestionsTest,testId);
       }
       updatedTest.questions = questionsTest;
-      console.log(updatedTest);
       const response = await updateTest(updatedTest);
       console.log(response);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio test";
-      document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
-      setIsLoading(false);
       validation(e);
+    }finally{
+      setIsLoading(false);
+      document.getElementById('alert').style.visibility = 'visible';
     }
   }
 
@@ -157,7 +156,6 @@ const UpdateTest = ({newQuestionsTest}) => {
 
   function validation(error){
     document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti test";
-    document.getElementById('alert').style.visibility = 'visible';
     validationTest(error,document.getElementById('contentErr'));
   }
 

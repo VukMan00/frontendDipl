@@ -35,12 +35,12 @@ const CreateTest = () => {
       try{
         const response = await getQuestions(controller);
         isMounted && setQuestions(response);
-        setIsLoading(false);
       }catch(err){
         localStorage.clear();
         console.error(err);
-        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
+      }finally{
+        setIsLoading(false);
       }
     }
     getAllQuestions();
@@ -57,13 +57,13 @@ const CreateTest = () => {
     try{
       const response = await createTest(test);
       setTestId(response.id);
-      setIsLoading(false)
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio test";
-      document.getElementById("alert").style.visibility='visible';
     }catch(error){
       console.log(error);
-      setIsLoading(false);
       validation(error);
+    }finally{
+      setIsLoading(false);
+      document.getElementById("alert").style.visibility='visible';
     }
   }
 
@@ -105,7 +105,6 @@ const CreateTest = () => {
 
   function validation(error){
     document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti test";
-    document.getElementById('alert').style.visibility = 'visible';
     validationTest(error,document.getElementById('contentErr'));
   }
 

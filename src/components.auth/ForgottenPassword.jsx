@@ -38,14 +38,13 @@ const ForgottenPassword = () => {
       try{
         const response = await changePassword(reqPassword);
         console.log(response);
-        setIsLoading(false);
         document.getElementById('textAlert').innerHTML = 'Sistem je promenio lozinku';
-        document.getElementById('alert').style.visibility = 'visible';
       }catch(e){
-        setIsLoading(false);
         document.getElementById("textAlert").innerHTML = "Sistem ne moze da promeni lozinku";
-        document.getElementById("alert").style.visibility = 'visible';
         validationChangingPassword(e,null,document.getElementById("newPasswordErr"));
+      }finally{
+        setIsLoading(false);
+        document.getElementById("alert").style.visibility = 'visible';
       }
     }
     else{

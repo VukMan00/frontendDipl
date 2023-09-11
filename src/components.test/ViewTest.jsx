@@ -45,11 +45,10 @@ const ViewTest = () => {
                 points = points + response[i].points;
             }
             setMaxPoints(points);
-            setIsLoading(false);
-
           }catch(e){
             console.log(e);
             setQuestionsTest([]);
+          }finally{
             setIsLoading(false);
           }
         }
@@ -68,15 +67,14 @@ const ViewTest = () => {
         const imgData = canvas.toDataURL('image/png');
         pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
         pdf.save(`${test.content}.pdf`);
-        setIsLoading(false);
         document.getElementById('textAlert').innerHTML = "Sistem je odstampao test";
-        document.getElementById('alert').style.visibility = 'visible';
       })
       .catch((error) => {
-        setIsLoading(false);
         document.getElementById('textAlert').innerHTML = "Sistem ne moze da odstampa test";
-        document.getElementById('alert').style.visibility = 'visible';
         console.error('Error generating PDF:', error);
+      }).finally(()=>{
+        setIsLoading(false);
+        document.getElementById('alert').style.visibility = 'visible';
       });
     }
 

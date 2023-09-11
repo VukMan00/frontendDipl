@@ -37,12 +37,12 @@ const CreateQuestion = ({newAnswers}) => {
           try{
             const response = await getTests(controller);
             isMounted && setTests(response);
-            setIsLoading(false);
           }catch(err){
             localStorage.clear();
             console.error(err);
-            setIsLoading(false);
             navigate('/login',{state:{from:location},replace:true});
+          }finally{
+            setIsLoading(false);
           }
         }
         getAllTests();
@@ -61,13 +61,13 @@ const CreateQuestion = ({newAnswers}) => {
             const response = await createQuestion(question);
             setQuestionId(response.id);
             setAnswers([]);
-            setIsLoading(false);
             document.getElementById('textAlert').innerHTML = "Sistem je zapamtio pitanje";
-            document.getElementById("alert").style.visibility='visible';
         }catch(error){
             console.log(error);
-            setIsLoading(false);
             validation(error);
+        }finally{
+            setIsLoading(false);
+            document.getElementById("alert").style.visibility='visible';
         }
     }
 
@@ -142,7 +142,6 @@ const CreateQuestion = ({newAnswers}) => {
 
     function validation(error){
         document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti pitanje";
-        document.getElementById('alert').style.visibility = 'visible';
         validationQuestion(error,document.getElementById('contentErr'));
       }
     

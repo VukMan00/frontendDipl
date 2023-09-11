@@ -23,12 +23,13 @@ const AddResultExam = () => {
           try{
             const response = await getStudents(controller);
             isMounted && setStudents(response);
-            setIsLoading(false);
           }catch(err){
             localStorage.clear();
             console.error(err);
-            setIsLoading(false);
             navigate('/login',{state:{from:location},replace:true});
+          }
+          finally{
+            setIsLoading(false);
           }
         }
         getAllStudents();
@@ -44,11 +45,11 @@ const AddResultExam = () => {
         setIsLoading(true);
         try{
             await saveResultExam(selectedStudents,examId);
-            setIsLoading(false);
             navigate(-1);
         }catch(err){
             console.log(err);
-            setIsLoading(false);
+        }finally{
+          setIsLoading(false);
         }
     }
 

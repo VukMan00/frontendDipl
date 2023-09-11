@@ -25,31 +25,29 @@ const Register = () => {
             const response = await register(registerMember);
             console.log(response);
             if(response.message==="Student je uspesno registrovan"){
-                setIsLoading(false);
                 document.getElementById('registrationTokenErr').style.visibility = 'hidden';
                 localStorage.clear();
                 document.getElementById("textAlert").innerHTML = "Student je uspesno registrovan";
-                document.getElementById("alert").style.visibility = 'visible';
                 document.getElementById('registrationTokenErr').style.visibility = 'hidden';
             }
             else if(response.message==="Greska pri registraciji" && response.data!==undefined){
-                setIsLoading(false);
                 document.getElementById("textAlert").innerHTML = "Greska pri registraciji";
-                document.getElementById("alert").style.visibility = 'visible';
                 document.getElementById('registrationTokenErr').style.visibility = 'visible';
                 document.getElementById('registrationTokenErr').value = response.data.message;
             }
         }catch(e){
             console.log(e);
-            setIsLoading(false);
             document.getElementById('textAlert').innerHTML = "Greska pri registraciji";
-            document.getElementById("alert").style.visibility = 'visible';
             if(e.response!==undefined){
                 validationRegistration(e,document.getElementById('firstnameErr'),
                                     document.getElementById("lastnameErr"),document.getElementById("passwordErr"),
                                     document.getElementById("indexErr"),document.getElementById("birthErr"),
                                     document.getElementById("registrationTokenErr"));
             }
+        }
+        finally{
+            setIsLoading(false);
+            document.getElementById("alert").style.visibility = 'visible';
         }
     }
 

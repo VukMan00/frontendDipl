@@ -26,20 +26,19 @@ const PreRegister = () => {
             console.log(response.data);
             
             if(response.data!=="Email vec postoji"){
-                setIsLoading(false);
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 document.getElementById("alert").style.visibility = 'visible';
                 window.localStorage.setItem("emailRegister",email.recipient);
             }
             else{
-                setIsLoading(false);
                 document.getElementById('emailErr').style.visibility = 'visible';
                 document.getElementById('emailErr').value = response.data;
             }
         }catch(e){
-            setIsLoading(false);
             document.getElementById('emailErr').style.visibility = 'visible';
             document.getElementById('emailErr').value = e.response.data.message.recipient;
+        }finally{
+            setIsLoading(false);
         }
     }
 

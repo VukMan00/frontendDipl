@@ -42,7 +42,6 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
       }catch(e){
         setAnswers([]);
         console.log(e);
-        setIsLoading(false);
       }
     }
     retrieveQuestion();
@@ -84,7 +83,6 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
       }catch(err){
         console.error(err);
         localStorage.clear();
-        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
       }
     }
@@ -101,10 +99,10 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
         const response = await getTestsFromQuestion(questionId);
         setQuestionsTest(response);
         setDbQuestionsTest(response);
-        setIsLoading(false);
       }catch(e){
         console.log(e);
         setQuestionsTest([]);
+      }finally{
         setIsLoading(false);
       }
     }
@@ -120,7 +118,6 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
     setIsLoading(true);
     try{
         const arrayAnswers = setAnswersForQuestion();
-        console.log(arrayAnswers);
         const filteredRemoveQuestionsTest = dbQuestionsTest.filter(dbQuestionTest=>!questionsTest.includes(dbQuestionTest));
         const filteredRemoveAnswers = dbAnswers.filter(dbAnswer=>!arrayAnswers.includes(dbAnswer));
         if(filteredRemoveQuestionsTest.length!==0){
@@ -131,16 +128,15 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
         }
         updatedQuestion.tests = questionsTest;
         updatedQuestion.answers = arrayAnswers;
-        console.log(updatedQuestion);
         const response = await updateQuestion(updatedQuestion);
         console.log(response.data);
-        setIsLoading(false);
         document.getElementById('textAlert').innerHTML = "Sistem je zapamtio pitanje";
-        document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
         console.log(e);
-        setIsLoading(false);
         validation(e);
+    }finally{
+      setIsLoading(false);
+      document.getElementById('alert').style.visibility = 'visible';
     }
   }
 
@@ -251,7 +247,6 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
 
   function validation(error){
     document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti pitanje";
-    document.getElementById('alert').style.visibility = 'visible';
     validationQuestion(error,document.getElementById('contentErr'));
   }
   

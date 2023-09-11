@@ -35,11 +35,11 @@ const CreateStudent = () => {
         const response = await getExams(controller);
         const availableExams = retrieveFutureExams(response);
         isMounted && setExams(availableExams);
-        setIsLoading(false);
       }catch(err){
         console.error(err);
-        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
+      }finally{
+        setIsLoading(false);
       }
     }
     getAllExams();
@@ -69,13 +69,14 @@ const CreateStudent = () => {
       student.results = setResultsOfStudent();
       const response = await createStudent(student);
       console.log(response);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio studenta";
-      document.getElementById('alert').style.visibility = 'visible';
     }catch(error){
       console.log(error);
-      setIsLoading(false);
       validation(error);
+    }
+    finally{
+      setIsLoading(false);
+      document.getElementById('alert').style.visibility = 'visible';
     }
   }
 
@@ -132,7 +133,6 @@ const CreateStudent = () => {
 
   function validation(error){
     document.getElementById('textAlert').innerHTML = "Sistem ne moze da zapamti studenta";
-    document.getElementById('alert').style.visibility = 'visible';
 
     validationStudent(error,document.getElementById("firstnameErr"),
                       document.getElementById("lastnameErr"),document.getElementById("indexErr"),

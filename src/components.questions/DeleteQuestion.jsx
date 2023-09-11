@@ -19,26 +19,26 @@ const DeleteQuestion = () => {
       try{
         const response = await getQuestion(questionId);
         setDeletedQuestion(response);
-        setIsLoading(false);
       }catch(e){
         console.log(e);
+      }finally{
+        setIsLoading(false);
       }
     }
     retrieveQuestion();
   },[questionId])
 
   const removeQuestion = async()=>{
+    setIsLoading(true);
     try{
-      setIsLoading(true);
       const response = await deleteQuestion(questionId);
       console.log(response.data);
-      setIsLoading(false);
       document.getElementById('textAlert').innerHTML = "Sistem je izbrisao pitanje";
-      document.getElementById('alert').style.visibility = 'visible';
     }catch(e){
       console.log(e);
+      document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise pitanje";     
+    }finally{
       setIsLoading(false);
-      document.getElementById('textAlert').innerHTML = "Sistem ne moze da izbrise pitanje";
       document.getElementById('alert').style.visibility = 'visible';
     }
   }

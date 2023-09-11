@@ -35,12 +35,12 @@ const GetExamsOfStudent = () => {
         }
         setResultExamsFuture(arrayFuture);
         isMounted && setResultExamsPast(arrayPast);
-        setIsLoading(false);
       }catch(err){
         console.error(err);
         localStorage.clear();
-        setIsLoading(false);
         navigate('/login',{state:{from:location},replace:true});
+      }finally{
+        setIsLoading(false);
       }
     }
     getAllResultsOfExam();
@@ -57,11 +57,12 @@ const GetExamsOfStudent = () => {
     try{
       const response = await deleteStudentFromExam(resultExamsFuture[i]?.resultExamPK?.examId,resultExamsFuture[i]?.resultExamPK?.studentId);
       console.log(response);
-      setIsLoading(false);
       const filteredResultExams = resultExamsFuture.filter(resultExamFuture=>resultExamFuture.resultExamPK!==resultExamsFuture[i].resultExamPK);
       setResultExamsFuture(filteredResultExams);
     }catch(err){
       console.log(err);
+    }finally{
+      setIsLoading(false);
     }
   }
 

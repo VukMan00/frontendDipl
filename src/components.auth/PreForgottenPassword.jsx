@@ -20,21 +20,20 @@ const PreForgottenPassword = () => {
         try{
             const response = await checkEmail(email);
             if(response.data!=="Email ne postoji"){
-                setIsLoading(false);
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 document.getElementById("alert").style.visibility = 'visible';
                 localStorage.setItem("email",email.recipient);
             }
             else{
-                setIsLoading(false);
                 document.getElementById('emailErr').style.visibility = 'hidden';
                 document.getElementById('alertWrong').style.visibility = 'visible';
             }
         }catch(err){
             console.log(err);
-            setIsLoading(false);
             document.getElementById('emailErr').style.visibility = 'visible';
             document.getElementById('emailErr').value = err.response.data.message.recipient;
+        }finally{
+            setIsLoading(false);
         }
     }
 
