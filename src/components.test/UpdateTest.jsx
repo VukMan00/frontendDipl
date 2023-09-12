@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { deleteQuestionsFromTest, getQuestionsFromTest, getTest, updateTest } from '../services/TestService';
+import { deleteQuestionsFromTest, getQuestionsFromTest, getTest, saveQuestionTest, updateTest } from '../services/TestService';
 import { getQuestions } from '../services/QuestionService';
 import {BsArrowLeft,BsArrowRight} from 'react-icons/bs';
 import { validationTest } from '../validation/ValidationHandler';
@@ -95,13 +95,16 @@ const UpdateTest = ({newQuestionsTest}) => {
     setIsLoading(true);
     e.preventDefault();
     try{
+      console.log(questionsTest);
       const filteredRemoveQuestionsTest = dbQuestionsTest.filter(dbQuestionTest=>!questionsTest.includes(dbQuestionTest));
+      console.log(filteredRemoveQuestionsTest);
       if(filteredRemoveQuestionsTest.length!==0){
         await deleteQuestionsFromTest(filteredRemoveQuestionsTest,testId);
       }
       updatedTest.questions = questionsTest;
       const response = await updateTest(updatedTest);
       console.log(response);
+      await saveQuestionTest(questionsTest);
       document.getElementById('textAlert').innerHTML = "Sistem je zapamtio test";
     }catch(e){
       console.log(e);

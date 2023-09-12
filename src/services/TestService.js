@@ -67,7 +67,6 @@ export const saveQuestionTest = async(arrayQuestionTest)=>{
                 "points":arrayQuestionTest[i].points
                 }
                 const response = await axiosPrivate.post("/tests/questions",questionTest);
-                console.log(response.data);
             }
         }
       }catch(err){

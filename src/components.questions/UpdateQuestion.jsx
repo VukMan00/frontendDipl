@@ -3,7 +3,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { deleteAnswersFromQuestion, deleteTestsFromQuestion, getQuestion, getTestsFromQuestion, updateQuestion } from '../services/QuestionService';
 import {BsArrowLeft,BsArrowRight} from 'react-icons/bs';
-import { getTests } from '../services/TestService';
+import { getTests, saveQuestionTest } from '../services/TestService';
 import { validationQuestion } from '../validation/ValidationHandler';
 
 const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
@@ -129,7 +129,7 @@ const UpdateQuestion = ({newAnswers,newQuestionsTest}) => {
         updatedQuestion.tests = questionsTest;
         updatedQuestion.answers = arrayAnswers;
         const response = await updateQuestion(updatedQuestion);
-        console.log(response.data);
+        await saveQuestionTest(questionsTest);
         document.getElementById('textAlert').innerHTML = "Sistem je zapamtio pitanje";
     }catch(e){
         console.log(e);

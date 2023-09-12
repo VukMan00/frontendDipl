@@ -63,22 +63,21 @@ const AddQuestionTest = ({getQuestionsTest}) => {
         setIsLoading(true);
         if(document.getElementById('pointsErr').style.visibility === 'hidden'){
             if(!pathName.includes("updateTest") && !pathName.includes("updateQuestion")){
-                console.log("HEREE")
                 const response = await saveQuestionTest(arrayQuestionTest);
                 console.log(response);
                 setIsLoading(false);
                 pathName.includes("tests/") ? navigate("/tests") : navigate("/questions");
             }
             else{
-                console.log("ALO")
-                console.log(questionsForPoints);
                 getQuestionsTest(questionsForPoints);
                 setIsLoading(false);
                 navigate(-1);
             }
         }
+        else{
+            navigate(-1);
+        }
         setIsLoading(false);
-        navigate(-1);
     }
 
     function cancel(e){
