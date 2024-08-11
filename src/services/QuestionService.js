@@ -2,7 +2,7 @@ import { axiosPrivate } from '../api/axios';
 
 export const createQuestion = async(question)=>{
     try{
-        const response = await axiosPrivate.post('/questions',question);
+        const response = await axiosPrivate.post('http://localhost:8100/api/questions-service/questions', question);
         return response.data;
     }catch(err){
         console.error("Error creating question: " + err);
@@ -12,7 +12,7 @@ export const createQuestion = async(question)=>{
 
 export const updateQuestion = async(question)=>{
     try{
-        const response = await axiosPrivate.put('/questions',question);
+        const response = await axiosPrivate.put('http://localhost:8100/api/questions-service/questions',question);
         return response.data;
     }catch(err){
         console.error("Error updating question: " + err);
@@ -22,7 +22,7 @@ export const updateQuestion = async(question)=>{
 
 export const deleteQuestion = async(questionId)=>{
     try{
-        const response = await axiosPrivate.delete(`/questions/${questionId}`);
+        const response = await axiosPrivate.delete(`http://localhost:8100/api/questions-service/questions/${questionId}`);
         return response.data;
       }catch(err){
         console.error("Error deleting question: " + err);
@@ -32,7 +32,7 @@ export const deleteQuestion = async(questionId)=>{
 
 export const getQuestions = async(controller)=>{
     try{
-        const response = await axiosPrivate.get('/questions',{signal : controller.signal});
+        const response = await axiosPrivate.get('http://localhost:8100/api/questions-service/questions',{signal : controller.signal});
         return response.data;
     }catch(err){
         console.error("Error with retrieving questions: " + err);
@@ -42,7 +42,7 @@ export const getQuestions = async(controller)=>{
 
 export const getQuestion = async(questionId)=>{
     try{
-        const response = await axiosPrivate.get(`/questions/${questionId}`);
+        const response = await axiosPrivate.get(`http://localhost:8100/api/questions-service/questions/${questionId}`);
         return response.data;
     }catch(err){
         console.error("Error with retrieving question: " + err);
@@ -87,7 +87,7 @@ export const saveAnswers = async(answers,questionId)=>{
                 "content":answers[i].content,
                 "solution":answers[i].solution
             }
-            const response = await axiosPrivate.post("/answers",answer);
+            const response = await axiosPrivate.post("http://localhost:8100/api/questions-service/questions/answers", answer);
             console.log(response.data);
         }
     }catch(err){
@@ -98,7 +98,7 @@ export const saveAnswers = async(answers,questionId)=>{
 
 export const getAnswers = async(questionId)=>{
     try{
-        const response = await axiosPrivate.get(`/questions/${questionId}/answers`);
+        const response = await axiosPrivate.get(`http://localhost:8100/api/questions-service/questions/${questionId}/answers`);
         return response.data;
     }catch(err){
         console.error("Error with retrieving answers: " + err);
@@ -110,7 +110,7 @@ export const deleteAnswersFromQuestion = async(removeAnswers,questionId)=>{
     try{
       console.log(removeAnswers);
       for(let i=0;i<removeAnswers.length;i++){
-        const response = await axiosPrivate.delete(`/answers/${removeAnswers[i].answerPK.answerId}/question/${questionId}`);
+        const response = await axiosPrivate.delete(`http://localhost:8100/api/questions-service/questions/${questionId}/answers/${removeAnswers[i].answerPK.answerId}`);
         console.log(response);
       }
     }catch(err){
