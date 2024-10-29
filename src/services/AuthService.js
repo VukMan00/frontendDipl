@@ -36,7 +36,7 @@ export const authenticate = async(memberData)=>{
 
 export const emailForPassowrd = async(email)=>{
     try{
-        const response = await axiosPrivate.post("http://localhost:8000/api/auth-service/auth/emailChangePassword",email);
+        const response = await axiosPrivate.post("http://localhost:8000/api/auth-service/email/emailChangePassword",email);
         return response.data;
       }catch(err){
         console.error("Error with sending email for password: " + err);
@@ -57,7 +57,7 @@ export const changePassword = async(reqPassword)=>{
 
 export const emailPreRegister = async(email)=>{
     try{
-        const response = await axios.post("http://localhost:8000/api/auth-service/auth/preRegister",email);
+        const response = await axios.post("http://localhost:8000/api/auth-service/email/preRegister",email);
         return response;
     }catch(err){
         console.error("Error with sending email for pre registration: " + err);
@@ -67,7 +67,7 @@ export const emailPreRegister = async(email)=>{
 
 export const checkEmail = async(email)=>{
     try{
-        const response = await axios.post("http://localhost:8000/api/auth-service/auth/forgottenEmail",email);
+        const response = await axios.post("http://localhost:8000/api/auth-service/email/forgottenEmail",email);
         return response;
     }catch(err){
         console.error("Error checking email: " + err);

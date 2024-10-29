@@ -90,6 +90,7 @@ const UpdateStudent = () => {
     setIsLoading(true);
     try{
       const filteredRemoveExams = dbExamsOfStudent.filter(dbExam=>!examsOfStudent.includes(dbExam));
+      console.log(filteredRemoveExams);
       if(filteredRemoveExams.length!==0){
         await deleteStudentFromExams(filteredRemoveExams,studentId);
       }

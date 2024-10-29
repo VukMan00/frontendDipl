@@ -53,13 +53,13 @@ export const getQuestion = async(questionId)=>{
 export const getTestsFromQuestion = async(questionId)=>{
     try{
         if(questionId!==undefined && questionId!==0){
-            const response = await axiosPrivate.get(`/questions/${questionId}/tests`);
+            const response = await axiosPrivate.get(`http://localhost:8300/api/test-service/tests/questions/${questionId}/tests`);
             return response.data;
         }else{
             throw new Error("Did not provide id of question");
         }
     }catch(err){
-        console.error("Error with retrieving tests from questiont: " + err);
+        console.error("Error with retrieving tests from question: " + err);
         throw err;
     }
 }
