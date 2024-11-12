@@ -2,7 +2,7 @@ import { axiosPrivate } from '../api/axios';
 
 export const getTests = async(controller)=>{
     try{
-        const response = await axiosPrivate.get('http://localhost:8300/api/test-service/tests',{signal : controller.signal});
+        const response = await axiosPrivate.get('http://localhost:8765/api/test-service/tests',{signal : controller.signal});
         return response.data;
     }catch(err){
         console.error("Error with retrieving tests: " + err);
@@ -13,7 +13,7 @@ export const getTests = async(controller)=>{
 export const getTest = async(testId)=>{
     try{
         if(testId!==undefined && testId!==0){
-            const response = await axiosPrivate.get(`http://localhost:8300/api/test-service/tests/${testId}`);
+            const response = await axiosPrivate.get(`http://localhost:8765/api/test-service/tests/${testId}`);
             return response.data;
         }else{
             throw new Error("Did not provide id of test");
@@ -26,7 +26,7 @@ export const getTest = async(testId)=>{
 
 export const createTest = async(test)=>{
     try{
-        const response = await axiosPrivate.post('http://localhost:8300/api/test-service/tests',test);
+        const response = await axiosPrivate.post('http://localhost:8765/api/test-service/tests',test);
         return response.data;
     }catch(err){
         console.error("Error creating test: " + err);
@@ -36,7 +36,7 @@ export const createTest = async(test)=>{
 
 export const updateTest = async(test)=>{
     try{
-        const response = await axiosPrivate.put('http://localhost:8300/api/test-service/tests',test);
+        const response = await axiosPrivate.put('http://localhost:8765/api/test-service/tests',test);
         return response.data;
     }catch(err){
         console.error("Error updating test: " + err);
@@ -46,7 +46,7 @@ export const updateTest = async(test)=>{
 
 export const deleteTest = async(testId)=>{
     try{
-        const response = await axiosPrivate.delete(`http://localhost:8300/api/test-service/tests/${testId}`);
+        const response = await axiosPrivate.delete(`http://localhost:8765/api/test-service/tests/${testId}`);
         return response.data;
     }catch(err){
         console.error("Error deleting test: " + err);
@@ -65,7 +65,7 @@ export const saveQuestionTest = async(arrayQuestionTest)=>{
                 },
                 "points":arrayQuestionTest[i].points
                 }
-                await axiosPrivate.post("http://localhost:8300/api/test-service/tests/questions",questionTest);
+                await axiosPrivate.post("http://localhost:8765/api/test-service/tests/questions",questionTest);
             }
         }
       }catch(err){
@@ -77,7 +77,7 @@ export const saveQuestionTest = async(arrayQuestionTest)=>{
 export const getQuestionsFromTest = async(testId)=>{
     try{
         if(testId!==undefined && testId!==0){
-            const response = await axiosPrivate.get(`http://localhost:8300/api/test-service/tests/${testId}/questions`);
+            const response = await axiosPrivate.get(`http://localhost:8765/api/test-service/tests/${testId}/questions`);
             return response.data;
         }else{
             throw new Error("Did not provide id of test");
@@ -92,7 +92,7 @@ export const deleteQuestionsFromTest = async(removeQuestions,testId)=>{
     try{
       console.log(removeQuestions);
       for(let i=0;i<removeQuestions.length;i++){
-        const response = await axiosPrivate.delete(`http://localhost:8300/api/test-service/tests/${testId}/questions/${removeQuestions[i].questionTestPK.questionId}`);
+        const response = await axiosPrivate.delete(`http://localhost:8765/api/test-service/tests/${testId}/questions/${removeQuestions[i].questionTestPK.questionId}`);
         console.log(response.data);
       }
     }catch(err){
