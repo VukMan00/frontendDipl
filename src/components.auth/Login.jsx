@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate,useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import { authenticate, emailForPassowrd } from '../services/AuthService';
+import { authenticate } from '../services/AuthService';
 
 const Login = () => {
 
@@ -19,13 +19,6 @@ const Login = () => {
         'index':'',
         'role':'',
     });
-
-    const[email,setEmail] = useState({
-        'recipient':'',
-        'msgBody':'',
-        'subject':'',
-        'attachment':''
-    })
 
     function handleInput(e){
         let newMemberData = memberData;
@@ -45,10 +38,7 @@ const Login = () => {
             setAuth({roles, accessToken});
 
             if(memberData?.password === memberData?.index){
-                setIsLoading(false);
-                email.recipient = memberData.username;
-                setEmail(email);
-                sendEmailForPassword(email);
+                document.getElementById("alertPassword").style.visibility = 'visible';
             }
             else{
                 setIsLoading(false);
@@ -61,18 +51,6 @@ const Login = () => {
         }finally{
             setIsLoading(false);
             document.getElementById("alert").style.visibility = 'visible';
-        }
-    }
-
-    const sendEmailForPassword=async(email)=>{
-        document.getElementById("alertPassword").style.visibility = 'visible';
-        try{
-            const response = await emailForPassowrd(email);
-            if(response.data!=null){
-                console.log(response.data);
-            }
-        }catch(e){
-            console.log(e);
         }
     }
 

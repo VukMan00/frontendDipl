@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { deleteQuestionsFromTest, getQuestionsFromTest, getTest, saveQuestionTest, updateTest } from '../services/TestService';
+import { deleteQuestionsFromTest, getTest, saveQuestionTest, updateTest } from '../services/TestService';
 import { getQuestions } from '../services/QuestionService';
 import {BsArrowLeft,BsArrowRight} from 'react-icons/bs';
 import { validationTest } from '../validation/ValidationHandler';
